@@ -14,6 +14,7 @@ use App\Http\Controllers\KegiatanBelajar\KegiatanBelajarController;
 use App\Http\Controllers\KegiatanBelajar\NilaiTugasController;
 use App\Http\Controllers\KegiatanBelajar\TugasBelajarController;
 use App\Http\Controllers\PasswordResetController;
+use App\Http\Controllers\PermintaanPenarikan\PermintaanPenarikanController;
 use Illuminate\Support\Facades\Auth;
 
 /*
@@ -72,8 +73,8 @@ Route::get('/hello', function () {
 
 
 Route::prefix('services')->middleware(['throttle:100,1', 'service.auth'])->group(function () {
-    // Route::get('user/{userId}', [ServiceCommunicationController::class, 'getUserProfile'])
-    //     ->where('userId', '[0-9]+');
+
+    Route::get('permintaanpenarikan', [PermintaanPenarikanController::class, 'getAllPermintaanPenarikan']);
 
     Route::get('kegiatanbelajar/{idbookingprivate}', [KegiatanBelajarController::class, 'getByUserID'])
         ->where('idbookingprivate', '[0-9a-fA-F\-]+');
