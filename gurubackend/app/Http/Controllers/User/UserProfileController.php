@@ -19,19 +19,22 @@ use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
 
 
-use App\Models\ProfilUser;
-use App\Models\StatusAkun;
-use Faker\Core\File;
-use Symfony\Component\HttpKernel\Profiler\Profile;
+// use App\Models\ProfilUser;
+// use App\Models\StatusAkun;
+// use Faker\Core\File;
+// use Symfony\Component\HttpKernel\Profiler\Profile;
 
 class UserProfileController extends Controller
 {
     
     public function getAll () {
+        $getAll = ProfilGuru::with('User_Guru')->get();
 
-        return ProfilGuru::all();
-
+           return response()->json([
+            'data' => $getAll,
+        ]);
     }
+
 
     public function getByID ($idguru) {
         

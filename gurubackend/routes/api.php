@@ -15,6 +15,7 @@ use App\Http\Controllers\KegiatanBelajar\NilaiTugasController;
 use App\Http\Controllers\KegiatanBelajar\TugasBelajarController;
 use App\Http\Controllers\PasswordResetController;
 use App\Http\Controllers\PermintaanPenarikan\PermintaanPenarikanController;
+use App\Models\ProfilGuru;
 use Illuminate\Support\Facades\Auth;
 
 /*
@@ -75,6 +76,7 @@ Route::get('/hello', function () {
 Route::prefix('services')->middleware(['throttle:100,1', 'service.auth'])->group(function () {
 
     Route::get('permintaanpenarikan', [PermintaanPenarikanController::class, 'getAllPermintaanPenarikan']);
+    Route::get('guruall', [UserProfileController::class, 'getAll']);
 
     Route::get('kegiatanbelajar/{idbookingprivate}', [KegiatanBelajarController::class, 'getByUserID'])
         ->where('idbookingprivate', '[0-9a-fA-F\-]+');
@@ -85,13 +87,9 @@ Route::prefix('services')->middleware(['throttle:100,1', 'service.auth'])->group
 
     Route::get('booking/{idProfilGuru}', [ServiceCommunicationController::class, 'getBookingKelas']);
     Route::put('bookingupdate/{idBookingPrivate}', [ServiceCommunicationController::class, 'putBookingKelas']);
-
-    
     Route::put('tglbooking/{idtglbooking}', [ServiceCommunicationController::class, 'putTglBooking']);
-
     Route::get('gurus', [ServiceCommunicationController::class, 'getAllGurus']);
     Route::post('cross-data', [ServiceCommunicationController::class, 'crossServiceData']);
-
     Route::put('puttugaskelas/{idtugasbelajar}', [TugasBelajarController::class, 'putTugasKelas']);
 });
 
