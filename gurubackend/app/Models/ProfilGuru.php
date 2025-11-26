@@ -191,8 +191,8 @@ public function bank()
         $bank = $this->bank;
         $bankFields = [
             'nama_bank'   => 'Nama Bank',
-            'no_rekening' => 'Nomor Rekening',
-            'atas_nama'   => 'Atas Nama',
+            'norekening' => 'Nomor Rekening',
+            'pemilikrekening'   => 'Atas Nama',
         ];
         foreach ($bankFields as $f => $label) {
             if (!$bank || empty($bank->$f)) {

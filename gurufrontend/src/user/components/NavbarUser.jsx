@@ -2,8 +2,6 @@ import { useEffect, useState } from "react";
 import { Link, Navigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import axiosClient from "../../lib/axios";
-// import UseNotifications from "../../hook/useNotifications";
-
 
 const NavbarUser = () => {
   const { user, logout } = useAuth();
