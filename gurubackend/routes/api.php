@@ -85,7 +85,7 @@ Route::prefix('services')->middleware(['throttle:100,1', 'service.auth'])->group
     Route::get('tugaskelas/{idbookingprivate}', [TugasBelajarController::class, 'getByUserID'])
         ->where('idbookingprivate', '[0-9a-fA-F\-]+');
 
-    Route::get('booking/{idProfilGuru}', [ServiceCommunicationController::class, 'getBookingKelas']);
+    Route::get('booking/{idprofilguru}', [ServiceCommunicationController::class, 'getBookingKelas']);
     Route::put('bookingupdate/{idBookingPrivate}', [ServiceCommunicationController::class, 'putBookingKelas']);
     Route::put('tglbooking/{idtglbooking}', [ServiceCommunicationController::class, 'putTglBooking']);
     Route::get('gurus', [ServiceCommunicationController::class, 'getAllGurus']);

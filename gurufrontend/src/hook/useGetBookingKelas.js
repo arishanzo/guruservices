@@ -11,6 +11,7 @@ export const UseBookingKelas = (idprofilguru) => {
   useEffect(() => {
     let isMounted = true;
     if (!idprofilguru) {
+ 
       setLoadingBooking(false);
       return;
     }
@@ -20,6 +21,7 @@ export const UseBookingKelas = (idprofilguru) => {
 
         setLoadingBooking(true);
         const result = await getFetchCache( () => getBookingKelas(idprofilguru), 5, 3000);
+     
         if (isMounted) setBooking(result.data || null);
 
       } catch (error) {
@@ -50,7 +52,7 @@ export const UseBookingKelas = (idprofilguru) => {
       isMounted = false;
       clearTimeout(timer);
     };
-  }, []);
+  }, [idprofilguru]);
 
   return { booking, loadingBooking, error };
 };

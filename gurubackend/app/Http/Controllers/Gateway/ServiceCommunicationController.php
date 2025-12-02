@@ -30,9 +30,9 @@ class ServiceCommunicationController extends Controller
         return response()->json($result['data']);
     }
 
-     public function getBookingKelas(Request $request, $idProfilGuru)
+     public function getBookingKelas($idprofilguru)
     {
-        $result = $this->serviceClient->getBookingKelas($idProfilGuru);
+        $result = $this->serviceClient->getBookingKelas($idprofilguru);
         
         if (!$result['success']) {
             return response()->json([

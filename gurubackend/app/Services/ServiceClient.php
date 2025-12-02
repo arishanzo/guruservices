@@ -81,9 +81,9 @@ class ServiceClient
         return $this->call('userservices', "users/{$userId}", 'GET');
     }
 
-       public function getBookingKelas($idProfilGuru)
+       public function getBookingKelas($idprofilguru)
     {
-        return $this->call('userservices', "guru/bookingguru/{$idProfilGuru}", 'GET');
+        return $this->call('userservices', "guru/bookingguru/{$idprofilguru}", 'GET');
     }
 
       public function putBookingKelas($idBookingPrivate, array $data = [])

@@ -1,20 +1,17 @@
 
-import { useAuth } from "../../context/AuthContext";
-import { UseGetProfil } from "../../hook/useGetProfil";
-import { UseBookingKelas } from "../../hook/useGetBookingKelas";
 import { useState, useMemo } from "react";
 import axiosClient, { serviceClient } from "../../lib/axios";
 import { toast } from "react-hot-toast";
 import { UseGetAbsensiGuru } from "../../hook/useGetAbsensiGuru";
+import { UseBookingKelas } from "../../hook/useGetBookingKelas";
 
-const AbsensiForm = () => {
-  const { user } = useAuth();
-  const { profil } = UseGetProfil(user?.idguru);
+const AbsensiForm = ({ profil }) => {
+  
+  const { absensiGuru} = UseGetAbsensiGuru(profil?.idguru);
+
   const { booking } = UseBookingKelas(profil?.idprofilguru);
-  const { absensiGuru} = UseGetAbsensiGuru(user?.idguru);
 
   const [disabled, setDisabled] = useState(false);
-
 
   
     const [showModalIjin, setShowModalIjin] = useState(false);
@@ -29,6 +26,7 @@ const AbsensiForm = () => {
       : [];
   }, [booking]);
 
+
   const { end } = allBookingDates.reduce(
           (acc, item) => {
             const date = item.tglbooking;
@@ -37,8 +35,6 @@ const AbsensiForm = () => {
           },
           { end: null }
         );
-  
-    
     const hariTambahan = new Date(end);
     hariTambahan.setDate(hariTambahan.getDate() + 1);
             
@@ -48,7 +44,7 @@ const AbsensiForm = () => {
 
   const ijin = (idtglbooking) => {
 
-   const selected = allBookingDates.find(b => b?.idtglbooking === idtglbooking);
+         const selected = allBookingDates.find(b => b?.idtglbooking === idtglbooking);
          
             if (selected) {
             
@@ -274,17 +270,17 @@ const AbsensiForm = () => {
 
               <p className="text-xs text-gray-600">{ date.sesi} • Siswa: {booking.find(b => b.idbookingprivate === date.idbookingprivate)?.namamurid}</p>
             </div>
-            {absensiGuru.find(a => a.idtglbooking === date.idtglbooking)?.statusabsen === 'Ijin' ? (
+            {absensiGuru?.find(a => a.idtglbooking === date.idtglbooking)?.statusabsen === 'Ijin' ? (
                   
                      <span className="text-xs bg-yellow-600 text-yellow-100 px-4 py-1 font-semibold text-center rounded-full">
                     Izin 
                   </span>
-            ) : absensiGuru.find(a => a.idtglbooking === date.idtglbooking)?.statusabsen === 'Hadir' ? (
+            ) : absensiGuru?.find(a => a.idtglbooking === date.idtglbooking)?.statusabsen === 'Hadir' ? (
             <span className="text-xs bg-green-700 text-green-100 px-4 py-1 font-semibold text-center rounded-full">
                     Hadir
                   </span>
             
-             ) :   absensiGuru.find(a => a.idtglbooking === date.idtglbooking)?.statusabsen === 'Tidak Hadir'  ? (
+             ) :   absensiGuru?.find(a => a.idtglbooking === date.idtglbooking)?.statusabsen === 'Tidak Hadir'  ? (
             <span className="text-xs bg-red-800 text-red-100 px-4 py-1 font-semibold text-center rounded-full">
                    Tidak Hadir
                   </span>

@@ -58,8 +58,8 @@ export const serviceClient = {
   },
   
 
-  getBookingKelasUser: (idProfilGuru) => {
-    return axiosClient.get(`/api/services/booking/${idProfilGuru}`, {
+  getBookingKelasUser: (idprofilguru) => {
+    return axiosClient.get(`/api/services/booking/${idprofilguru}`, {
       headers: {
         'X-Service-Key': import.meta.env.VITE_SERVICE_KEY,
       }
