@@ -37,7 +37,6 @@ class AbsensiController extends Controller
          
         
         $data = $request->validated();
-        $data['idguru'] = $user['idguru'];
 
          try {
 

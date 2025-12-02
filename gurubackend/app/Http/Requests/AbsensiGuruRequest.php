@@ -22,6 +22,7 @@ class AbsensiGuruRequest extends FormRequest
     public function rules(): array
     {
         return [
+         'idprofilguru' => 'required|string|max:255',
          'idtglbooking' => 'required|string|max:255',
          'tanggal' => 'required|date',
          'sesi' => 'required|string|max:255',

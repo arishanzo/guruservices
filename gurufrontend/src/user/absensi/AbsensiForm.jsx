@@ -7,7 +7,7 @@ import { UseBookingKelas } from "../../hook/useGetBookingKelas";
 
 const AbsensiForm = ({ profil }) => {
   
-  const { absensiGuru} = UseGetAbsensiGuru(profil?.idguru);
+  const { absensiGuru} = UseGetAbsensiGuru(profil?.idprofilguru);
 
   const { booking } = UseBookingKelas(profil?.idprofilguru);
 
@@ -43,10 +43,34 @@ const AbsensiForm = ({ profil }) => {
    
 
   const ijin = (idtglbooking) => {
+    
+        const selected = allBookingDates.find(b => b?.idtglbooking === idtglbooking);
+        const tglSekarang = new Date(); 
+        const tglBooking = new Date(selected.tglbooking); 
 
-         const selected = allBookingDates.find(b => b?.idtglbooking === idtglbooking);
-         
-            if (selected) {
+        if (tglSekarang.getTime() > tglBooking.getTime()) {
+
+            toast.error(`Maaf, Izin Hanya Bisa Dilakukan Sebelum Tanggal ${new Date(selected.tglbooking).toLocaleDateString('id-ID', {
+                    weekday: 'long',
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                  })}`,
+              {
+                style: {
+            border: '1px solid #f63b3bff',
+            padding: '16px',
+            color: '#f1474dff',
+            background: '#ffffffff',
+            fontWeight: '500',
+            },
+
+            iconTheme: {
+            primary: '#e6132fff',
+            secondary: '#ffffffff',
+            },
+        });
+      }else if (selected) {
             
               setSelectedIjin(selected);
               setShowModalIjin(true);
@@ -56,6 +80,7 @@ const AbsensiForm = ({ profil }) => {
    const handleIjin = async (selectedIjin) => {
         
         const formData = {
+          idprofilguru : profil?.idprofilguru,
           idtglbooking : selectedIjin.idtglbooking,
           tanggal: selectedIjin.tglbooking,
           sesi: selectedIjin.sesi,
@@ -128,6 +153,7 @@ const AbsensiForm = ({ profil }) => {
         const toastLoading = toast.loading("Prosess...");
        
           await axiosClient.post(`/api/absensi`, {
+          idprofilguru : profil?.idprofilguru,
           idtglbooking: selected.idtglbooking,
           tanggal: selected.tglbooking,
           sesi: selected.sesi,

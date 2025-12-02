@@ -14,7 +14,7 @@ return new class extends Migration
     {
         Schema::create('absensiguru', function (Blueprint $table) {
             $table->uuid('idabsensiguru')->primary();
-            $table->uuid('idguru');
+            $table->uuid('idprofilguru');
             $table->uuid('idtglbooking');
             $table->date('tanggal');
             $table->string('sesi');
@@ -22,8 +22,8 @@ return new class extends Migration
             $table->timestamps();
 
 
-             $table->foreign('idguru', 'fk_absensiguru_idguru')
-                  ->references('idguru')->on('userguru')
+             $table->foreign('idprofilguru', 'fk_absensiguru_idprofilguru')
+                  ->references('idprofilguru')->on('profilguru')
                   ->onDelete('cascade');
 
              
@@ -57,7 +57,7 @@ return new class extends Migration
         ');
 
         Schema::table('absensiguru', function (Blueprint $table) {
-            $table->dropForeign('fk_absensiguru_idguru');
+            $table->dropForeign('fk_absensiguru_idprofilguru');
             $table->dropForeign('fk_absensiguru_idtglbooking');
 
         });
