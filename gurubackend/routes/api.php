@@ -1,10 +1,8 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthProsesController;
-use App\Http\Controllers\Auth\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Auth\GoogleController;
 use App\Http\Controllers\bank\RekeningController;
 use App\Http\Controllers\User\UserProfileController;
 use App\Http\Controllers\Gateway\ApiGatewayController;
@@ -15,7 +13,8 @@ use App\Http\Controllers\KegiatanBelajar\NilaiTugasController;
 use App\Http\Controllers\KegiatanBelajar\TugasBelajarController;
 use App\Http\Controllers\PasswordResetController;
 use App\Http\Controllers\PermintaanPenarikan\PermintaanPenarikanController;
-use App\Models\ProfilGuru;
+use App\Http\Controllers\Saldo\SaldoKeluarController;
+use App\Http\Controllers\Saldo\SaldoMasukController;
 use Illuminate\Support\Facades\Auth;
 
 /*
@@ -134,8 +133,9 @@ Route::middleware('auth:sanctum')->group(function () {
    Route::post('/absensi', [AbsensiController::class, 'store']);
    Route::get('/absensi/{idprofilguru}', [AbsensiController::class, 'getByID']);
 
-   
 
+   Route::get('/saldomasuk', [SaldoMasukController::class, 'getAllSaldoMasuk']);
+   Route::get('/saldokeluar', [SaldoKeluarController::class, 'getAllSaldoKeluar']);
 
 
     Route::get('/notifications', function (Request $request) {

@@ -285,7 +285,7 @@ const AbsensiForm = ({ profil }) => {
           {[...allBookingDates].sort((a, b) => new Date(a.tglbooking) - new Date(b.tglbooking)).map((date, index) => (
             
           <div key={index}>
-          <div className={`flex items-center p-3 shadow shadow-xs  rounded-xl ${new Date(date.tglbooking).toDateString() === new Date().toDateString() ? `bg-green-100` : new Date(date.tglbooking) < new Date() ? 'bg-gray-100'  : `bg-gray-50`} `}>
+          <div className={`flex items-center p-3 shadow shadow-xs   border border-green-100 hover:shadow-2xl transition-all duration-300 rounded-xl ${new Date(date.tglbooking).toDateString() === new Date().toDateString() ? `bg-green-100` : new Date(date.tglbooking) < new Date() ? 'bg-gray-100'  : `bg-white`} `}>
                 <div className="flex-1 px-4">
               <h4 className="font-medium text-sm text-green-800 mb-2">
                   {new Date(date.tglbooking).toLocaleDateString('id-ID', {

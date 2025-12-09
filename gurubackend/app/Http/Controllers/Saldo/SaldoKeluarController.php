@@ -1,18 +1,23 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Saldo;
 
-use App\Models\PermintaanPenarikan;
+use App\Http\Controllers\Controller;
+use App\Models\SaldoKeluar;
 use Illuminate\Http\Request;
 
-class PermintaanPenarikanController extends Controller
+class SaldoKeluarController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+
+     public function getAllSaldoKeluar()
     {
-        //
+         $getAll = SaldoKeluar::all();
+          return response()->json([
+            'data' => $getAll,
+        ]);
     }
 
     /**
@@ -34,7 +39,7 @@ class PermintaanPenarikanController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(PermintaanPenarikan $permintaanPenarikan)
+    public function show(SaldoKeluar $saldoKeluar)
     {
         //
     }
@@ -42,7 +47,7 @@ class PermintaanPenarikanController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(PermintaanPenarikan $permintaanPenarikan)
+    public function edit(SaldoKeluar $saldoKeluar)
     {
         //
     }
@@ -50,7 +55,7 @@ class PermintaanPenarikanController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, PermintaanPenarikan $permintaanPenarikan)
+    public function update(Request $request, SaldoKeluar $saldoKeluar)
     {
         //
     }
@@ -58,7 +63,7 @@ class PermintaanPenarikanController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(PermintaanPenarikan $permintaanPenarikan)
+    public function destroy(SaldoKeluar $saldoKeluar)
     {
         //
     }

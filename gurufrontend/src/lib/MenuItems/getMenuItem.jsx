@@ -1,3 +1,5 @@
+import { Wallet } from "lucide-react";
+
 const getMenuItems = () => ([
     {
       path: "/dashboard",
@@ -10,7 +12,7 @@ const getMenuItems = () => ([
     },
     {
       path: "/saldo",
-      name: "Kelola Saldo",
+      name: "Saldo",
       icon: (
          <Wallet className="w-5 h-5" />
       )
