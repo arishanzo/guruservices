@@ -15,9 +15,9 @@ use Illuminate\Support\Facades\Log;
 class AbsensiController extends Controller
 {
     
-        public function getByID ($idguru) {
+        public function getByID ($idprofilguru) {
 
-            $absensiBelajar = AbsensiGuru::with('User_Guru')->where('idguru', $idguru)->get();
+            $absensiBelajar = AbsensiGuru::with('Profil_Guru')->where('idprofilguru', $idprofilguru)->get();
 
             return response()->json([
             'data' => $absensiBelajar,

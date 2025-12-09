@@ -41,13 +41,12 @@ export const UseGetAbsensiGuru = (idguru) => {
 
     };
 
-    const timer = setTimeout(() => {
-      fetchProfil();
-    }, 100);
+        fetchProfil();
+   
 
     return () => {
       isMounted = false;
-      clearTimeout(timer);
+      
     };
   }, [idguru]);
 

@@ -8,6 +8,13 @@ const getMenuItems = () => ([
         </svg>
       )
     },
+    {
+      path: "/saldo",
+      name: "Kelola Saldo",
+      icon: (
+         <Wallet className="w-5 h-5" />
+      )
+    },
       {
       path: "/kelas",
       name: "Kelas",

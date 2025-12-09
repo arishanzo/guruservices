@@ -13,6 +13,7 @@ import KegiatanBelajar from '../user/kegiatanbelajar/KegiatanBelajar';
 import AbsensiIndex from '../user/absensi/AbsensiIndex';
 import JadwalIndex from '../user/jadwal/JadwalIndex';
 import EmailVertif from '../auth/EmailVertif';
+import Saldo from '../user/saldo/Saldo';
 
 
 
@@ -47,6 +48,8 @@ const Routeer = () => {
   <Route path='/absensi' element={<ProtectedRoute><AbsensiIndex /></ProtectedRoute>}/>
   
   <Route path='/jadwal' element={<ProtectedRoute><JadwalIndex /></ProtectedRoute>}/>
+    <Route path='/saldo' element={<ProtectedRoute>  <Saldo /> </ProtectedRoute>}/>
+
 
 
 </Routes>

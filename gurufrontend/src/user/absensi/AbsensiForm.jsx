@@ -7,7 +7,7 @@ import { UseBookingKelas } from "../../hook/useGetBookingKelas";
 
 const AbsensiForm = ({ profil }) => {
   
-  const { absensiGuru} = UseGetAbsensiGuru(profil?.idprofilguru);
+  const { absensiGuru, error } = UseGetAbsensiGuru(profil?.idprofilguru);
 
   const { booking } = UseBookingKelas(profil?.idprofilguru);
 
@@ -17,14 +17,13 @@ const AbsensiForm = ({ profil }) => {
     const [showModalIjin, setShowModalIjin] = useState(false);
     const [selectedIjin, setSelectedIjin] = useState(null);
   
-    
-
       // Flatten all tgl__booking__kelas arrays from all booking items
   const allBookingDates = useMemo(() => {
     return booking && booking.length > 0 
       ? booking.flatMap(item => item.tgl__booking__kelas || []) 
       : [];
   }, [booking]);
+
 
 
   const { end } = allBookingDates.reduce(
@@ -48,7 +47,7 @@ const AbsensiForm = ({ profil }) => {
         const tglSekarang = new Date(); 
         const tglBooking = new Date(selected.tglbooking); 
 
-        if (tglSekarang.getTime() > tglBooking.getTime()) {
+        if (tglSekarang.getTime() < tglBooking.getTime()) {
 
             toast.error(`Maaf, Izin Hanya Bisa Dilakukan Sebelum Tanggal ${new Date(selected.tglbooking).toLocaleDateString('id-ID', {
                     weekday: 'long',
@@ -196,7 +195,6 @@ const AbsensiForm = ({ profil }) => {
 
       } finally {
          setDisabled(false);
-          toast.dismissAll();
       }
     };
 
@@ -257,19 +255,23 @@ const AbsensiForm = ({ profil }) => {
 
       {/* Konten Utama */}
       
-      {!booking ? (
-      <div className="p-8 border border-gray-200 rounded-2xl shadow-sm flex flex-col animate-pulse">
-            <div className="h-6 bg-gray-200 rounded w-1/3 mb-4"></div>
-            <div className="h-10 bg-gray-200 rounded w-2/3 mb-6"></div>
-            <div className="h-4 bg-gray-200 rounded w-full mb-4"></div>
-            <div className="space-y-3">
-              <div className="h-4 bg-gray-200 rounded w-5/6"></div>
-              <div className="h-4 bg-gray-200 rounded w-4/6"></div>
-              <div className="h-4 bg-gray-200 rounded w-3/6"></div>
-              <div className="h-4 bg-gray-200 rounded w-5/6"></div>
-            </div>
-            <div className="mt-8 h-10 bg-gray-200 rounded"></div>
+      {!booking? (
+        <div className="p-8 border border-gray-200 rounded-2xl shadow-sm flex flex-col animate-pulse">
+          <div className="h-6 bg-gray-200 rounded w-1/3 mb-4"></div>
+          <div className="h-10 bg-gray-200 rounded w-2/3 mb-6"></div>
+          <div className="h-4 bg-gray-200 rounded w-full mb-4"></div>
+          <div className="space-y-3">
+            <div className="h-4 bg-gray-200 rounded w-5/6"></div>
+            <div className="h-4 bg-gray-200 rounded w-4/6"></div>
+            <div className="h-4 bg-gray-200 rounded w-3/6"></div>
+            <div className="h-4 bg-gray-200 rounded w-5/6"></div>
           </div>
+          <div className="mt-8 h-10 bg-gray-200 rounded"></div>
+        </div>
+      ) : error ? (
+        <div className="p-4 bg-red-50 border border-red-200 rounded-lg">
+          <p className="text-red-600">Error: {error}</p>
+        </div>
       ) : (
         <div className="w-full mx-auto mb-4">
             {/* Jadwal Hari Ini */}
@@ -325,7 +327,7 @@ const AbsensiForm = ({ profil }) => {
                   disabled={disabled}
                   className={`${
                       disabled ? 'cursor-not-allowed opacity-50' : ''
-                     } text-xs bg-red-100 text-red-700 p-4 font-semibold py-1 text-center rounded-full`}>Izin</button>
+                     } text-xs bg-red-100 text-red-700 p-4 font-semibold py-1 text-center rounded-full`}>Izn</button>
               </div>
             )}
        

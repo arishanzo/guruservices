@@ -11,18 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('saldo', function (Blueprint $table) {
-               $table->uuid('idsaldo')->primary();
+        Schema::create('saldokeluar', function (Blueprint $table) {
+            $table->uuid('idsaldokeluar')->primary();
             $table->uuid('idguru')->unique();
-            $table->float('jumlahsaldo');
-            $table->date('tanggal');
-            $table->string('keterangan');
+            $table->float('jumlahsaldokeluar');
+            $table->date('tglsaldokeluar');
             $table->timestamps();
 
-               $table->foreign('idguru', 'fk_saldo_idguru')
+            
+               $table->foreign('idguru', 'fk_saldokeluar_idguru')
                   ->references('idguru')->on('userguru')
                   ->onDelete('cascade');
-
         });
     }
 
@@ -30,14 +29,14 @@ return new class extends Migration
      * Reverse the migrations.
      */
     public function down(): void
-
-    
     {
-         Schema::table('saldo', function (Blueprint $table) {
-            $table->dropForeign('fk_saldo_idguru');
+
+          Schema::table('saldomasuk', function (Blueprint $table) {
+            $table->dropForeign('fk_saldokeluar_idguru');
         });
 
 
-        Schema::dropIfExists('saldo');
+
+        Schema::dropIfExists('saldokeluar');
     }
 };

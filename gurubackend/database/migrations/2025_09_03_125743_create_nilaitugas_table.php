@@ -59,7 +59,7 @@ return new class extends Migration
 
         Schema::table('nilaitugas', function (Blueprint $table) {
             $table->dropForeign('fk_nilaitugas_idguru');
-            $table->dropIndex('idx_nilaitugas_idbookingprivate');
+            $table->dropIndex('fk_nilaitugas_idbookingprivate');
             $table->dropForeign('fk_nilaitugas_tugasbelajar');
 
         });

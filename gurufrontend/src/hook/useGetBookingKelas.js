@@ -43,14 +43,11 @@ export const UseBookingKelas = (idprofilguru) => {
       }
 
     };
-
-    const timer = setTimeout(() => {
-      fetchBooking();
-    }, 0);
+    fetchBooking();
+  
 
     return () => {
       isMounted = false;
-      clearTimeout(timer);
     };
   }, [idprofilguru]);
 

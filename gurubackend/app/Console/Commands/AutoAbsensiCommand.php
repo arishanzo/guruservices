@@ -36,6 +36,8 @@ class AutoAbsensiCommand extends Command
         $processedBookings = [];
 
         foreach ($pastBookings as $booking) {
+           
+
            $existingAbsensi = DB::connection('gurugopintar_db')->table('absensiguru')
                 ->where('idtglbooking', $booking->idtglbooking)
                 ->exists();

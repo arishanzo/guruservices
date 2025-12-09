@@ -41,15 +41,14 @@ export const UseGetProfil = (iduser) => {
 
     };
 
-    const timer = setTimeout(() => {
+   
       fetchProfil();
-    }, 100);
+ 
 
     return () => {
       isMounted = false;
-      clearTimeout(timer);
     };
-  }, []);
+  }, [iduser]);
 
   return { profil, loading, error };
 };

@@ -132,7 +132,7 @@ Route::middleware('auth:sanctum')->group(function () {
    Route::get('/nilaitugas/{idguru}', [NilaiTugasController::class, 'getByID']);
 
    Route::post('/absensi', [AbsensiController::class, 'store']);
-   Route::get('/absensi/{idguru}', [AbsensiController::class, 'getByID']);
+   Route::get('/absensi/{idprofilguru}', [AbsensiController::class, 'getByID']);
 
    
 
