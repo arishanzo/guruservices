@@ -8,7 +8,6 @@ export const UseGetPhotoProfil = (foto_profil) => {
   const [photo, setPhoto] = useState("https://github.com/gaearon.png");
 
   useEffect(() => {
-    let isMounted = true;
     let objectUrl;
 
     if (!foto_profil) {
@@ -16,36 +15,40 @@ export const UseGetPhotoProfil = (foto_profil) => {
       return;
     }
 
+    
+        const controller = new AbortController();
+
     const fetchFotoProfil = async () => {
       try {
         setLoading(true);
-        const result = await getFetchCache(() => getPhotoProfilService(foto_profil), 5, 3000);
-        if (isMounted && result?.data) {
+        const result = await getFetchCache(() => getPhotoProfilService(foto_profil, {signal: controller.signal }), 5, 3000);
+        if (result?.data) {
        
           objectUrl = URL.createObjectURL(result.data);
           
           console.log(objectUrl)
           setPhoto(objectUrl);
         }
-      } catch (error) {
-        if (isMounted) {
-          if (error?.response?.status === 404) {
-            setPhoto(null);
+   } catch (error) {
+
+          if (error.name === "AbortError") return; 
+
+            if (error?.response?.status === 404) {
+            setPhoto(null)
           } else {
-            setError(error?.response?.data?.message || error?.message || "Gagal memuat profil");
+            setError(error?.response?.data?.message || error.message);
           }
-        }
+
       } finally {
-        if (isMounted) setLoading(false);
+        setLoading(false);
       }
     };
 
     fetchFotoProfil();
 
-    return () => {
-      isMounted = false;
-      if (objectUrl) URL.revokeObjectURL(objectUrl);
-    };
+   
+        return () => controller.abort();
+        
   }, [foto_profil]);
 
   return { loading, error, photo };

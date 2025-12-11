@@ -9,47 +9,44 @@ export const UseGetFileGuru = (idguru) => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    let isMounted = true;
+
     if (!idguru) {
       setLoading(false);
       return;
     }
 
+     const controller = new AbortController();
+    
     const fetchFileGuru = async () => {
       try {
 
         setLoading(true);
-        const result = await getFetchCache( () => getDataFileGuru(idguru), 5, 3000);
-        if (isMounted) setFileGuru(result.data || null);
+        const result = await getFetchCache( () => getDataFileGuru(idguru, { signal: controller.signal }), 5, 3000);
+       setFileGuru(result.data || null);
 
+    
       } catch (error) {
 
-        if (isMounted) {
-          if (error?.response?.status === 404) {
-            setFileGuru(null);
-          } else {
-            setError(
-              error?.response?.data?.message ||
-                error?.message ||
-                "Gagal memuat Data File Guru"
-            );
-          }
-        }
+          if (error.name === "AbortError") return; 
+
+        if (error?.response?.status === 404) {
+        setFileGuru(null);
+      } else {
+        setError(error?.response?.data?.message || error.message);
+      }
 
       } finally {
-        if (isMounted) setLoading(false);
+       setLoading(false);
       }
 
     };
 
-    const timer = setTimeout(() => {
-      fetchFileGuru();
-    }, 100);
+  
+  fetchFileGuru();
 
-    return () => {
-      isMounted = false;
-      clearTimeout(timer);
-    };
+  return () => controller.abort();
+
+
   }, [idguru]);
 
   return { fileguru, loading, error };

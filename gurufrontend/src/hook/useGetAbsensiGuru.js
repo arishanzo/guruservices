@@ -8,35 +8,33 @@ export const UseGetAbsensiGuru = (idguru) => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    let isMounted = true;
     if (!idguru) {
       setLoadingAbsensiGuru(false);
       return;
     }
 
+    
+    const controller = new AbortController();
+    
     const fetchProfil = async () => {
       try {
 
         setLoadingAbsensiGuru(true);
-        const result = await getFetchCache( () => getAbsensiGuru(idguru), 5, 3000);
-        if (isMounted) setAbsensiGuru(result.data || null);
+        const result = await getFetchCache( () => getAbsensiGuru(idguru, { signal: controller.signal }), 5, 3000);
+        setAbsensiGuru(result.data || null);
 
-      } catch (error) {
+       } catch (error) {
 
-        if (isMounted) {
-          if (error?.response?.status === 404) {
-            setAbsensiGuru(null);
-          } else {
-            setError(
-              error?.response?.data?.message ||
-                error?.message ||
-                "Gagal memuat"
-            );
-          }
-        }
+      if (error.name === "AbortError") return; 
+
+        if (error?.response?.status === 404) {
+        setAbsensiGuru(null);
+      } else {
+        setError(error?.response?.data?.message || error.message);
+      }
 
       } finally {
-        if (isMounted) setLoadingAbsensiGuru(false);
+       setLoadingAbsensiGuru(false);
       }
 
     };
@@ -44,10 +42,8 @@ export const UseGetAbsensiGuru = (idguru) => {
         fetchProfil();
    
 
-    return () => {
-      isMounted = false;
-      
-    };
+     return () => controller.abort();
+     
   }, [idguru]);
 
   return { absensiGuru, loadingAbsensiGuru, error };

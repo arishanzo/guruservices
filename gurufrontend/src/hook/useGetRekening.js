@@ -9,48 +9,42 @@ export const UseGetRekening = (idguru) => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    let isMounted = true;
     if (!idguru) {
       setLoading(false);
       return;
     }
+    
+    const controller = new AbortController(); 
 
     const fetchRekening = async () => {
       try {
 
         setLoading(true);
-        const result = await getFetchCache( () => getDataRekening(idguru), 5, 3000);
-        if (isMounted) setRekening(result.data || null);
+        const result = await getFetchCache( () => getDataRekening(idguru , {signal: controller.signal }), 5, 3000);
+        setRekening(result.data || null);
 
-      } catch (error) {
+     } catch (error) {
 
-        if (isMounted) {
-          if (error?.response?.status === 404) {
-            setRekening(null);
+          if (error.name === "AbortError") return; 
+
+            if (error?.response?.status === 404) {
+            setRekening(null)
           } else {
-            setError(
-              error?.response?.data?.message ||
-                error?.message ||
-                "Gagal memuat Data File Rekening"
-            );
+            setError(error?.response?.data?.message || error.message);
           }
-        }
 
       } finally {
-        if (isMounted) setLoading(false);
+        setLoading(false);
       }
 
     };
 
-    const timer = setTimeout(() => {
+  
       fetchRekening();
-    }, 100);
 
-    return () => {
-      isMounted = false;
-      clearTimeout(timer);
-    };
-  }, []);
+
+    return () => controller.abort();
+  }, [idguru]);
 
   return { filerekening, loading, error };
 };

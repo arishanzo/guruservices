@@ -8,43 +8,40 @@ export const UseGetSaldoKeluar = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    let isMounted = true;
+  
+
+    
+    const controller = new AbortController(); 
 
     const fetchSaldoKeluar = async () => {
       try {
 
         setLoading(true);
-        const result = await getFetchCache( () => getSaldoKeluar(), 5, 3000);
-        if (isMounted) setSaldoKeluar(result.data || null);
+        const result = await getFetchCache( () => getSaldoKeluar( {signal: controller.signal }), 5, 3000);
+         setSaldoKeluar(result.data || null);
 
       } catch (error) {
 
-        if (isMounted) {
-          if (error?.response?.status === 404) {
-            setSaldoKeluar(null);
+          if (error.name === "AbortError") return; 
+
+            if (error?.response?.status === 404) {
+            setSaldoKeluar(null)
           } else {
-            setError(
-              error?.response?.data?.message ||
-                error?.message ||
-                "Gagal memuat SaldoKeluar"
-            );
+            setError(error?.response?.data?.message || error.message);
           }
-        }
 
       } finally {
-        if (isMounted) setLoading(false);
+         setLoading(false);
       }
 
     };
 
-    const timer = setTimeout(() => {
+  
       fetchSaldoKeluar();
-    }, 100);
 
-    return () => {
-      isMounted = false;
-      clearTimeout(timer);
-    };
+
+  
+    return () => controller.abort();
   }, []);
 
   return { saldoKeluar, loading, error };

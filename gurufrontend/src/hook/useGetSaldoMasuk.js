@@ -8,43 +8,37 @@ export const UseGetSaldoMasuk = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    let isMounted = true;
+   
+    
+    const controller = new AbortController(); 
 
     const fetchSaldoMasuk = async () => {
       try {
 
         setLoading(true);
-        const result = await getFetchCache( () => getSaldoMasuk(), 5, 3000);
-        if (isMounted) setSaldoMasuk(result.data || null);
+        const result = await getFetchCache( () => getSaldoMasuk( {signal: controller.signal }), 5, 3000);
+        setSaldoMasuk(result.data || null);
 
-      } catch (error) {
+       } catch (error) {
 
-        if (isMounted) {
-          if (error?.response?.status === 404) {
-            setSaldoMasuk(null);
+          if (error.name === "AbortError") return; 
+
+            if (error?.response?.status === 404) {
+            setSaldoMasuk(null)
           } else {
-            setError(
-              error?.response?.data?.message ||
-                error?.message ||
-                "Gagal memuat SaldoMasuk"
-            );
+            setError(error?.response?.data?.message || error.message);
           }
-        }
 
       } finally {
-        if (isMounted) setLoading(false);
+        setLoading(false);
       }
 
     };
 
-    const timer = setTimeout(() => {
       fetchSaldoMasuk();
-    }, 100);
+  
 
-    return () => {
-      isMounted = false;
-      clearTimeout(timer);
-    };
+      return () => controller.abort();
   }, []);
 
   return { saldoMasuk, loading, error };

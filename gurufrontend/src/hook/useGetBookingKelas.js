@@ -9,46 +9,43 @@ export const UseBookingKelas = (idprofilguru) => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    let isMounted = true;
     if (!idprofilguru) {
  
       setLoadingBooking(false);
       return;
     }
 
+    const controller = new AbortController();
+
     const fetchBooking = async () => {
       try {
 
         setLoadingBooking(true);
-        const result = await getFetchCache( () => getBookingKelas(idprofilguru), 5, 3000);
-     
-        if (isMounted) setBooking(result.data || null);
+          const result = await getFetchCache(() => getBookingKelas(idprofilguru, { signal: controller.signal }), 5,  3000 );
+
+      setBooking(result.data || null);
 
       } catch (error) {
 
-        if (isMounted) {
-          if (error?.response?.status === 404) {
-            setBooking(null);
-          } else {
-            setError(
-              error?.response?.data?.message ||
-                error?.message ||
-                "Gagal memuat Data File Rekening"
-            );
-          }
-        }
+          if (error.name === "AbortError") return; 
+
+        if (error?.response?.status === 404) {
+        setBooking(null);
+      } else {
+        setError(error?.response?.data?.message || error.message);
+      }
 
       } finally {
-        if (isMounted) setLoadingBooking(false);
+         setLoadingBooking(false);
       }
 
     };
-    fetchBooking();
-  
 
-    return () => {
-      isMounted = false;
-    };
+
+    fetchBooking();
+
+     return () => controller.abort();
+
   }, [idprofilguru]);
 
   return { booking, loadingBooking, error };

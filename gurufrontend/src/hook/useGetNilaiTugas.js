@@ -8,47 +8,42 @@ export const UseNilaiTugas = (idguru) => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    let isMounted = true;
+
     if (!idguru) {
       setLoadingNilaiTugas(false);
       return;
     }
 
+    
+     const controller = new AbortController();
+
     const fetchNilaiTugas = async () => {
       try {
 
         setLoadingNilaiTugas(true);
-        const result = await getFetchCache( () => getNilaiTugas(idguru), 5, 3000);
-        if (isMounted) setNilaiTugas(result.data || null);
+        const result = await getFetchCache( () => getNilaiTugas(idguru , { signal: controller.signal }), 5, 3000);
+        setNilaiTugas(result.data || null);
 
-      } catch (error) {
+     } catch (error) {
 
-        if (isMounted) {
-          if (error?.response?.status === 404) {
-            setNilaiTugas(null);
-          } else {
-            setError(
-              error?.response?.data?.message ||
-                error?.message ||
-                "Gagal memuat profil"
-            );
-          }
-        }
+          if (error.name === "AbortError") return; 
+
+        if (error?.response?.status === 404) {
+        setNilaiTugas(null);
+      } else {
+        setError(error?.response?.data?.message || error.message);
+      }
 
       } finally {
-        if (isMounted) setLoadingNilaiTugas(false);
+       setLoadingNilaiTugas(false);
       }
 
     };
 
-    const timer = setTimeout(() => {
-      fetchNilaiTugas();
-    }, 100);
+   fetchNilaiTugas();
 
-    return () => {
-      isMounted = false;
-      clearTimeout(timer);
-    };
+   return () => controller.abort();
+   
   }, [idguru]);
 
   return { nilaiTugas, loadingNilaiTugas, error };

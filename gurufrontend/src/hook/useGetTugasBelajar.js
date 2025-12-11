@@ -9,47 +9,45 @@ export const UseTugasBelajar = (idguru) => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    let isMounted = true;
+
     if (!idguru) {
       setLoadingTugasBelajar(false);
       return;
     }
 
+    
+    const controller = new AbortController(); 
+
     const fetchTugasBelajar = async () => {
       try {
 
         setLoadingTugasBelajar(true);
-        const result = await getFetchCache( () => getTugasBelajar(idguru), 5, 3000);
-        if (isMounted) setTugasBelajar(result.data || null);
+        const result = await getFetchCache( () => getTugasBelajar(idguru, {signal: controller.signal }), 5, 3000);
+         setTugasBelajar(result.data || null);
 
       } catch (error) {
 
-        if (isMounted) {
-          if (error?.response?.status === 404) {
-            setTugasBelajar(null);
+          if (error.name === "AbortError") return; 
+
+            if (error?.response?.status === 404) {
+            setTugasBelajar(null)
           } else {
-            setError(
-              error?.response?.data?.message ||
-                error?.message ||
-                "Gagal memuat Data File Rekening"
-            );
+            setError(error?.response?.data?.message || error.message);
           }
-        }
 
       } finally {
-        if (isMounted) setLoadingTugasBelajar(false);
+         setLoadingTugasBelajar(false);
       }
 
     };
 
-    const timer = setTimeout(() => {
+  
       fetchTugasBelajar();
-    }, 0);
+  
 
-    return () => {
-      isMounted = false;
-      clearTimeout(timer);
-    };
+   
+      return () => controller.abort();
+
   }, [idguru, tugasBelajar]);
 
   return { tugasBelajar, loadingTugasBelajar, error };

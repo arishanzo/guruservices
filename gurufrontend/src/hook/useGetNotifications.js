@@ -13,52 +13,46 @@ import { getNotifications } from "../lib/services/notificationsService";
         const [unreadCount, setUnreadCount] = useState(0);
   
         useEffect(() => {
-          let isMounted = true;
           if (!iduser) {
             setLoading(false);
             return;
           }
-      
+          
+          
+    
+        const controller = new AbortController();
+
           const fetchNotifications = async () => {
             try {
       
               setLoading(true);
-              const resultget = await getFetchCache( () => getNotifications(), 5, 3000);
-              if (isMounted) { 
+              const resultget = await getFetchCache( () => getNotifications({signal: controller.signal }), 5, 3000);
+             
                 setResultNotifications(resultget || null)
                 setUnreadCount(resultget.filter(n => !n.read_at).length);
-              }
-      
-            } catch (error) {
-      
-              if (isMounted) {
-                if (error?.response?.status === 404) {
-                  setResultNotifications(null);
-                   setUnreadCount(0);
-                } else {
-                  setError(
-                    error?.response?.data?.message ||
-                      error?.message ||
-                      "Gagal memuat Notifikasi"
-                  );
-                  setUnreadCount(0);
-                }
-              }
-      
-            } finally {
-              if (isMounted) setLoading(false);
+              
+        } catch (error) {
+
+          if (error.name === "AbortError") return; 
+
+            if (error?.response?.status === 404) {
+            setResultNotifications(null);
+                      setUnreadCount(0);
+          } else {
+            setError(error?.response?.data?.message || error.message);
+          }
+
+          } finally {
+               setLoading(false);
             }
       
           };
       
-          const timer = setTimeout(() => {
             fetchNotifications();
-          }, 100);
+          
       
-          return () => {
-            isMounted = false;
-            clearTimeout(timer);
-          };
+        return () => controller.abort();
+        
         }, [iduser]);
       
         return { resultNotifications, loading, error, unreadCount };

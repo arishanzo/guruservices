@@ -8,35 +8,35 @@ export const UseGetProfil = (iduser) => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    let isMounted = true;
+ 
     if (!iduser) {
       setLoading(false);
       return;
     }
 
+    
+    
+        const controller = new AbortController();
+
     const fetchProfil = async () => {
       try {
 
         setLoading(true);
-        const result = await getFetchCache( () => getProfil(iduser), 5, 3000);
-        if (isMounted) setProfil(result.data || null);
+        const result = await getFetchCache( () => getProfil(iduser, {signal: controller.signal } ), 5, 3000);
+         setProfil(result.data || null);
 
-      } catch (error) {
+    } catch (error) {
 
-        if (isMounted) {
-          if (error?.response?.status === 404) {
-            setProfil(null);
+          if (error.name === "AbortError") return; 
+
+            if (error?.response?.status === 404) {
+            setProfil(null)
           } else {
-            setError(
-              error?.response?.data?.message ||
-                error?.message ||
-                "Gagal memuat profil"
-            );
+            setError(error?.response?.data?.message || error.message);
           }
-        }
 
       } finally {
-        if (isMounted) setLoading(false);
+        setLoading(false);
       }
 
     };
@@ -45,9 +45,8 @@ export const UseGetProfil = (iduser) => {
       fetchProfil();
  
 
-    return () => {
-      isMounted = false;
-    };
+   return () => controller.abort();
+   
   }, [iduser]);
 
   return { profil, loading, error };

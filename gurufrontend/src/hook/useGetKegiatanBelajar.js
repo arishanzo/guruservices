@@ -8,48 +8,41 @@ export const UseGetKegiatanBelajar = (idguru) => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    let isMounted = true;
     if (!idguru) {
       setLoadingKegiatanBelajar(false);
       return;
     }
 
-    const fetchProfil = async () => {
+     const controller = new AbortController();
+
+    const fetchKegiatanBelajar = async () => {
       try {
 
         setLoadingKegiatanBelajar(true);
-        const result = await getFetchCache( () => getDataKegiatanBelajar(idguru), 5, 3000);
-        if (isMounted) setKegiatanBelajar(result.data || null);
+        const result = await getFetchCache( () => getDataKegiatanBelajar(idguru, { signal: controller.signal }), 5, 3000);
+         setKegiatanBelajar(result.data || null);
 
-      } catch (error) {
+     } catch (error) {
 
-        if (isMounted) {
-          if (error?.response?.status === 404) {
-            setKegiatanBelajar(null);
-              if (isMounted) setLoadingKegiatanBelajar(false);
-          } else {
-            setError(
-              error?.response?.data?.message ||
-                error?.message ||
-                "Gagal memuat profil"
-            );
-          }
-        }
+          if (error.name === "AbortError") return; 
+
+        if (error?.response?.status === 404) {
+        setKegiatanBelajar(null);
+      } else {
+        setError(error?.response?.data?.message || error.message);
+      }
 
       } finally {
-        if (isMounted) setLoadingKegiatanBelajar(false);
+        setLoadingKegiatanBelajar(false);
       }
 
     };
 
-    const timer = setTimeout(() => {
-      fetchProfil();
-    }, 100);
+      fetchKegiatanBelajar();
 
-    return () => {
-      isMounted = false;
-      clearTimeout(timer);
-    };
+
+  return () => controller.abort();
+
   }, [idguru]);
 
   return { kegiatanBelajar, loadingKegiatanBelajar, error };
