@@ -18,9 +18,8 @@ class KegiatanBelajarController extends Controller
  
     public function getByID ($idguru) {
 
-        $KegiatanBelajar = Cache::remember("kegiatanbelajar_$idguru",  now()->addMinutes(60), function() use($idguru) {
-            return KegiatanBelajar::with('User_Guru')->where('idguru', $idguru)->get();
-        });
+         $KegiatanBelajar = KegiatanBelajar::with('User_Guru')->where('idguru', $idguru)->get();
+       
 
 
         return response()->json([
@@ -32,9 +31,8 @@ class KegiatanBelajarController extends Controller
 
      public function getByUserID ($idbookingprivate) {
 
-          $KegiatanBelajar = Cache::remember("kegiatanbelajar_$idbookingprivate",now()->addMinutes(60) , function() use($idbookingprivate) {
-            return KegiatanBelajar::where('idbookingprivate', $idbookingprivate)->get();
-        });
+          $KegiatanBelajar = KegiatanBelajar::where('idbookingprivate', $idbookingprivate)->get();
+        
 
        return response()->json([
         'data' => $KegiatanBelajar,
@@ -133,8 +131,9 @@ public function store (KegiatanBelajarRequest $request) {
         }
 
         $data = $request->validated();
-        $data['idguru'] = $user->idguru;
         $data['idbookingprivate'] = $request->idbookingprivate;
+        
+        $data['idguru'] = $user->idguru;
 
         if ($request->hasFile('fotokegiatan')) {
           
@@ -155,7 +154,7 @@ public function store (KegiatanBelajarRequest $request) {
            
             $result = KegiatanBelajar::create($data);
 
-                Cache::forget("kegiatanbelajar_" . $data->idguru);
+                Cache::forget("kegiatanbelajar_" . $data['idguru']);
             return response()->json([
                 'message' => 'Kegiatan Belajar Berhasil Disimpan',
                 'data' => $result

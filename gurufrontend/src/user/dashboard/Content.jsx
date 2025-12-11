@@ -5,11 +5,27 @@ import { Wallet } from 'lucide-react';
 import DashboardSkeleton from './DashboardSkeleton ';
 import AbsenHariIni from './absen/AbsenHarIni';
 import BelumAdaAbsen from './absen/BelumAdaAbsen';
+import KegiatanBelajarHarini from './kegiatanbelajar/KegiatanBelajarHariIni';
+import FormKegiatanBelajarHariIni from './kegiatanbelajar/FormKegiatanBelajarHariIni';
 
-const Content = ({ dataBooking }) => {
+const Content = ({ dataBooking, absensiGuru, kegiatanBelajar, saldoMasuk }) => {
+   
+       const now = new Date();
+  
+        const dataSaldoHariIni = saldoMasuk?.filter((item) => {
+        const tgl = new Date(item?.tglsaldomasuk);
+        return tgl === now
+        })
+ 
+  const totalMasuk = saldoMasuk?.reduce((a, b) => a + (b.jumlahsaldo || 0), 0);
+
+
   const [showMoreMenu, setShowMoreMenu] = useState(false);
   const [status, setStatus] = useState('');
-
+   
+     const statusBooking = dataBooking?.filter(
+      status => status.statusbooking === 'Selesai'
+    );
 
   const allBookingDates = useMemo(() => {
          return dataBooking && dataBooking.length > 0 
@@ -17,11 +33,21 @@ const Content = ({ dataBooking }) => {
            : [];
        }, [dataBooking]);
 
-const filterDate = allBookingDates?.find(
-  date => date.tglbooking === new Date().toISOString().split('T')[0]
-);
 
-  
+    const filterDate = allBookingDates?.find(
+      date => new Date(date.tglbooking).toDateString() === new Date().toDateString()
+    );
+
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+
+    const filterDateTomorrow = allBookingDates?.find(
+      date => new Date(date.tglbooking).toDateString() === tomorrow.toDateString()
+    );
+
+    const filterKegiatanBelajar = kegiatanBelajar?.find(
+      date => new Date(date.tglkegiatan).toDateString() === new Date().toDateString()
+    )
 
   const data = getMenuDashboard();
 
@@ -52,7 +78,6 @@ const filterDate = allBookingDates?.find(
 
        }, [dataBooking]);
 
- const totalSaldoSaatIni = 500000;
 
   if (!dataBooking) {
       return <DashboardSkeleton />;
@@ -86,7 +111,7 @@ const filterDate = allBookingDates?.find(
           <div className="flex-col justify-center">
             <h3 className="font-semibold text-sm">Saldo Sistem Tersedia</h3>
             <p className="text-3xl font-bold mt-1">
-              Rp {totalSaldoSaatIni.toLocaleString("id-ID")}
+             Rp {totalMasuk?.toLocaleString("id-ID")}
             </p>
         
             <p className="text-xs opacity-90 mt-3">Siap untuk ditarik</p>
@@ -107,18 +132,18 @@ const filterDate = allBookingDates?.find(
               <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-4 text-center hover:shadow-lg hover:scale-105 transition-all duration-300 cursor-pointer">
                 <div className="text-3xl md:text-4xl mb-3">👥</div>
                 <h4 className="font-bold text-sm text-blue-700 mb-1">Siswa Aktif</h4>
-                <p className="md:text-3xl text-xl  font-bold  text-blue-900">12</p>
+                <p className="md:text-3xl text-xl  font-bold  text-blue-900">{dataBooking.length}</p>
               </div>
               <div className="bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl p-4 text-center hover:shadow-lg hover:scale-105 transition-all duration-300 cursor-pointer">
                 <div className="text-3xl md:text-4xl mb-3">📚</div>
                 <h4 className="font-bold text-sm text-purple-700 mb-1">Kelas Selesai</h4>
-                <p className="md:text-3xl text-xl  font-bold  text-purple-900">3</p>
+                <p className="md:text-3xl text-xl  font-bold  text-purple-900">{statusBooking.length}</p>
               
               </div>
               <div className="bg-gradient-to-br from-green-50 to-green-100 rounded-xl p-4 text-center hover:shadow-lg hover:scale-105 transition-all duration-300 cursor-pointer">
                 <div className="text-3xl md:text-4xl mb-3">📈</div>
                 <h4 className="font-bold text-sm text-green-700 mb-1">Pendapatan</h4>
-                <p className="md:text-3xl text-xl font-bold text-green-900">350K</p>
+                <p className="md:text-3xl text-xl font-bold text-green-900"> Rp {dataSaldoHariIni?.toLocaleString("id-ID") || 0} </p>
               </div>
             </div>
           </div>
@@ -158,10 +183,10 @@ const filterDate = allBookingDates?.find(
             </div>
 
             {/* Grid Jadwal & Absensi */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6 pt-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6 pt-6 md:items-start">
 
                 {/* Absensi Hari Ini */}
-              <div className="bg-gradient-to-br from-green-50 via-white to-green-50 shadow-xl rounded-3xl p-6 border border-green-100 hover:shadow-2xl transition-all duration-300">
+              <div className="bg-gradient-to-br from-green-50 via-white to-green-50 shadow-xl rounded-3xl p-6 border border-green-100 hover:shadow-2xl transition-all duration-300 h-fit">
                 <div className="flex items-center justify-between mb-6">
                   <div className="flex items-center gap-3">
                     <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-green-600 rounded-2xl flex items-center justify-center text-2xl shadow-lg">✅</div>
@@ -170,13 +195,15 @@ const filterDate = allBookingDates?.find(
                       <p className="text-xs text-gray-500">Status kehadiran Anda</p>
                     </div>
                   </div>
-                  <span className="text-xs font-bold bg-green-500 text-white px-3 py-1.5 rounded-full shadow-md">2</span>
+
                 </div>
 
-                {filterDate?.tglbooking === new Date().toISOString().split('T')[0] ? (
-                 <BelumAdaAbsen/>
+                {filterDate ? (
+                 
+                    <AbsenHariIni tglBooking={filterDate} tglBookingBesok={filterDateTomorrow} booking={dataBooking} dataAbsen={absensiGuru}/>
                 ) : (
-                    <AbsenHariIni/>
+
+                      <BelumAdaAbsen/>
                 )}
                   
               </div>
@@ -187,44 +214,18 @@ const filterDate = allBookingDates?.find(
                   <div className="flex items-center gap-3">
                     <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center text-2xl shadow-lg">📅</div>
                     <div>
-                      <h3 className="text-lg font-bold text-gray-800">Jadwal Hari Ini</h3>
-                      <p className="text-xs text-gray-500">Kelas aktif & mendatang</p>
-                    </div>
-                  </div>
-                  <span className="text-xs font-bold bg-blue-500 text-white px-3 py-1.5 rounded-full shadow-md">3</span>
-                </div>
-                <div className="space-y-3">
-                  <div className="group p-4 bg-white rounded-2xl hover:shadow-lg transition-all duration-300 cursor-pointer border-2 border-blue-200 hover:border-blue-400">
-                    <div className="flex items-center gap-3">
-                      <div className="w-2 h-14 bg-gradient-to-b from-blue-500 to-blue-600 rounded-full"></div>
-                      <div className="flex-1">
-                        <h4 className="font-bold text-sm text-gray-800 mb-1">Matematika - Kelas 10</h4>
-                        <p className="text-xs text-gray-600">⏰ 08:00 - 09:30 • 👤 Andi Pratama</p>
-                      </div>
-                      <span className="text-xs bg-gradient-to-r from-blue-500 to-blue-600 text-white px-3 py-1.5 rounded-full font-bold shadow-sm">Aktif</span>
-                    </div>
-                  </div>
-                  <div className="group p-4 bg-white rounded-2xl hover:shadow-lg transition-all duration-300 cursor-pointer border-2 border-gray-200 hover:border-gray-300">
-                    <div className="flex items-center gap-3">
-                      <div className="w-2 h-14 bg-gradient-to-b from-gray-300 to-gray-400 rounded-full"></div>
-                      <div className="flex-1">
-                        <h4 className="font-bold text-sm text-gray-800 mb-1">Fisika - Kelas 11</h4>
-                        <p className="text-xs text-gray-600">⏰ 10:00 - 11:30 • 👤 Sari Dewi</p>
-                      </div>
-                      <span className="text-xs bg-gray-200 text-gray-700 px-3 py-1.5 rounded-full font-bold">Menunggu</span>
-                    </div>
-                  </div>
-                  <div className="group p-4 bg-white rounded-2xl hover:shadow-lg transition-all duration-300 cursor-pointer border-2 border-gray-200 hover:border-gray-300">
-                    <div className="flex items-center gap-3">
-                      <div className="w-2 h-14 bg-gradient-to-b from-gray-300 to-gray-400 rounded-full"></div>
-                      <div className="flex-1">
-                        <h4 className="font-bold text-sm text-gray-800 mb-1">Kimia - Kelas 12</h4>
-                        <p className="text-xs text-gray-600">⏰ 14:00 - 15:30 • 👤 Budi Santoso</p>
-                      </div>
-                      <span className="text-xs bg-gray-200 text-gray-700 px-3 py-1.5 rounded-full font-bold">Menunggu</span>
+                      <h3 className="text-lg font-bold text-gray-800">Kegiatan Hari Ini</h3>
+                      <p className="text-xs text-gray-500">Upload Kegiatan Belajar Anda Hari Ini</p>
                     </div>
                   </div>
                 </div>
+
+                {filterKegiatanBelajar ? (
+                 <KegiatanBelajarHarini kegiatan={filterKegiatanBelajar}/>
+                ):(
+                  <FormKegiatanBelajarHariIni bookingByID={dataBooking} />
+                )} 
+              
               </div>
 
           

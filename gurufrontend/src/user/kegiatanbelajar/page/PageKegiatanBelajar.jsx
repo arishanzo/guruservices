@@ -1,5 +1,5 @@
 import {  useState } from 'react';
-import { Video, Image, FileText, Edit, Calendar } from "lucide-react";
+import { Video, Image, FileText, Edit, Calendar, ExternalLink } from "lucide-react";
 import { UseBookingKelas } from "../../../hook/useGetBookingKelas";
 import { UseGetProfil } from "../../../hook/useGetProfil";
 import ModalVideo from '../showmodal/ModalVideo';
@@ -8,7 +8,6 @@ import ModalEditKegiatan from '../showmodal/ModalEditKegiatan';
 
 const PageKegiatanBelajar = ( {kegiatanBelajar}) => {
     
-  const options = { day: "numeric", month: "long", year: "numeric" };
     
     const { profil } = UseGetProfil(kegiatanBelajar[0]?.idguru);
     const { booking } = UseBookingKelas(profil?.idprofilguru);
@@ -17,8 +16,6 @@ const PageKegiatanBelajar = ( {kegiatanBelajar}) => {
     const [videoKegiatan, setVideoKegiatan] = useState(null);
 
 
-    const [showModalImage, setShowModalImage] = useState(false);
-    const [linkFotoKegiatan, setLinkFotoKegiatan] = useState(null);
 
     const [kegiatanByID, setKegiatanByID] = useState(null);
     const [showModalEditKegiatan, setShowModalEditKegiatan] = useState(false);
@@ -32,11 +29,7 @@ const PageKegiatanBelajar = ( {kegiatanBelajar}) => {
             
           };
 
-    const foto = (fotokegiatan) => {
-              setLinkFotoKegiatan(fotokegiatan);
-              setShowModalImage(true);
-
-          };
+  
 
     const link = (linkmateri) => {
               window.open(linkmateri, "_blank");
@@ -56,13 +49,12 @@ const PageKegiatanBelajar = ( {kegiatanBelajar}) => {
           };
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6 flex flex-col ">
-      <h1 className="md:text-2xl text-xl font-bold mb-2 text-green-800">
-        Kegiatan Belajar
-      </h1>
- 
-
-      <hr className="mb-4 border-gray-200"></hr>
+    <div className="min-h-screen  p-6">
+      <div className="max-w-7xl mx-auto">
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold text-gray-800 mb-2">Kegiatan Belajar</h1>
+          <p className="text-gray-600">Kelola dan pantau kegiatan pembelajaran</p>
+        </div>
 
 
 
@@ -101,57 +93,78 @@ const PageKegiatanBelajar = ( {kegiatanBelajar}) => {
         ) : (
 <>
 
-<div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 w-full max-w-6xl mb-4 md:mb-8">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+          {kegiatanBelajar.map((b, i) => (
+            <div key={i} className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
+              {/* Image Header */}
+              <div className="relative h-48 bg-gradient-to-r from-blue-400 to-purple-500">
+                {b?.fotokegiatan ? (
+                  <img 
+                    src={`${import.meta.env.VITE_API_URL}/api/fotokegiatan/${encodeURIComponent(b?.fotokegiatan)}`}
+                                   
+                    alt={b?.namakegiatan}
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <div className="flex items-center justify-center h-full">
+                    <Image className="h-16 w-16 text-white opacity-50" />
+                  </div>
+                )}
+                <div className="absolute top-4 right-4">
+                  <span className="bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-sm font-medium text-gray-700">
+                    {new Date(b?.tglkegiatan).toLocaleDateString('id-ID', {
+                      day: 'numeric',
+                      month: 'short',
+                      year: 'numeric'
+                    })}
+                  </span>
+                </div>
+                <div className="absolute top-4 left-4">
+                  <button 
+                    onClick={() => editkegiatan(b?.idkegiatanbelajar)}
+                    className="bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-sm font-medium text-gray-700 hover:bg-white transition-colors duration-200 flex items-center gap-1"
+                  >
+                    <Edit className="w-4 h-4" /> Edit
+                  </button>
+                </div>
+              </div>
 
-  {kegiatanBelajar.map((b, i) => (
-  
-    <div key={i} className="flex flex-col py-4">
-       <div  className="flex items-center gap-2 text-gray-500 mb-4">
-      <Calendar className="w-4 h-4" />
-      <span className="text-sm">{new Date(b?.tglkegiatan).toLocaleDateString("id-ID", options)}</span>
-      </div>
-
-      <div className="bg-white shadow-lg hover:shadow-xl shadow-green-100  transition rounded-2xl h-full min-h-[250px]">
-   
-          <div className=" flex items-center justify-between p-4 border-b">
-            <h2 className="md:text-lg text-lg font-bold text-green-800 font-semibold">{b?.namakegiatan}</h2>
-            <button 
-             onClick={() => editkegiatan(b?.idkegiatanbelajar)}
-            className="border rounded-lg px-3 py-1 text-sm flex items-center gap-1 hover:bg-gray-100">
-              <Edit className="w-4 h-4" /> Edit
-            </button>
-          </div>
-          <div className="p-4 flex flex-col flex-grow">
-            <p className="text-gray-600 mb-2">
-              {b?.deskripsikegiatan}
-            </p>
-            <p className="text-sm text-gray-500 mb-1">Guru: Ibu Sari</p>
-            <p className="text-sm text-gray-500 mb-12">Siswa: 28 orang</p>
-            <div className="flex items-center gap-4 text-gray-500 mt-auto">
-              <button
-                onClick={() => video(b?.videokegiatan)}
-               className="flex items-center gap-1 hover:text-blue-600">
-                <Video className="w-5 h-5" /> 
-              </button>
-              <button 
-              onClick={() => foto(b?.fotokegiatan)}
-              className="flex items-center gap-1 hover:text-blue-600">
-                <Image className="w-5 h-5" /> 
-              </button>
-              <button 
-               onClick={() => link(b?.linkmateri)}
-              className="flex items-center gap-1 hover:text-blue-600">
-                <FileText className="w-5 h-5" /> 
-              </button>
+              {/* Content */}
+              <div className="p-6">
+                <h3 className="text-xl font-bold text-gray-800 mb-3">{b?.namakegiatan}</h3>
+                <p className="text-gray-600 mb-4 line-clamp-3">{b?.deskripsikegiatan}</p>
+                
+                <div className="mb-4">
+                  <p className="text-sm text-gray-500 mb-1">Nama Siswa: {booking[0]?.namamurid}</p>
+                  <p className="text-sm text-gray-500">kelas {booking[0]?.kelas} {booking[0]?.tingkatSekolah}</p>
+                </div>
+                
+                {/* Action Buttons */}
+                <div className="flex flex-wrap gap-2">
+                  {b?.videokegiatan && (
+                    <button 
+                      onClick={() => video(b?.videokegiatan)}
+                      className="inline-flex items-center px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors duration-200"
+                    >
+                      <Video className="h-4 w-4 mr-2" />
+                      Video
+                    </button>
+                  )}
+                 
+                  {b?.linkmateri && (
+                    <button 
+                      onClick={() => link(b?.linkmateri)}
+                      className="inline-flex items-center px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors duration-200"
+                    >
+                      <ExternalLink className="h-4 w-4 mr-2" />
+                      Materi
+                    </button>
+                  )}
+                </div>
+              </div>
             </div>
-          
-          </div>
+          ))}
         </div>
-      </div>
- 
-  ))}
-
-   </div>
    
                 <ModalVideo
                   isOpen={showModalVideo}
@@ -159,11 +172,7 @@ const PageKegiatanBelajar = ( {kegiatanBelajar}) => {
                   linkvideo={videoKegiatan}
                 />
 
-                <ModalImage 
-                  isOpen={showModalImage}
-                  onClose={() => setShowModalImage(false)}
-                  linkImage={linkFotoKegiatan}
-                />
+            
 
                   <ModalEditKegiatan 
                   isOpen={showModalEditKegiatan}
@@ -174,6 +183,7 @@ const PageKegiatanBelajar = ( {kegiatanBelajar}) => {
 </>
 
         )}
+      </div>
     </div>
 
     

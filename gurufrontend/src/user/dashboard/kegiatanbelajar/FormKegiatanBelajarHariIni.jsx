@@ -1,28 +1,27 @@
-import { motion as Motion, AnimatePresence } from "framer-motion";
-import { X } from "lucide-react";
-import {  useEffect, useRef, useState } from "react";
-import axiosClient from "../../../lib/axios";
+import { useState, useRef } from 'react';
+import axiosClient from '../../../lib/axios';
+import toast from 'react-hot-toast';
 
-const ModalEditKegiatan = ({ isOpen, onClose,  kegiatanBelajar, booking }) => {
+const FormKegiatanBelajarHariIni = ({bookingByID}) => {
+   
 
+   const userId = bookingByID[0]?.iduser || null;
    const cameraInputRef = useRef(null);
-    const tglbooking = booking[0]?.tgl__booking__kelas || [];
 
-  const options = { day: "numeric", month: "long", year: "numeric" };
 
     const [formData, setFormData] = useState({
-     fotokegiatan: "",
-        videokegiatan: "",
-        linkmateri:  "",
-        namakegiatan: "",
-        deskripsikegiatan:  "",
-        tglkegiatan:  "",
+      fotokegiatan: "",
+      videokegiatan: "",
+      linkmateri: "",
+      namakegiatan: "",
+      deskripsikegiatan: "",
+      tglkegiatan:  new Date().toISOString().split('T')[0],
     });
 
+    
   const [errors, setErrors] = useState({});
-  const [status, setStatus] = useState("");
   const [disabled, setDisabled] = useState(false);
-  const [textButton, setTextButton] = useState("Edit Data");
+  const [textButton, setTextButton] = useState("Simpan");
 
 
 
@@ -45,91 +44,77 @@ const handleChange = (e) => {
       dataForm.append(key, val);
     }
     });
+
     
- dataForm.append("_method", "PUT");
-     
+if (userId) {
+      dataForm.append("idbookingprivate", bookingByID[0].idbookingprivate);
+    }
+
     setDisabled(true);
     setTextButton("Prosess");
     setErrors({}); // reset
 
-    try {
       
-     
+        const toastLoading = toast.loading("Prosess...");
+    try {
     
-    await axiosClient.post(`/api/kegiatanbelajar/editkegiatanbelajar/${kegiatanBelajar.idkegiatanbelajar}`, dataForm);
+    await axiosClient.post("/api/kegiatanbelajar", dataForm);
    
-      setStatus('Data Kegiatan Berhasil Diedit');
-       setTimeout(() => window.location.reload(), 5000);
+                   
+     toast.dismiss(toastLoading);
+          toast.success("🎉 Berhasil Ditambahkan", {
+                style: {
+                    border: '1px solid #16A34A',
+                    background: '#ECFDF5', 
+                    color: '#065F46',
+                    fontWeight: '500',
+                },
+                iconTheme: {
+                    primary: '#16A34A',
+                    secondary: '#ECFDF5',
+                    },
+            });
+            
+        setTimeout(() => window.location.reload(), 1500);
+      
     } catch (err) {
         
-      const data = err.response?.data || {};
-      setErrors(data.errors || { general: [data.message || "Ubah Data gagal."] });
-      setStatus( err.response.data.messageerors);
-       setTextButton("Edit Data");
+         const data = err.response?.data || {};
+
+        toast.error(`Maaf, Tidak Berhasil DiTambahkan , ${data?.messageerors}`, {  
+            style: {
+            border: '1px solid #f63b3bff',
+            padding: '16px',
+            color: '#f1474dff',
+            background: '#ffffffff',
+            fontWeight: '500',
+            },
+
+            iconTheme: {
+            primary: '#e6132fff',
+            secondary: '#ffffffff',
+            },
+        });
+       
+            setErrors( data?.errors || { general: [ data?.message || "Ubah Data gagal."] });
+          toast.dismiss(toastLoading);
     } finally {
       setDisabled(false);
-      setTextButton("Edit Data");
-      setTimeout(() => setStatus(""), 3000);
+      setTextButton("Simpan");
+     
     }
   };
 
-useEffect(() => {
-    if (isOpen && kegiatanBelajar) {
-    setFormData((prev) => ({
-      ...prev,
-      videokegiatan: kegiatanBelajar?.videokegiatan || "",
-      linkmateri: kegiatanBelajar?.linkmateri || "",
-      namakegiatan: kegiatanBelajar?.namakegiatan || "",
-      deskripsikegiatan: kegiatanBelajar?.deskripsikegiatan || "",
-      tglkegiatan: kegiatanBelajar?.tglkegiatan || "",
-    }));
-  }
-}, [isOpen, kegiatanBelajar]); 
+    return (
+        <div className="max-w-2xl mx-auto p-6 bg-white rounded-xl shadow-lg">
+            <div className="mb-6">
+                <h2 className="text-2xl font-bold text-gray-800 mb-2">Kegiatan Belajar Hari Ini</h2>
+                <p className="text-gray-600">Catat aktivitas pembelajaran yang telah dilakukan</p>
+            </div>
 
-
-  return (
-    <AnimatePresence>
-      {isOpen && (
-        <Motion.div
-          className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 px-4"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-        >
-          {/* Konten Modal */}
-        <Motion.div
-        className="fixed bottom-0 left-0 right-0 bg-white rounded-t-2xl shadow-2xl w-full max-h-full md:relative md:rounded-2xl md:max-w-4xl md:mx-auto overflow-hidden"
-        initial={{ y: "100%", opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        exit={{ y: "100%", opacity: 0 }}
-        transition={{ duration: 0.3 }}
-        >
-        {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b">
-            <h2 className="text-xl font-semibold text-green-700">Tambah Kegiatan</h2>
-           
-            <button
-            onClick={onClose}
-            className="text-gray-500 hover:text-gray-700 transition-colors"
-            >
-            <X size={24} />
-            </button>
-
-            
-        </div>
-
-
-            {status && 
-                                <div 
-                                role="alert"
-                                className={`text-center mb-4 ${status?.includes('Berhasil') ? 'bg-green-100 rounded-lg py-5 px-6 mb-4 text-base text-green-700 mb-3 ' : 'bg-red-100 rounded-lg py-5 px-6 mb-4 text-base text-red-700 mb-3 w-50'}`}>
-                                    {status}
-                                </div>              
-                           }
-
-            {/* Body */}
+             {/* Body */}
          <form className="p-2 md:p-6" onSubmit={handleSubmit}>
-              <div className="px-4 py-5 sm:p-0 max-h-[80vh] md:max-h-full overflow-y-auto ">
+              <div className="px-4 py-5 sm:p-0  md:overflow-y-hidden">
            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-2 md:gap-8">
             
                <div className="col-span-2 md:col-span-1  mb-4">
@@ -138,7 +123,7 @@ useEffect(() => {
                     type="text" 
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-100 focus:ring-2 focus:ring-red-500 focus:border-transparent" 
                     placeholder="Masukkan nama lengkap"
-                    value={booking[0]?.namamurid}
+                    value={bookingByID[0].namamurid}
                 //    onChange={handleChange}
                    readOnly
                   />
@@ -150,7 +135,7 @@ useEffect(() => {
                     type="text" 
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-100 focus:ring-2 focus:ring-red-500 focus:border-transparent" 
                     placeholder="Masukkan nama lengkap"
-                    value={booking[0]?.namawalimurid}
+                    value={bookingByID[0].namawalimurid}
                 //    onChange={handleChange}
                    readOnly
                   />
@@ -167,6 +152,7 @@ useEffect(() => {
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent" 
                    placeholder="Masukkan Nama Kegiatan"
                    value={formData.namakegiatan}
+                   required
                    onChange={handleChange}
                   />
 
@@ -182,6 +168,7 @@ useEffect(() => {
                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent" 
                    placeholder="Masukkan Deskripsi Kegiatan"
                    value={formData.deskripsikegiatan}
+                   required
                    onChange={handleChange}
                   />
                     {errors?.deskripsikegiatan?.[0] && <small style={{color: 'red'}}>{errors.deskripsikegiatan[0]}</small>}
@@ -189,18 +176,15 @@ useEffect(() => {
 
                 <div className="col-span-2 md:col-span-1  mb-4">
                   <label className="block text-sm font-medium text-gray-700 mb-2">Tanggal Kegiatan</label>
-                  <select 
-                   name="tglkegiatan"
-                   value={formData.tglkegiatan || ''}
-                    onChange={handleChange}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent">
-                     <option value="">Pilih Tanggal Jadwal Kelas</option>
-                    {tglbooking?.map((tgl) => (
-                        <option key={tgl.idtglbooking} value={tgl.tglbooking}>
-                      {new Date(tgl.tglbooking).toLocaleDateString("id-ID", options)}
-                        </option>
-                    ))}
-                  </select>
+                   <input 
+                    type="date" 
+                    readOnly
+                    name="tglkegiatan"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent" 
+                     value={formData.tglkegiatan}
+                     required
+                   onChange={handleChange}
+                  />
                 </div>
 
                  <div className="col-span-2 md:col-span-1  mb-4">
@@ -210,7 +194,8 @@ useEffect(() => {
                     name="linkmateri"
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent" 
                     placeholder="Masukkan Link Materi Bisa Dari Google Drive / Dropbox / dll"
-                     value={ formData.linkmateri}
+                     value={formData.linkmateri}
+                     required
                    onChange={handleChange}
                   />
 
@@ -223,6 +208,7 @@ useEffect(() => {
                     <input 
                         type="text" 
                         name="videokegiatan"
+                        required
                         className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent" 
                         placeholder="Masukkan Link Video Kegiatan dari Youtobe Anda"
                         value={formData.videokegiatan}
@@ -232,7 +218,6 @@ useEffect(() => {
 
                     {errors?.videokegiatan?.[0] && <small style={{color: 'red'}}>{errors.videokegiatan[0]}</small>}
                 </div>
-
 
                     <div className="col-span-2 md:col-span-1  mb-4">
                     <label className="block text-sm font-medium text-gray-700 mb-2">Upload Foto <strong>wajib</strong></label>
@@ -254,7 +239,7 @@ useEffect(() => {
                     <button
                         type="button"
                         onClick={() => cameraInputRef.current?.click()}
-                        className="w-full px-6 py-4 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-xl hover:from-blue-600 hover:to-purple-700 transition-all duration-300 transform  shadow-lg hover:shadow-xl flex items-center justify-center gap-3 font-medium"
+                        className="w-full px-6 py-4 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-xl hover:from-blue-600 hover:to-purple-700 transition-all duration-300 transform shadow-lg hover:shadow-xl flex items-center justify-center gap-3 font-medium"
                     >
                         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
@@ -275,12 +260,10 @@ useEffect(() => {
                      {errors?.fotokegiatan?.[0] && <small style={{color: 'red'}}>{errors.fotokegiatan[0]}</small>}
                 </div>
 
-
                 </div>
 
             {/* Footer */}
             <div className="px-6 py-4 border-t flex justify-between md:justify-end items-center gap-4">
-        
  
                 <button
                
@@ -296,12 +279,8 @@ useEffect(() => {
 </div>
             </div>
 </form>
-
-          </Motion.div>
-        </Motion.div>
-      )}
-    </AnimatePresence>
-  );
+        </div>
+    );
 };
 
-export default ModalEditKegiatan;
+export default FormKegiatanBelajarHariIni;

@@ -16,7 +16,7 @@ const KegiatanBelajar = () => {
     };
 
  const { kegiatanBelajar} = UseGetKegiatanBelajar(user?.idguru);
- console.log(kegiatanBelajar)
+
     return (
        <>
  <div className="flex bg-green-10">

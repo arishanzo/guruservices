@@ -23,7 +23,7 @@ class KegiatanBelajarRequest extends FormRequest
     {
         return [
             
-            'fotokegiatan' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:1000|dimensions:max_width=1000,max_height=1000',
+            'fotokegiatan' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:1000',
             'videokegiatan' => 'required|string|max:255',
            'linkmateri' => 'required|string|max:255',
         'namakegiatan' => 'required|string|max:255',

@@ -14,7 +14,7 @@ const KelasAktif = ({profil}) => {
       
       const { booking} = UseBookingKelas(profil?.idprofilguru);
       const [bookingByID, setBookingByID] = useState(null);
-        
+
 
     const handleKomfirmasi = async (idBookingPrivate) => {
        setDisabled(true);
