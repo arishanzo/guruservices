@@ -16,7 +16,7 @@ export const UseGetAbsensiGuru = (idguru) => {
     
     const controller = new AbortController();
     
-    const fetchProfil = async () => {
+    const fetchAbsensiGuru = async () => {
       try {
 
         setLoadingAbsensiGuru(true);
@@ -39,7 +39,7 @@ export const UseGetAbsensiGuru = (idguru) => {
 
     };
 
-        fetchProfil();
+        fetchAbsensiGuru();
    
 
      return () => controller.abort();

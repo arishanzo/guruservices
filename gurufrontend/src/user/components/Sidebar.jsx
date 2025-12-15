@@ -27,7 +27,7 @@ const Sidebar = () => {
         {!isCollapsed && (
           <a href="/dashboard" className="flex items-center space-x-2">
             <img className="w-20 h-20" src="../img/logo/logogopintar.png" alt="Go-Pintar" />
-            <span className="text-lg font-bold text-red-600">Go-Pintar</span>
+            <span className="text-lg font-bold text-green-600">Go-Pintar</span>
           </a>
         )}
         <button
@@ -48,25 +48,25 @@ const Sidebar = () => {
             href={item.path}
             className={`flex items-center space-x-3 px-3 py-2.5 rounded-lg transition-all duration-200 group relative ${
               isActive(item.path, item.activePaths)
-                ? 'bg-red-100 text-red-700 shadow-sm'
+                ? 'bg-green-100 text-green-700 shadow-sm'
                 : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
             }`}
           >
-            <div className={`${isActive(item.path, item.activePaths) ? 'text-red-600' : 'text-gray-400 group-hover:text-gray-600'}`}>
+            <div className={`${isActive(item.path, item.activePaths) ? 'text-green-600' : 'text-gray-400 group-hover:text-gray-600'}`}>
               {item.icon}
             </div>
             {!isCollapsed && (
               <>
                 <span className="font-medium">{item.name}</span>
                 {item.notification && (
-                  <span className="ml-auto bg-red-500 text-white text-xs rounded-full px-2 py-0.5 min-w-[20px] text-center">
+                  <span className="ml-auto bg-green-500 text-white text-xs rounded-full px-2 py-0.5 min-w-[20px] text-center">
                     {item.notification}
                   </span>
                 )}
               </>
             )}
             {isCollapsed && item.notification && (
-              <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+              <span className="absolute -top-1 -right-1 bg-green-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
                 {item.notification}
               </span>
             )}
@@ -80,11 +80,11 @@ const Sidebar = () => {
           href="/profil"
           className={`flex items-start space-x-3  py-2.5 rounded-lg transition-all duration-200 group ${
             isActive('/profil')
-              ? 'bg-red-100 text-red-700 shadow-sm'
+              ? 'bg-green-100 text-green-700 shadow-sm'
               : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
           }`}
         >
-          <div className={`${isActive('/profil') ? 'text-red-600' : 'text-gray-400 group-hover:text-gray-600'}`}>
+          <div className={`${isActive('/profil') ? 'text-green-600' : 'text-gray-400 group-hover:text-gray-600'}`}>
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>

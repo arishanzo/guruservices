@@ -4,13 +4,10 @@ import { useNavigate } from "react-router-dom";
 import { useGoogleLogin } from "@react-oauth/google";
 import axiosClient from "../lib/axios";
 import { useAuth } from "../context/AuthContext";
-import UsePageLoadig from "../hook/usePageLoading";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import { isNetworkError } from "../utils/connectionCheck";
-import { UseGetProfil } from "../hook/useGetProfil";
 
 const Login = () => {
-  const { pageLoading } = UsePageLoadig();
   const { login } = useAuth();
   const navigate = useNavigate();
 
@@ -39,11 +36,6 @@ const Login = () => {
     
       const userResponse = await axiosClient.get("/api/user");
       await login(userResponse.data);
-     
-      const profil = await  axiosClient.get(`/api/profile/${userResponse.data?.idguru}`);
-      
-      localStorage.setItem("photoprofil", profil.data.data?.foto_profil);
-
       
       setStatus("Login berhasil. Mengalihkan ke dashboard...");
       
@@ -53,7 +45,7 @@ const Login = () => {
    
       
     } catch (err) {
-      console.error("Login error:", err);
+      // console.error("Login error:", err);
       
       if (isNetworkError(err)) {
         setStatus("Tidak dapat terhubung ke server. Periksa koneksi internet Anda.");
@@ -103,30 +95,6 @@ const Login = () => {
       console.error(error);
     },
   });
-
-  // // Cleanup Google OAuth on unmount
-  // useEffect(() => {
-  //   return () => {
-  //     // Clean up any Google OAuth DOM elements
-  //     const googleElements = document.querySelectorAll('[id^="google"], [class*="google"]');
-  //     googleElements.forEach(element => {
-  //       try {
-  //         if (element.parentNode) {
-  //           element.parentNode.removeChild(element);
-  //         }
-  //       } catch (e) {
-  //         // Ignore errors during cleanup
-  //       }
-  //     });
-  //   };
-  // }, []);
-
-
-    if (pageLoading) {
-    return <div className="min-h-screen flex items-center justify-center">
-                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
-                </div>
-    }
 
     return (
         <>

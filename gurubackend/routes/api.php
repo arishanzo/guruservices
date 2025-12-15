@@ -137,6 +137,9 @@ Route::middleware('auth:sanctum')->group(function () {
    Route::get('/saldomasuk', [SaldoMasukController::class, 'getAllSaldoMasuk']);
    Route::get('/saldokeluar', [SaldoKeluarController::class, 'getAllSaldoKeluar']);
 
+   
+    Route::get('permintaanpenarikan/{idprofilguru}', [PermintaanPenarikanController::class, 'getAllByID']);
+
 
     Route::get('/notifications', function (Request $request) {
         return $request->user()->notifications;

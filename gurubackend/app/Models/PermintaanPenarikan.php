@@ -23,13 +23,13 @@ class PermintaanPenarikan extends Model
        public $incrementing = false; // jika auto increment
     protected $keyType = 'string'; // tipe primary key
 
-      public function User_guru()
+       public function Profil_guru()
         {
-            return $this->belongsTo(UserGuru::class, 'idguru'); // Relasi Many-to-One
+            return $this->belongsTo(ProfilGuru::class, 'idprofilguru'); // Relasi Many-to-One
         }
-    
+
     protected $fillable = [   
-        'idguru',
+        'idprofilguru',
         'tglpermintaanpenarikan',
         'jumlahpenarikan',
         'statuspermintaan',

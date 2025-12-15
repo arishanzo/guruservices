@@ -14,14 +14,14 @@ return new class extends Migration
     {
        Schema::create('permintaanpenarikan', function (Blueprint $table) {
             $table->ulid('idpermintaanpenarikan')->primary();
-            $table->uuid('idguru');
+            $table->uuid('idprofilguru');
             $table->date('tglpermintaanpenarikan');
             $table->integer('jumlahpenarikan');
             $table->string('statuspermintaan');
             $table->timestamps();
 
-                  $table->foreign('idguru', 'fk_permintaanpenarikan_idguru')
-                  ->references('idguru')->on('userguru')
+                  $table->foreign('idprofilguru', 'fk_permintaanpenarikan_idprofilguru')
+                  ->references('idprofilguru')->on('profilguru')
                   ->onDelete('cascade');
         });
 
@@ -35,7 +35,7 @@ return new class extends Migration
     {
 
          Schema::table('permintaanpenarikan', function (Blueprint $table) {
-               $table->dropForeign('fk_permintaanpenarikan_idguru');
+               $table->dropForeign('fk_permintaanpenarikan_idprofilguru');
         });
 
         Schema::dropIfExists('permintaanpenarikan');

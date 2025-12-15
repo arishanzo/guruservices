@@ -33,8 +33,6 @@ const NavbarUser = () => {
     }
   };
 
-  const local =  localStorage.getItem("photoprofil")
-
 
    const markAsDelete = async (iduser) => {
     try {
@@ -74,16 +72,16 @@ useEffect(() => {
                   onClick={() => setShowProfile(!showProfile)}
                   className="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
                 >
-            <img
+            {/* <img
               className="h-12 w-12 rounded-full object-cover"
               src={`${import.meta.env.VITE_API_URL}/api/photos/${encodeURIComponent(local)}`
                   
               }
               alt="Profile"
-            />
+            /> */}
 
                   <div className=" md:block text-left">
-                    <p className="text-sm font-medium text-gray-900">{user?.name || "Guest"}</p>
+                    <p className="text-sm font-medium text-gray-900">Hello, {user?.name || "Guest"}</p>
                     <p className="text-xs text-gray-500">Gruru Private</p>
                   </div>
                   <svg className="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">

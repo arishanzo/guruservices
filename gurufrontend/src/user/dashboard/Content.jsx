@@ -1,21 +1,32 @@
 import { useEffect, useMemo, useState } from 'react';
 import ProgresProfil from '../progresprofil/ProgresProfil';
 import { getMenuDashboard } from '../../lib/MenuItems/getMenuDashboard';
-import { Wallet } from 'lucide-react';
+import { Wallet, DollarSign, Clock } from 'lucide-react';
 import DashboardSkeleton from './DashboardSkeleton ';
 import AbsenHariIni from './absen/AbsenHarIni';
 import BelumAdaAbsen from './absen/BelumAdaAbsen';
 import KegiatanBelajarHarini from './kegiatanbelajar/KegiatanBelajarHariIni';
 import FormKegiatanBelajarHariIni from './kegiatanbelajar/FormKegiatanBelajarHariIni';
+import { UseGetPermintaanPenarikan } from '../../hook/useGetPermintaanPenarikan';
+import ModalStatusPenarikan from './showModal/ModalStatusPenarikan';
+import ModalPenarikan from './showModal/ModalPenarikan';
 
-const Content = ({ dataBooking, absensiGuru, kegiatanBelajar, saldoMasuk }) => {
-   
-       const now = new Date();
+const Content = ({ dataBooking, absensiGuru, kegiatanBelajar, saldoMasuk, getProfil }) => {
+      
+  const { penarikan } = UseGetPermintaanPenarikan(getProfil);
+  const [idProfilGuru,  setIdProfilGuru] = useState(null);
+  const [showModal, setShowModal] = useState(false);
   
-        const dataSaldoHariIni = saldoMasuk?.filter((item) => {
-        const tgl = new Date(item?.tglsaldomasuk);
-        return tgl === now
-        })
+  const [showModalPenarikan, setShowModalPenarikan] = useState(false);
+
+
+  console.log('penarikan', penarikan);
+
+  const now = new Date();
+  const dataSaldoHariIni = saldoMasuk?.filter((item) => {
+  const tgl = new Date(item?.tglsaldomasuk);
+  return tgl === now
+  })
  
   const totalMasuk = saldoMasuk?.reduce((a, b) => a + (b.jumlahsaldo || 0), 0);
 
@@ -63,6 +74,23 @@ const Content = ({ dataBooking, absensiGuru, kegiatanBelajar, saldoMasuk }) => {
     }
   };
 
+     const statusPenarikan = (idprofilguru) => {
+            if (!penarikan) return; 
+
+           
+
+            if (penarikan) {
+              setIdProfilGuru(idprofilguru); 
+              setShowModal(true);
+            }
+            
+          };
+
+          const penarikanSaldo = () => {
+        
+              setShowModalPenarikan(true);
+         
+          };
 
 
    useEffect(() => {
@@ -104,26 +132,11 @@ const Content = ({ dataBooking, absensiGuru, kegiatanBelajar, saldoMasuk }) => {
 
            <ProgresProfil/>
 
+           
+
       <div className="grid grid-cols-1 md:grid-cols-3 py-4 mb-4 gap-8">
-              
-          <div className="bg-gradient-to-r from-emerald-500 to-teal-600 rounded-2xl p-6  text-white shadow-lg">
-        <div className="flex items-center justify-between">
-          <div className="flex-col justify-center">
-            <h3 className="font-semibold text-sm">Saldo Sistem Tersedia</h3>
-            <p className="text-3xl font-bold mt-1">
-             Rp {totalMasuk?.toLocaleString("id-ID")}
-            </p>
+
         
-            <p className="text-xs opacity-90 mt-3">Siap untuk ditarik</p>
-            </div>
-          <Wallet className="w-10 h-10 opacity-80" />
-          </div>
-          <button className="bg-white/20 hover:bg-white/30 px-4 py-2 rounded-lg text-sm font-medium mt-3 w-full transition-colors">
-            💸 Tarik Saldo Sekarang
-          </button>
-      </div>
-
-
 
         <div className='md:col-span-2'>
           <h2 className="text-xl md:text-xl font-bold text-green-800 mb-2">Informasi</h2>
@@ -149,6 +162,34 @@ const Content = ({ dataBooking, absensiGuru, kegiatanBelajar, saldoMasuk }) => {
           </div>
         
         </div>
+              
+          <div className="bg-gradient-to-r from-emerald-500 to-teal-600 rounded-2xl p-6  text-white shadow-lg">
+        <div className="flex items-center justify-between">
+          <div className="flex-col justify-center">
+            <h3 className="font-semibold text-sm">Saldo Sistem Tersedia</h3>
+            <p className="text-3xl font-bold mt-1">
+             Rp {totalMasuk?.toLocaleString("id-ID")}
+            </p>
+        
+            <p className="text-xs opacity-90 mt-3">Siap untuk ditarik</p>
+            </div>
+          <Wallet className="w-10 h-10 opacity-80" />
+          </div>
+          <button 
+            onClick={() => penarikanSaldo()}
+          className="bg-white/20 hover:bg-white/30 px-4 py-2 rounded-lg text-sm font-medium mt-3 w-full transition-all duration-200 flex items-center justify-center gap-2 hover:scale-105 active:scale-95">
+            <DollarSign className="w-4 h-4" />
+            Tarik Saldo Sekarang
+          </button>
+          <button 
+          onClick={() => statusPenarikan(getProfil)}
+          className="bg-white/10 hover:bg-white/20 px-4 py-2 rounded-lg text-xs font-medium mt-2 w-full transition-all duration-200 flex items-center justify-center gap-2">
+            <Clock className="w-3 h-3" />
+            Status Penarikan
+          </button>
+      </div>
+
+
 
 
       </div>
@@ -227,10 +268,18 @@ const Content = ({ dataBooking, absensiGuru, kegiatanBelajar, saldoMasuk }) => {
                 )} 
               
               </div>
-
-          
-
             </div>
+
+            <ModalStatusPenarikan 
+              isOpen={showModal}
+              onClose={() => setShowModal(false)}
+              statusPenarikan={idProfilGuru}
+            />
+
+            <ModalPenarikan
+              isOpen={showModalPenarikan}
+              onClose={() => setShowModalPenarikan(false)}
+            />
 
       {/* More Menu Popup */}
       {showMoreMenu && (
