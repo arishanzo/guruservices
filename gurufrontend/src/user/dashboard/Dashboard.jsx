@@ -32,7 +32,7 @@ const Dashboard = () => {
   
 
            <div className="w-full h-full py-16 p-4 sm:pt-20 ">
-          <Content dataBooking={booking}  absensiGuru={absensiGuru} kegiatanBelajar={kegiatanBelajar} saldoMasuk={saldoMasuk} getProfil={profil?.idprofilguru}/>
+          <Content dataBooking={booking}  absensiGuru={absensiGuru} kegiatanBelajar={kegiatanBelajar} saldoMasuk={saldoMasuk} getProfil={profil?.idprofilguru} getEmail={user?.email}/>
         </div>
 
       </div>

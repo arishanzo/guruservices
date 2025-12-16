@@ -66,6 +66,11 @@ Route::post('/password/verify-code', [PasswordResetController::class, 'checkCode
 Route::post('/password/reset', [PasswordResetController::class, 'updatePassword']);
 
 
+Route::post('/vertifpenarikan/send-code', [PasswordResetController::class, 'requestCode']);
+Route::post('/vertifpenarikan/verify-code', [PasswordResetController::class, 'checkCode']);
+Route::post('/vertifpenarikan/reset', [PasswordResetController::class, 'updatePassword']);
+
+
 
 Route::get('/hello', function () {
     return ['message' => 'Hello from Laravel API 🚀'];

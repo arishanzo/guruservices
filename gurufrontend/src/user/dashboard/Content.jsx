@@ -11,7 +11,7 @@ import { UseGetPermintaanPenarikan } from '../../hook/useGetPermintaanPenarikan'
 import ModalStatusPenarikan from './showModal/ModalStatusPenarikan';
 import ModalPenarikan from './showModal/ModalPenarikan';
 
-const Content = ({ dataBooking, absensiGuru, kegiatanBelajar, saldoMasuk, getProfil }) => {
+const Content = ({ dataBooking, absensiGuru, kegiatanBelajar, saldoMasuk, getProfil, getEmail }) => {
       
   const { penarikan } = UseGetPermintaanPenarikan(getProfil);
   const [idProfilGuru,  setIdProfilGuru] = useState(null);
@@ -20,16 +20,14 @@ const Content = ({ dataBooking, absensiGuru, kegiatanBelajar, saldoMasuk, getPro
   const [showModalPenarikan, setShowModalPenarikan] = useState(false);
 
 
-  console.log('penarikan', penarikan);
-
   const now = new Date();
   const dataSaldoHariIni = saldoMasuk?.filter((item) => {
   const tgl = new Date(item?.tglsaldomasuk);
   return tgl === now
   })
  
-  const totalMasuk = saldoMasuk?.reduce((a, b) => a + (b.jumlahsaldo || 0), 0);
-
+  // const totalMasuk = saldoMasuk?.reduce((a, b) => a + (b.jumlahsaldo || 0), 0);
+const totalMasuk =  2500000; 
 
   const [showMoreMenu, setShowMoreMenu] = useState(false);
   const [status, setStatus] = useState('');
@@ -278,6 +276,7 @@ const Content = ({ dataBooking, absensiGuru, kegiatanBelajar, saldoMasuk, getPro
 
             <ModalPenarikan
               isOpen={showModalPenarikan}
+              emailGuru={getEmail}
               onClose={() => setShowModalPenarikan(false)}
             />
 

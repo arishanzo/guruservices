@@ -1,24 +1,176 @@
 import { motion as Motion, AnimatePresence } from "framer-motion";
 import { X, Wallet, CreditCard } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
+import axiosClient from "../../../lib/axios";
 
-const ModalPenarikan = ({ isOpen, onClose }) => {
+const ModalPenarikan = ({ isOpen, onClose, emailGuru }) => {
+ 
+  const [showOTP, setShowOTP] = useState(false);
+  const [otp, setOtp] = useState(["", "", "", "", "", ""]);
+  const [disabled, setDisabled] = useState(false);
+
   const [jumlah, setJumlah] = useState("");
   const saldoTersedia = 2500000; // Contoh saldo, bisa dari props atau state
 
-  const handleSubmit = (e) => {
+   const [formOtp, setFormOtp] = useState({
+     token: '',
+     email: '',
+ });
+
+
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (saldoTersedia === 0) {
       alert("Saldo tidak mencukupi untuk melakukan penarikan");
       return;
-    }
-    if (parseInt(jumlah) > saldoTersedia) {
+    } else if (parseInt(jumlah) > saldoTersedia) {
       alert("Jumlah penarikan melebihi saldo tersedia");
       return;
+    } else {
+    
+     // Ganti dengan emailGuru dari props
+     setDisabled(true);
+     const toastLoading = toast.loading("Prosess...");
+
+      try {
+       await axiosClient.post('/api/vertifpenarikan/send-code', { email: emailGuru });
+       toast.dismiss(toastLoading);
+
+       
+          toast.success("Kode veritifikasi Berhasil Di Kirim Ke Email", {
+                style: {
+                    border: '1px solid #16A34A',
+                    background: '#ECFDF5', 
+                    color: '#065F46',
+                    fontWeight: '500',
+                },
+                iconTheme: {
+                    primary: '#16A34A',
+                    secondary: '#ECFDF5',
+                    },
+            });
+            
+      setShowOTP(true);
+      return;
+
+    } catch (err) {
+       if (err.response) {
+          const data = err.response?.data || {};
+        
+      toast.error(`${data.errors}`, {
+                   style: {
+                   border: '1px solid #f63b3bff',
+                   padding: '16px',
+                   color: '#f1474dff',
+                   background: '#ffffffff',
+                   fontWeight: '500',
+                   },
+
+                   iconTheme: {
+                   primary: '#e6132fff',
+                   secondary: '#ffffffff',
+                   },
+               });
+          }
+    } finally {
+      toast.dismiss(toastLoading);
+      setDisabled(false);
     }
- 
-    onClose();
+    }
+
+   
+    // onClose();
   };
+
+
+  // Update formOtp when otp or email changes
+     useEffect(() => {
+       setFormOtp({
+         token: otp.join(''),
+         email: emailGuru,
+       });
+     }, [otp, emailGuru]);
+     
+
+
+ const handleKirimUlang = () => {
+    setShowOTP(false)
+  }
+    
+  // ===== HANDLE OTP VERIFICATION =====
+  const handleVerifyOtp = async (e) => {
+
+    e.preventDefault();
+    
+    setDisabled(true);
+
+    const toastLoading = toast.loading("Prosess Mengirim...");
+
+       try {
+
+       await axiosClient.post('/api/vertifpenarikan/verify-code', formOtp);
+       toast.dismiss(toastLoading);
+
+       
+          toast.success("Suksess Kode Valid...", {
+                style: {
+                    border: '1px solid #16A34A',
+                    background: '#ECFDF5', 
+                    color: '#065F46',
+                    fontWeight: '500',
+                },
+                iconTheme: {
+                    primary: '#16A34A',
+                    secondary: '#ECFDF5',
+                    },
+            });
+            
+            
+     onClose();
+
+    } catch (err) {
+       if (err.response) {
+       
+      toast.error(`maaf, Kode Tidak Valid`, {
+                   style: {
+                   border: '1px solid #f63b3bff',
+                   padding: '16px',
+                   color: '#f1474dff',
+                   background: '#ffffffff',
+                   fontWeight: '500',
+                   },
+
+                   iconTheme: {
+                   primary: '#e6132fff',
+                   secondary: '#ffffffff',
+                   },
+               });
+          }
+ 
+    } finally {
+      toast.dismiss(toastLoading);
+      setDisabled(false)
+    }
+  
+  };
+
+
+   // Handle OTP input
+  const handleOtpChange = (value, index) => {
+    if (value.length > 1) return;
+    const newOtp = [...otp];
+    newOtp[index] = value.replace(/\D/, ""); // only digits
+    setOtp(newOtp);
+
+    // auto focus next
+    if (value && index < otp.length - 1) {
+      document.getElementById(`otp-${index + 1}`).focus();
+    }
+  };
+
 
   const formatRupiah = (amount) => {
     return new Intl.NumberFormat('id-ID', {
@@ -68,7 +220,7 @@ const ModalPenarikan = ({ isOpen, onClose }) => {
             {/* Body */}
             <div className="p-6 space-y-6">
               {/* Saldo Tersedia */}
-              <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-2xl p-6 text-center">
+              <div className="bg-gradient-to-r from-green-50 to-green-50 border border-green-200 rounded-2xl p-6 text-center">
                 <p className="text-sm text-gray-600 mb-2">Saldo Tersedia</p>
                 <p className="text-3xl font-bold text-gray-900">{formatRupiah(saldoTersedia)}</p>
                 {saldoTersedia === 0 && (
@@ -76,7 +228,13 @@ const ModalPenarikan = ({ isOpen, onClose }) => {
                 )}
               </div>
 
-              <form onSubmit={handleSubmit} className="space-y-6">
+      {!showOTP && (
+         <Motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="text-center"
+          >
+          <form onSubmit={handleSubmit} className="space-y-6">
                 {/* Input Jumlah */}
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 mb-3">
@@ -100,8 +258,64 @@ const ModalPenarikan = ({ isOpen, onClose }) => {
 
              
               </form>
+              </Motion.div>
+      )}
+
+
+        {showOTP  && (
+                <Motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="text-center"
+                >
+                  <p className="text-gray-500 mb-6">
+                    Masukkan 6 digit kode yang dikirim ke Email Anda <br/>
+                  </p>
+      
+      <form onSubmit={handleVerifyOtp}>
+                  <div className="flex justify-center space-x-3 mb-6">
+                    {otp.map((value, index) => (
+                      <input
+                        key={index}
+                        id={`otp-${index}`}
+                        type="text"
+                        maxLength="1"
+                        value={value}
+                        required
+                        onChange={(e) => handleOtpChange(e.target.value, index)}
+                        className="w-10 h-12 text-center text-lg font-semibold border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none"
+                      />
+                    ))}
+                  </div>
+      
+                  
+      
+                  <button 
+                   type="submit"
+                  
+                  disabled={disabled}
+                      className={`${disabled ? 'cursor-not-allowed opacity-50' : ''
+                      } w-full py-3 bg-gradient-to-br from-green-400  to-green-600 text-white rounded-xl font-medium hover:bg-green-700 transition-all`} >
+                          Verifikasi
+                  </button>
+      
+      </form>
+                   <button
+                    onClick={() => handleKirimUlang()}
+                    className="text-green-600 py-3 hover:underline text-sm font-semibold"
+                  >
+                    Kirim ulang kode
+                  </button>
+      
+                </Motion.div>
+              )}
+      
+            
             </div>
 
+
+         { !showOTP && (
+          <>
             {/* Footer */}
             <div className="px-6 pb-6">
               <div className="flex gap-3">
@@ -121,6 +335,9 @@ const ModalPenarikan = ({ isOpen, onClose }) => {
                 </button>
               </div>
             </div>
+            </>
+        )}
+           
           </Motion.div>
         </Motion.div>
       )}
