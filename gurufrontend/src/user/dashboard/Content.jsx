@@ -261,7 +261,7 @@ const totalMasuk =  2500000;
 
                 {filterKegiatanBelajar ? (
                  <KegiatanBelajarHarini kegiatan={filterKegiatanBelajar}/>
-                ):(
+                ): filterDate && (
                   <FormKegiatanBelajarHariIni bookingByID={dataBooking} />
                 )} 
               
@@ -271,12 +271,13 @@ const totalMasuk =  2500000;
             <ModalStatusPenarikan 
               isOpen={showModal}
               onClose={() => setShowModal(false)}
-              statusPenarikan={idProfilGuru}
+              idprofilguru={idProfilGuru}
             />
 
             <ModalPenarikan
               isOpen={showModalPenarikan}
               emailGuru={getEmail}
+              profil={getProfil}
               onClose={() => setShowModalPenarikan(false)}
             />
 

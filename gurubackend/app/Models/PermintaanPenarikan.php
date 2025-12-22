@@ -28,7 +28,8 @@ class PermintaanPenarikan extends Model
             return $this->belongsTo(ProfilGuru::class, 'idprofilguru'); // Relasi Many-to-One
         }
 
-    protected $fillable = [   
+    protected $fillable = [  
+        'idpermintaanpenarikan', 
         'idprofilguru',
         'tglpermintaanpenarikan',
         'jumlahpenarikan',

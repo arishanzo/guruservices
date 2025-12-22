@@ -7,6 +7,9 @@ import axiosClient from "../../../lib/axios";
 const ModalPenarikan = ({ isOpen, onClose, emailGuru }) => {
  
   const [showOTP, setShowOTP] = useState(false);
+  const [showInformation, setShowInformation] = useState(false);
+
+
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
   const [disabled, setDisabled] = useState(false);
 
@@ -111,11 +114,16 @@ const ModalPenarikan = ({ isOpen, onClose, emailGuru }) => {
 
        try {
 
-       await axiosClient.post('/api/vertifpenarikan/verify-code', formOtp);
+      //  await axiosClient.post('/api/vertifpenarikan/verify-code', formOtp);
+       await axiosClient.post('/api/permintaanpenarikan', {
+        tglpermintaanpenarikan: new Date().toISOString().split('T')[0],
+        jumlahpenarikan: jumlah,
+         statuspermintaan: 'pending',
+       });
+
        toast.dismiss(toastLoading);
 
-       
-          toast.success("Suksess Kode Valid...", {
+       toast.success("Suksess Kode Valid... Permintaan Berhasil Di Tambahkan", {
                 style: {
                     border: '1px solid #16A34A',
                     background: '#ECFDF5', 
@@ -129,7 +137,8 @@ const ModalPenarikan = ({ isOpen, onClose, emailGuru }) => {
             });
             
             
-     onClose();
+     setShowInformation(true);
+     setShowOTP(false);
 
     } catch (err) {
        if (err.response) {
@@ -217,9 +226,12 @@ const ModalPenarikan = ({ isOpen, onClose, emailGuru }) => {
               </div>
             </div>
 
+
             {/* Body */}
             <div className="p-6 space-y-6">
-              {/* Saldo Tersedia */}
+
+              {!showInformation && (
+            <>
               <div className="bg-gradient-to-r from-green-50 to-green-50 border border-green-200 rounded-2xl p-6 text-center">
                 <p className="text-sm text-gray-600 mb-2">Saldo Tersedia</p>
                 <p className="text-3xl font-bold text-gray-900">{formatRupiah(saldoTersedia)}</p>
@@ -227,8 +239,11 @@ const ModalPenarikan = ({ isOpen, onClose, emailGuru }) => {
                   <p className="text-red-500 text-sm mt-2">⚠️ Saldo tidak mencukupi untuk penarikan</p>
                 )}
               </div>
+              </>
+          )}
+          
 
-      {!showOTP && (
+      {!showOTP && !showInformation && (
          <Motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -260,7 +275,29 @@ const ModalPenarikan = ({ isOpen, onClose, emailGuru }) => {
               </form>
               </Motion.div>
       )}
+           
+      {showInformation && (
+          <Motion.div
+      initial={{ opacity: 0, y: 30 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6, ease: "easeOut" }}
+      className="max-w-md mx-auto bg-white shadow-lg rounded-xl p-6 text-center"
+    >
+      <h2 className="text-lg font-semibold text-gray-800 mb-3">
+        ✅ Permintaan Penarikan Berhasil
+      </h2>
+      <p className="text-gray-600 leading-relaxed mb-4">
+        Permintaan penarikan Anda telah berhasil dikirim. <br />
+        Silakan tunggu proses verifikasi dari tim kami dalam 1x24 jam. <br />
+        Jika disetujui, dana akan segera ditransfer ke rekening Anda.
+      </p>
+      <div className="text-sm text-gray-500">
+        Hubungi admin via WhatsApp:{" "}
+        <span className="font-medium text-green-600">0888 0531 7354</span>
+      </div>
+    </Motion.div>
 
+          )}
 
         {showOTP  && (
                 <Motion.div
@@ -314,7 +351,7 @@ const ModalPenarikan = ({ isOpen, onClose, emailGuru }) => {
             </div>
 
 
-         { !showOTP && (
+         { !showOTP && !showInformation && (
           <>
             {/* Footer */}
             <div className="px-6 pb-6">

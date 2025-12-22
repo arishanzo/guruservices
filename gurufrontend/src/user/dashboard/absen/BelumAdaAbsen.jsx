@@ -11,8 +11,7 @@ const BelumAdaAbsen = () => {
               <h4 className="font-bold text-base text-gray-800 mb-1">Belum Ada Absen</h4>
               <p className="text-sm text-gray-600 font-semibold">Hari ini belum ada absen</p>
             </div>
-            <span className="text-xs bg-gradient-to-r from-gray-500 to-gray-600 text-white px-3 py-2 rounded-full font-bold shadow-sm">Belum Absen</span>
-          </div>
+           </div>
           <div className="flex items-center gap-2 text-xs text-gray-600 bg-gray-50 px-3 py-2 rounded-lg">
             <span>📍</span>
             <span className="font-medium text-red-700">Anda Belum Ada Kelas Aktif</span>

@@ -1,8 +1,12 @@
 
 import { motion as Motion, AnimatePresence } from "framer-motion";
 import { X, Clock, CheckCircle, XCircle, History } from "lucide-react";
+import { UseGetPermintaanPenarikan } from "../../../hook/useGetPermintaanPenarikan";
 
-const ModalStatusPenarikan = ({ isOpen, onClose }) => {
+const ModalStatusPenarikan = ({ isOpen, onClose, idprofilguru }) => {
+
+  const { penarikan } = UseGetPermintaanPenarikan(idprofilguru);
+
   const formatRupiah = (amount) => {
     return new Intl.NumberFormat('id-ID', {
       style: 'currency',
@@ -20,11 +24,7 @@ const ModalStatusPenarikan = ({ isOpen, onClose }) => {
     }
   };
 
-  const statusData = [
-    { id: '001', jumlah: 500000, tanggal: '15 Jan 2024', status: 'pending', deskripsi: 'Penarikan untuk kebutuhan pribadi' },
-    { id: '002', jumlah: 750000, tanggal: '10 Jan 2024', status: 'berhasil', deskripsi: 'Penarikan gaji bulanan' },
-    { id: '003', jumlah: 300000, tanggal: '5 Jan 2024', status: 'ditolak', deskripsi: 'Penarikan darurat' }
-  ];
+ 
 
   return (
 
@@ -65,25 +65,24 @@ const ModalStatusPenarikan = ({ isOpen, onClose }) => {
             {/* Body */}
             <div className="p-6 max-h-[60vh] overflow-y-auto">
               <div className="space-y-4">
-                {statusData.map((item) => {
+                {penarikan?.map((item) => {
                   const statusConfig = {
                     pending: { bg: 'bg-amber-50', border: 'border-amber-200', badge: 'bg-amber-100 text-amber-800', text: 'Pending' },
                     berhasil: { bg: 'bg-emerald-50', border: 'border-emerald-200', badge: 'bg-emerald-100 text-emerald-800', text: 'Berhasil' },
                     ditolak: { bg: 'bg-red-50', border: 'border-red-200', badge: 'bg-red-100 text-red-800', text: 'Ditolak' }
                   };
                   
-                  const config = statusConfig[item.status];
-                  
+                  const config = statusConfig[item.statuspermintaan];
+                  const no = penarikan.indexOf(item) + 1;
                   return (
-                    <div key={item.id} className={`${config.bg} ${config.border} border-2 rounded-2xl p-5 transition-all hover:shadow-md`}>
+                    <div key={item.idpermintaanpenarikan} className={`${config.bg} ${config.border} border-2 rounded-2xl p-5 transition-all hover:shadow-md`}>
                       <div className="flex justify-between items-start mb-3">
                         <div className="flex items-center gap-3">
                           <div className={`${config.badge} p-2 rounded-full`}>
-                            {getStatusIcon(item.status)}
+                            {getStatusIcon(item.statuspermintaan)}
                           </div>
                           <div>
-                            <h3 className="font-bold text-gray-900">Penarikan #{item.id}</h3>
-                            <p className="text-sm text-gray-600">{item.deskripsi}</p>
+                            <h3 className="font-bold text-gray-900">Penarikan #{no}</h3>
                           </div>
                         </div>
                         <span className={`${config.badge} text-sm px-3 py-1 rounded-full font-medium`}>
@@ -91,8 +90,13 @@ const ModalStatusPenarikan = ({ isOpen, onClose }) => {
                         </span>
                       </div>
                       <div className="flex justify-between items-center">
-                        <p className="text-xl font-bold text-gray-900">{formatRupiah(item.jumlah)}</p>
-                        <p className="text-sm text-gray-500">{item.tanggal}</p>
+                        <p className="text-xl font-bold text-gray-900">{formatRupiah(item.jumlahpenarikan)}</p>
+                        <p className="text-sm text-gray-500">
+                          { new Date(item.tglpermintaanpenarikan).toLocaleDateString("id-ID", {
+                              day: "numeric",
+                              month: "long",
+                              year: "numeric"
+                            }) } </p>
                       </div>
                     </div>
                   );

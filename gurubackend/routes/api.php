@@ -144,6 +144,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
    
     Route::get('permintaanpenarikan/{idprofilguru}', [PermintaanPenarikanController::class, 'getAllByID']);
+    Route::post('/permintaanpenarikan', [PermintaanPenarikanController::class, 'storePermintaanPenarikan']);
+    
 
 
     Route::get('/notifications', function (Request $request) {

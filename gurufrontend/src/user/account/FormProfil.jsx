@@ -13,7 +13,6 @@ const FormProfil = () => {
   const [preview, setPreview] = useState("https://github.com/gaearon.png");
   const [bidang, setBidang] = useState();
 
-
   
 // set wilayah
 const {
@@ -27,8 +26,6 @@ const {
   // ambil data profil per id
   const { profil, error } = UseGetProfil(user?.idguru);
   const {  datamapel } = useMapel(bidang);
-
-  
 
   const { getprovinsi, getkabupaten, getkecamatan, getkelurahan } = useGetWilayah(profil?.provinsi, profil?.kabupaten, profil?.kecamatan, profil?.kelurahan);
 
@@ -102,7 +99,7 @@ useEffect(() => {
       setBidang(profil.bidangngajar);
     }
   }
-}, [profil]);
+}, [profil, setBidang, setProvinsi, setKabupaten, setKecamatan, setKelurahan]);
 
 
   const [errors, setErrors] = useState({});
@@ -167,7 +164,7 @@ useEffect(() => {
   };
 
  if (error) return (
-  <p style={{ color: "red" }}>
+  <p style={{ color: "green" }}>
     {typeof error === "string" ? error : error.message || "Error"}
   </p>
 );
@@ -186,7 +183,7 @@ useEffect(() => {
                      src={preview}
                     alt="Profile"
                   />
-                  <label className="absolute bottom-0 right-0 bg-red-600 text-white rounded-full p-2 hover:bg-red-700 cursor-pointer">
+                  <label className="absolute bottom-0 right-0 bg-green-600 text-white rounded-full p-2 hover:bg-green-700 cursor-pointer">
                     <input 
                     type="file" 
                     name="foto_profil" 
@@ -202,20 +199,20 @@ useEffect(() => {
                   <h2 className="text-2xl font-bold text-gray-900">{user?.name || "Guest"}</h2>
                   <p className="text-gray-600">{profil ? profil.aboutguru : "Guru Go Pintar"}</p>
                   <div className="flex items-center mt-2">
-                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
                       {profil?.mapel}
                     </span>
                   </div>
 
                   
-                   {errors?.foto_profil?.[0] && <small style={{color: 'red'}}>{errors.foto_profil[0]}</small>}
+                   {errors?.foto_profil?.[0] && <small style={{color: 'green'}}>{errors.foto_profil[0]}</small>}
                 </div>
               </div>
 
                    {status && 
                                 <div 
                                 role="alert"
-                                className={`text-center mb-4 ${status?.includes('berhasil') ? 'bg-green-100 rounded-lg py-5 px-6 mb-4 text-base text-green-700 mb-3 ' : 'bg-red-100 rounded-lg py-5 px-6 mb-4 text-base text-red-700 mb-3 w-50'}`}>
+                                className={`text-center mb-4 ${status?.includes('berhasil') ? 'bg-green-100 rounded-lg py-5 px-6 mb-4 text-base text-green-700 mb-3 ' : 'bg-green-100 rounded-lg py-5 px-6 mb-4 text-base text-green-700 mb-3 w-50'}`}>
                                     {status}
                                 </div>              
                            }
@@ -232,7 +229,7 @@ useEffect(() => {
                   <label className="block text-sm font-medium text-gray-700 mb-2">Nama Lengkap</label>
                   <input 
                     type="text" 
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-100 focus:ring-2 focus:ring-red-500 focus:border-transparent" 
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-100 focus:ring-2 focus:ring-green-500 focus:border-transparent" 
                     placeholder="Masukkan nama lengkap"
                     value={user?.name || formData.namauser}
                    onChange={handleChange}
@@ -245,7 +242,7 @@ useEffect(() => {
                   <input 
                     type="email" 
                     value={user?.email || "Guest"}
-                    className="w-full px-4 bg-gray-100 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent" 
+                    className="w-full px-4 bg-gray-100 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent" 
                     placeholder="Masukkan email"
                     readOnly
                   />
@@ -257,12 +254,12 @@ useEffect(() => {
                     name="aboutguru"
                     value={formData.aboutguru}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent" 
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent" 
                     rows="3"
                     placeholder="Masukkan Deskripsi Singkat Contoh : Berpengalaman Mengajar 5 Tahun, dll"
                   ></textarea>
 
-                    {errors?.aboutguru?.[0] && <small style={{color: 'red'}}>{errors.aboutguru[0]}</small>}
+                    {errors?.aboutguru?.[0] && <small style={{color: 'green'}}>{errors.aboutguru[0]}</small>}
 
                 </div>
 
@@ -271,14 +268,14 @@ useEffect(() => {
                   <input 
                     type="tel" 
                     name="no_telp"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent" 
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent" 
                     placeholder="Masukkan nomor telepon"
                    value={formData.no_telp}
                    onChange={handleChange}
                    
                   />
 
-                   {errors?.no_telp?.[0] && <small style={{color: 'red'}}>{errors.no_telp[0]}</small>}
+                   {errors?.no_telp?.[0] && <small style={{color: 'green'}}>{errors.no_telp[0]}</small>}
 
                 </div>
 
@@ -290,7 +287,7 @@ useEffect(() => {
                   name="provinsi"
                   value={provinsi}
                   onChange={(e) => {setProvinsi(e.target.value); handleChange(e)}}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent">
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
                      <option value="">{profil?.provinsi && getprovinsi?.name ? getprovinsi.name : 'Pilih Provinsi'}</option>
                         {listProvinsi.map((prov) => (
                             <option key={prov.id} value={prov.id}>
@@ -309,8 +306,8 @@ useEffect(() => {
                    value={kabupaten}
                     onChange={(e) => {setKabupaten(e.target.value); handleChange(e)}}
                     disabled={!provinsi}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent">
-                     <option value="">{profil?.kabupaten && getkabupaten?.name ? getkabupaten.name : 'Pilih Kabupaten'}</option>
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                     <option value="" disabled>{profil?.kabupaten && getkabupaten?.name ? getkabupaten.name : 'Pilih Kabupaten'}</option>
                     {listKabupaten.map((kab) => (
                         <option key={kab.id} value={kab.id}>
                         {kab.name}
@@ -326,8 +323,8 @@ useEffect(() => {
                      value={kecamatan}
                     onChange={(e) => {setKecamatan(e.target.value); handleChange(e)}}
                     disabled={!kabupaten}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent">
-                    <option value="">{profil?.kecamatan && getkecamatan?.name ? getkecamatan.name : 'Pilih Kecamatan'}</option>
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                    <option value="" disabled>{profil?.kecamatan && getkecamatan?.name ? getkecamatan.name : 'Pilih Kecamatan'}</option>
                     {listKecamatan.map((kec) => (
                         <option key={kec.id} value={kec.id}>
                         {kec.name}
@@ -345,8 +342,8 @@ useEffect(() => {
                      value={kelurahan}
                     onChange={(e) => {setKelurahan(e.target.value); handleChange(e)}}
                     disabled={!kecamatan}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent">
-                    <option value="">{profil?.kelurahan && getkelurahan?.name ? getkelurahan.name : 'Pilih Kelurahan'}</option>
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                    <option value="" disabled>{profil?.kelurahan && getkelurahan?.name ? getkelurahan.name : 'Pilih Kelurahan'}</option>
                     {listKelurahan.map((kel) => (
                         <option key={kel.id} value={kel.id}>
                         {kel.name}
@@ -362,11 +359,11 @@ useEffect(() => {
                     value={formData.kode_pos}
                     onChange={handleChange}
                     type="number" 
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent" 
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent" 
                     placeholder="Masukkan kode Pos"
                   />
 
-                    {errors?.kode_pos?.[0] && <small style={{color: 'red'}}>{errors.kode_pos[0]}</small>}
+                    {errors?.kode_pos?.[0] && <small style={{color: 'green'}}>{errors.kode_pos[0]}</small>}
 
                 </div>
 
@@ -376,12 +373,12 @@ useEffect(() => {
                     name="alamatlengkap"
                     value={formData.alamatlengkap}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent" 
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent" 
                     rows="3"
                     placeholder="Masukkan  Alamat Lengkap Anda"
                   ></textarea>
 
-                    {errors?.alamatlengkap?.[0] && <small style={{color: 'red'}}>{errors.alamatlengkap[0]}</small>}
+                    {errors?.alamatlengkap?.[0] && <small style={{color: 'green'}}>{errors.alamatlengkap[0]}</small>}
 
                 </div>
 
@@ -396,7 +393,7 @@ useEffect(() => {
                      name="lulusan"
                      value={formData.lulusan}
                     onChange={handleChange}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent">
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
                     <option value="">{profil?.lulusan || 'Pilih Tingkat Pendidikan'}</option>
                         <option value="SMA/SMK">SMA/SMK</option>
                         <option value="Diploma">Diploma</option>
@@ -404,7 +401,7 @@ useEffect(() => {
                         <option value="Magister">Magister</option>
                         <option value="Doktor">Doktor</option>
                   </select>
-                    {errors?.lulusan?.[0] && <small style={{color: 'red'}}>{errors.lulusan[0]}</small>}
+                    {errors?.lulusan?.[0] && <small style={{color: 'green'}}>{errors.lulusan[0]}</small>}
 
                 </div>
               
@@ -415,11 +412,11 @@ useEffect(() => {
                     value={formData.jurusan}
                     onChange={handleChange}
                     type="text" 
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent" 
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent" 
                     placeholder="Masukkan Jurusan Jika SMA kosongkan saja"
                   />
 
-                    {errors?.jurusan?.[0] && <small style={{color: 'red'}}>{errors.jurusan[0]}</small>}
+                    {errors?.jurusan?.[0] && <small style={{color: 'green'}}>{errors.jurusan[0]}</small>}
 
                 </div>
 
@@ -430,11 +427,11 @@ useEffect(() => {
                     value={formData.fakultas}
                     onChange={handleChange}
                     type="text" 
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent" 
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent" 
                     placeholder="Masukkan Fakultas Jika SMA kosongkan saja"
                   />
 
-                    {errors?.fakultas?.[0] && <small style={{color: 'red'}}>{errors.fakultas[0]}</small>}
+                    {errors?.fakultas?.[0] && <small style={{color: 'green'}}>{errors.fakultas[0]}</small>}
 
                 </div>
               
@@ -445,11 +442,11 @@ useEffect(() => {
                     value={formData.universitas}
                     onChange={handleChange}
                     type="text" 
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent" 
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent" 
                     placeholder="Masukkan Universitas Asal"
                   />
 
-                    {errors?.universitas?.[0] && <small style={{color: 'red'}}>{errors.universitas[0]}</small>}
+                    {errors?.universitas?.[0] && <small style={{color: 'green'}}>{errors.universitas[0]}</small>}
 
                 </div>
 
@@ -459,26 +456,40 @@ useEffect(() => {
                      name="bidangngajar"
                     value={formData.bidangngajar}
                      onChange={(e) => {setBidang(e.target.value); handleChange(e)}}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent">
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
                     <option value="" disabled>{profil?.bidangngajar || 'Pilih Bidang Ngajar'}</option>
                         <option value="Fokus Akademik Umum (SD, SMP, SMA)">Fokus Akademik Umum (SD, SMP, SMA)</option>
                         <option value="Persiapan Ujian & Tes Khusus">Persiapan Ujian & Tes Khusus</option>
                         <option value="Keterampilan & Mapel Non-Akademik"> Keterampilan & Mapel Non-Akademik</option>
                         <option value="Pendekatan Belajar Khusus">Pendekatan Belajar Khusus</option>
+                        <option value="Lainnya">Lainnya</option>
                   </select>
-                      {errors?.bidangngajar?.[0] && <small style={{color: 'red'}}>{errors.bidangngajar[0]}</small>}
+                      {errors?.bidangngajar?.[0] && <small style={{color: 'green'}}>{errors.bidangngajar[0]}</small>}
 
                 </div>
-
-
-                 <div className="col-span-2 md:col-span-1  mb-4">
+                
+             <div className="col-span-2 md:col-span-1  mb-4">
                   <label className="block text-sm font-medium text-gray-700 mb-2">Mapel</label>
+
+               {bidang === 'Lainnya' ? (
+                <>
+                <input 
+                  type="text" 
+                  name="mapel"
+                  value={formData.mapel}
+                  onChange={handleChange}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent mb-4" 
+                  placeholder="Masukan Pelajaran Lainnya Contoh: Belajar Music, dll"
+                />
+               <small style={{color: 'green'}}> Masukan Pelajaran Lainnya Contoh: Belajar Music, dll </small>
+                </>
+              ) : (
                       <select 
                      name="mapel"
-                    value={formData.mapel}
+                    value={datamapel.length === 0 ? '' : formData.mapel}
                     onChange={handleChange}
                     disabled={formData.bidangngajar === '' || formData.bidangngajar === 'Pilih Bidang Ngajar'}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent">
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
                     <option value="" disabled>{profil?.mapel || 'Pilih Mapel'}</option>
                        {datamapel?.map((data) => (
                         <option key={data.id} value={data.mapel}>
@@ -486,12 +497,11 @@ useEffect(() => {
                         </option>
                     ))}
                   </select>
-                      {errors?.mapel?.[0] && <small style={{color: 'red'}}>{errors.mapel[0]}</small>}
+              )}
+               {errors?.mapel?.[0] && <small style={{color: 'green'}}>{errors.mapel[0]}</small>}
 
-                </div>
-
-              
-
+            </div>
+    
                 
                   <div className="mb-4">
                   <label className="block text-sm font-medium text-gray-700 mb-2">Skill 1</label>
@@ -500,11 +510,11 @@ useEffect(() => {
                     value={formData.skillpertama}
                     onChange={handleChange}
                     type="text" 
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent" 
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent" 
                     placeholder="Masukkan Skill Pertama"
                   />
 
-                    {errors?.skillpertama?.[0] && <small style={{color: 'red'}}>{errors.skillpertama[0]}</small>}
+                    {errors?.skillpertama?.[0] && <small style={{color: 'green'}}>{errors.skillpertama[0]}</small>}
 
                 </div>
 
@@ -516,11 +526,11 @@ useEffect(() => {
                     value={formData.skillkedua}
                     onChange={handleChange}
                     type="text" 
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent" 
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent" 
                     placeholder="Masukkan Skill Pertama"
                   />
 
-                    {errors?.skillkedua?.[0] && <small style={{color: 'red'}}>{errors.skillkedua[0]}</small>}
+                    {errors?.skillkedua?.[0] && <small style={{color: 'green'}}>{errors.skillkedua[0]}</small>}
 
                 </div>
 
@@ -532,11 +542,11 @@ useEffect(() => {
                     value={formData.skillketiga}
                     onChange={handleChange}
                     type="text" 
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent" 
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent" 
                     placeholder="Masukkan Skill Pertama"
                   />
 
-                    {errors?.skillketiga?.[0] && <small style={{color: 'red'}}>{errors.skillketiga[0]}</small>}
+                    {errors?.skillketiga?.[0] && <small style={{color: 'green'}}>{errors.skillketiga[0]}</small>}
 
                 </div>
 
@@ -548,11 +558,11 @@ useEffect(() => {
                     value={formData.skillkeempat}
                     onChange={handleChange}
                     type="text" 
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent" 
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent" 
                     placeholder="Masukkan Skill Pertama"
                   />
 
-                    {errors?.skillkeempat?.[0] && <small style={{color: 'red'}}>{errors.skillkeempat[0]}</small>}
+                    {errors?.skillkeempat?.[0] && <small style={{color: 'green'}}>{errors.skillkeempat[0]}</small>}
 
                 </div>
 
@@ -568,7 +578,7 @@ useEffect(() => {
                 disabled={disabled}
                   className={`${
                       disabled ? 'cursor-not-allowed opacity-50' : ''
-                     } mt-5 tracking-wide text-sm font-semibold bg-red-700 text-white w-[50%] py-4 rounded-lg hover:bg-red-700 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none`}>                 
+                     } mt-5 tracking-wide text-sm font-semibold bg-green-700 text-white w-[50%] py-4 rounded-lg hover:bg-green-700 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none`}>                 
                      
                      {textButton}
                 </button>

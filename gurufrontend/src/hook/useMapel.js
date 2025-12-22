@@ -63,12 +63,16 @@ export const useMapel = (bidang) => {
                 { id: 31, mapel: 'Strategi belajar & manajemen waktu', judul: 'Strategi belajar & manajemen waktu' },
                 { id: 32, mapel: 'Pendampingan anak berkebutuhan khusus', judul: 'Pendampingan anak berkebutuhan khusus' },
             ]);
+         } else if (bidang === 'Lainnya') {
+            setDataMapel([
+                { id: 33, mapel: 'Lainnya', judul: 'Lainnya' },
+            ]);
          } else {
             setDataMapel([]);
          }
 
 
-    }, []);
+    }, [bidang]);
 
 
     return {datamapel};
