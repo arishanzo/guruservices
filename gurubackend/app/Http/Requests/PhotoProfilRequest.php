@@ -22,7 +22,7 @@ class PhotoProfilRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'foto_profil' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048|dimensions:max_width=1000,max_height=1000',
+            'foto_profil' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
             'aboutguru' => 'nullable|string|max:1000',
            'alamatlengkap' => 'nullable|string|max:255',
         'no_telp' => 'nullable|string|max:15',
@@ -48,7 +48,6 @@ class PhotoProfilRequest extends FormRequest
     {
         return [
         'foto_profil.image' => 'File harus berupa gambar.',
-        'foto_profil.dimensions' => 'File harus 1000 x 1000',
         'foto_profil.mimes' => 'File harus berupa gambar dengan format jpg, jpeg, png, atau webp.',
         'foto_profil.max' => 'Ukuran file tidak boleh melebihi 5 MB.',
         'no_telp.required' => 'Nomor telepon harus diisi.',

@@ -14,7 +14,8 @@ use Illuminate\Support\Facades\Log;
 
 class AbsensiController extends Controller
 {
-    
+   
+
         public function getByID ($idprofilguru) {
 
             $absensiBelajar = AbsensiGuru::with('Profil_Guru')->where('idprofilguru', $idprofilguru)->get();
@@ -24,6 +25,15 @@ class AbsensiController extends Controller
             'message' => $absensiBelajar ? 'Ada' : 'Tidak Ada'
         ]);
         
+    }
+
+    public function getAbsensiByTglBooking ($idprofilguru) {
+
+          $absensi = AbsensiGuru::with('Profil_Guru')->where('idprofilguru', $idprofilguru)->get();
+
+            return response()->json([
+            'data' => $absensi,
+        ]);
     }
 
     public function store(AbsensiGuruRequest $request) {
