@@ -28,6 +28,7 @@ const AbsenHariIni  = ( {tglBooking, booking, dataAbsen, tglBookingBesok}) => {
           },
           { end: null }
         );
+        
     const hariTambahan = new Date(end);
     hariTambahan.setDate(hariTambahan.getDate() + 1);
             

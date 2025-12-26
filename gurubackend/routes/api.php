@@ -95,8 +95,8 @@ Route::prefix('services')->middleware(['throttle:100,1', 'service.auth'])->group
     Route::get('gurus', [ServiceCommunicationController::class, 'getAllGurus']);
     Route::post('cross-data', [ServiceCommunicationController::class, 'crossServiceData']);
     Route::put('puttugaskelas/{idtugasbelajar}', [TugasBelajarController::class, 'putTugasKelas']);
-
     Route::get('/absensiguru/{idprofilguru}', [AbsensiController::class, 'getAbsensiByTglBooking']);
+    Route::put('/putsaldomasuk/{idguru}', [SaldoMasukController::class, 'storeSaldoMasuk']);
 });
 
 // Public photo endpoint for guru photos (must be before auth middleware)

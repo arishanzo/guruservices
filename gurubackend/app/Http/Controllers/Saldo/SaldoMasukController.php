@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Saldo;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\SaldoMasukRequest;
 use App\Models\SaldoMasuk;
 use Illuminate\Http\Request;
 
@@ -29,10 +30,30 @@ class SaldoMasukController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(SaldoMasukRequest $request, $idguru)
     {
-        //
-    }
+           
+        $data = $request->validated();
+        $data['idguru'] = $idguru;
+
+         try {
+           
+            $result = SaldoMasuk::create($data);
+
+
+            return response()->json([
+                'message' => 'Saldo Berhasil Disimpan',
+                'data' => $result
+            ], 201);
+            
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Gagal menyimpan',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+        }
+
 
     /**
      * Display the specified resource.

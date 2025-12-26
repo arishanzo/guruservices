@@ -15,10 +15,8 @@ class TugasBelajarController extends Controller
 
         public function getByID ($idguru) {
 
-            $tugasbelajar = Cache::remember("tugasbelajar_$idguru",  now()->addMinutes(60), function() use($idguru) {
-      
-                return TugasBelajar::with('User_Guru')->where('idguru', $idguru)->get();
-        });
+            $tugasbelajar = TugasBelajar::with('User_Guru')->where('idguru', $idguru)->get();
+        
 
         return response()->json([
             'data' => $tugasbelajar,
@@ -31,9 +29,8 @@ class TugasBelajarController extends Controller
 
 
         
-        $tugasbelajar = Cache::remember("tugasbelajar_$idbookingprivate",  now()->addMinutes(60), function() use($idbookingprivate) {
-            return TugasBelajar::with('User_Guru', 'Nilai_Tugas')->where('idbookingprivate', $idbookingprivate)->get();
-        });
+        $tugasbelajar = TugasBelajar::with('User_Guru', 'Nilai_Tugas')->where('idbookingprivate', $idbookingprivate)->get();
+    
 
 
        return response()->json([
