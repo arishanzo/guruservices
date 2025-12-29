@@ -135,7 +135,7 @@ const SaldoKeluar = ({saldoKeluar, totalKeluar}) => {
             {paginatedKeluar.map((item) => (
               <tr key={item?.idsaldokeluar} className="border-b hover:bg-gray-50">
                 
-                <td className="py-2">{item?.idguru}</td>
+                <td className="py-2">{item?.name}</td>
                 <td className="py-2">{item?.keterangansaldokeluar}</td>
                 <td className="py-2 text-gray-600">{ new Date(item?.tglsaldokeluar).toLocaleDateString("id-ID", {
                     day: "2-digit",

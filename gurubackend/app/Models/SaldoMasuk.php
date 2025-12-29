@@ -39,7 +39,7 @@ class SaldoMasuk extends Model
            protected static function booted()
     {
         static::creating(function ($model) {
-            $model->idksaldomasuk = (string) Str::uuid();
+            $model->idsaldomasuk = (string) Str::uuid();
         });
     }
 }

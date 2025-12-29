@@ -7,12 +7,13 @@ import Content from "./Content";
 import { UseGetAbsensiGuru } from "../../hook/useGetAbsensiGuru";
 import { UseGetKegiatanBelajar } from "../../hook/useGetKegiatanBelajar";
 import { UseGetSaldoMasuk } from "../../hook/useGetSaldoMasuk";
+import KelasBaru from "./KelasBaru";
 
 const Dashboard = () => {
   const { user } = useAuth();
   const { profil } = UseGetProfil(user?.idguru ?? null);
 
-  const { booking } = UseBookingKelas(profil?.idprofilguru ?? null);
+  const { booking, loadingBooking } = UseBookingKelas(profil?.idprofilguru ?? null);
   const { absensiGuru } = UseGetAbsensiGuru(profil?.idprofilguru ?? null);
 
   const { kegiatanBelajar} = UseGetKegiatanBelajar(user?.idguru ?? null);
@@ -32,7 +33,8 @@ const Dashboard = () => {
   
 
            <div className="w-full h-full py-16 p-4 sm:pt-20 ">
-          <Content dataBooking={booking}  absensiGuru={absensiGuru} kegiatanBelajar={kegiatanBelajar} saldoMasuk={saldoMasuk} getProfil={profil?.idprofilguru} getEmail={user?.email}/>
+            <KelasBaru booking={booking} />
+          <Content dataBooking={booking} loadingBooking={loadingBooking} absensiGuru={absensiGuru} kegiatanBelajar={kegiatanBelajar} saldoMasuk={saldoMasuk} getProfil={profil?.idprofilguru} getEmail={user?.email}/>
         </div>
 
       </div>

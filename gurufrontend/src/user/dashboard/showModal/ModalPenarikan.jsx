@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import axiosClient from "../../../lib/axios";
 
-const ModalPenarikan = ({ isOpen, onClose, emailGuru }) => {
+const ModalPenarikan = ({ isOpen, onClose, emailGuru, saldoTersedia }) => {
  
   const [showOTP, setShowOTP] = useState(false);
   const [showInformation, setShowInformation] = useState(false);
@@ -14,7 +14,6 @@ const ModalPenarikan = ({ isOpen, onClose, emailGuru }) => {
   const [disabled, setDisabled] = useState(false);
 
   const [jumlah, setJumlah] = useState("");
-  const saldoTersedia = 2500000; // Contoh saldo, bisa dari props atau state
 
    const [formOtp, setFormOtp] = useState({
      token: '',
@@ -29,7 +28,7 @@ const ModalPenarikan = ({ isOpen, onClose, emailGuru }) => {
     if (saldoTersedia === 0) {
       alert("Saldo tidak mencukupi untuk melakukan penarikan");
       return;
-    } else if (parseInt(jumlah) > saldoTersedia) {
+    } else if (parseInt(jumlah).toLocaleString("id-ID") > parseInt(saldoTersedia)) {
       alert("Jumlah penarikan melebihi saldo tersedia");
       return;
     } else {
@@ -114,7 +113,7 @@ const ModalPenarikan = ({ isOpen, onClose, emailGuru }) => {
 
        try {
 
-      //  await axiosClient.post('/api/vertifpenarikan/verify-code', formOtp);
+       await axiosClient.post('/api/vertifpenarikan/verify-code', formOtp);
        await axiosClient.post('/api/permintaanpenarikan', {
         tglpermintaanpenarikan: new Date().toISOString().split('T')[0],
         jumlahpenarikan: jumlah,
@@ -181,13 +180,6 @@ const ModalPenarikan = ({ isOpen, onClose, emailGuru }) => {
   };
 
 
-  const formatRupiah = (amount) => {
-    return new Intl.NumberFormat('id-ID', {
-      style: 'currency',
-      currency: 'IDR',
-      minimumFractionDigits: 0
-    }).format(amount);
-  };
 
   return (
 
@@ -234,7 +226,7 @@ const ModalPenarikan = ({ isOpen, onClose, emailGuru }) => {
             <>
               <div className="bg-gradient-to-r from-green-50 to-green-50 border border-green-200 rounded-2xl p-6 text-center">
                 <p className="text-sm text-gray-600 mb-2">Saldo Tersedia</p>
-                <p className="text-3xl font-bold text-gray-900">{formatRupiah(saldoTersedia)}</p>
+                <p className="text-3xl font-bold text-gray-900">Rp. {saldoTersedia}</p>
                 {saldoTersedia === 0 && (
                   <p className="text-red-500 text-sm mt-2">⚠️ Saldo tidak mencukupi untuk penarikan</p>
                 )}

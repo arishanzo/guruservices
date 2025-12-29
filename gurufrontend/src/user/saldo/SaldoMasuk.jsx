@@ -5,8 +5,9 @@ import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
 import { DateRange } from "react-date-range";
 import Pagination from "../components/Pagination";
+import { UseBookingKelas } from "../../hook/useGetBookingKelas";
 
-const SaldoMasuk = ({saldoMasuk, totalMasuk}) => {
+const SaldoMasuk = ({saldoMasuk, totalMasuk, booking}) => {
 
     const [searchMasuk, setSearchMasuk] = useState("");
     const [pageMasuk, setPageMasuk] = useState(1);
@@ -19,6 +20,8 @@ const SaldoMasuk = ({saldoMasuk, totalMasuk}) => {
     const [rangeMasuk, setRangeMasuk] = useState([ 
         { startDate: new Date, endDate: new Date, key: "selection" },
     ]);
+
+    console.log(booking)
 
   const handleDateChangeMasuk = (item) => {
     const { startDate, endDate } = item.selection;
@@ -77,7 +80,7 @@ useEffect(() => {
   setPaginatedMasuk(newPageData);
 }, [filteredMasuk, cariFilterMasuk, pageMasuk, rowsPerPage, showCalendarMasuk]);
 
- 
+
     return(
 
         <>
@@ -128,7 +131,7 @@ useEffect(() => {
           <thead>
             <tr className="border-b text-gray-500">
               <th className="py-2 text-left">Nama Kelas</th>
-              <th className="py-2 text-left">Keterangan</th>
+              <th className="py-2 text-left">Nama Murid</th>
               <th className="py-2 text-left">Tanggal</th>
               <th className="py-2 text-right">Jumlah</th>
             </tr>
@@ -136,15 +139,15 @@ useEffect(() => {
           <tbody>
             {paginatedMasuk.map((item) => (
               <tr key={item?.idsaldomasuk} className="border-b hover:bg-gray-50">
-                <td className="py-2">{item?.idbookingprivate}</td>
-                <td className="py-2 text-gray-600">{item?.keterangansaldomasuk}</td>
+                <td className="py-2">{ booking[0]?.mapeldipilih}</td>
+                 <td className="py-2">{ booking[0]?.namamurid}</td>
                 <td className="py-2 text-gray-600">{ new Date(item?.tglsaldomasuk).toLocaleDateString("id-ID", {
                     day: "2-digit",
                     month: "long",
                     year: "numeric",
                   })}</td>
                 <td className="py-2 text-right text-green-600 font-medium">
-                  +Rp {(item?.jumlahsaldo ?? '').toLocaleString("id-ID")}
+                  +Rp {(item?.jumlahsaldomasuk ?? '').toLocaleString("id-ID")}
                 </td>
               </tr>
             ))}

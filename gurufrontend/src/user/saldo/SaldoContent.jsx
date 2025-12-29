@@ -6,12 +6,12 @@ import SaldoKeluar from "./SaldoKeluar";
 import { UseGetSaldoMasuk } from "../../hook/useGetSaldoMasuk";
 import { UseGetSaldoKeluar } from "../../hook/useGetSaldoKeluar";
 
-const SaldoContent = () => {
+const SaldoContent = ( { booking }) => {
 
 const { saldoMasuk }= UseGetSaldoMasuk() || [];
 const { saldoKeluar, loading } = UseGetSaldoKeluar() || [];
 
-const totalMasuk = saldoMasuk?.reduce((a, b) => a + (b.jumlahsaldo || 0), 0);
+const totalMasuk = saldoMasuk?.reduce((a, b) => a + (b.jumlahsaldomasuk || 0), 0);
 const totalKeluar = saldoKeluar?.reduce((a, b) => a + (b.jumlahsaldokeluar || 0), 0);
 
 const saldoTersedia = totalMasuk - totalKeluar;
@@ -166,8 +166,8 @@ const saldoTersedia = totalMasuk - totalKeluar;
         </div>
       </div>
 
-      <SaldoMasuk saldoMasuk={saldoMasuk} totalMasuk={totalMasuk} />
-      <SaldoKeluar saldoKeluar={saldoKeluar} totalKeluar={totalKeluar} />
+      <SaldoMasuk saldoMasuk={saldoMasuk} booking={booking} totalMasuk={totalMasuk} />
+      <SaldoKeluar saldoKeluar={saldoKeluar} booking={booking} totalKeluar={totalKeluar} />
     </>
              )};
     </div>

@@ -8,7 +8,7 @@ const RekeningBank = () => {
 
         const { user } = useAuth();
           // ambil data profil per id
-    const { filerekening, error } = UseGetRekening(user?.idguru);
+    const { filerekening, error, loading } = UseGetRekening(user?.idguru);
     
     
 
@@ -94,7 +94,7 @@ const RekeningBank = () => {
         <p className="text-gray-600 text-md ">Kelola informasi rekening bank Anda untuk menerima pembayaran.</p>
       </div>
 
- {!filerekening ? (
+ {loading ? (
 <div className="mx-auto bg-white p-6 max-w-7xl rounded-lg shadow-md animate-pulse">
   <div className="grid grid-cols-1 lg:grid-cols-2">
     {/* Card Loading - Left Side */}

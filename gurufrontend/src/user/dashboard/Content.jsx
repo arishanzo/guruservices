@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import ProgresProfil from '../progresprofil/ProgresProfil';
 import { getMenuDashboard } from '../../lib/MenuItems/getMenuDashboard';
 import { Wallet, DollarSign, Clock } from 'lucide-react';
@@ -10,9 +10,11 @@ import FormKegiatanBelajarHariIni from './kegiatanbelajar/FormKegiatanBelajarHar
 import { UseGetPermintaanPenarikan } from '../../hook/useGetPermintaanPenarikan';
 import ModalStatusPenarikan from './showModal/ModalStatusPenarikan';
 import ModalPenarikan from './showModal/ModalPenarikan';
+import { useAuth } from '../../context/AuthContext';
 
-const Content = ({ dataBooking, absensiGuru, kegiatanBelajar, saldoMasuk, getProfil, getEmail }) => {
+const Content = ({ dataBooking, absensiGuru, kegiatanBelajar, saldoMasuk, getProfil, getEmail, loadingBooking }) => {
       
+        const { user } = useAuth();
   const { penarikan } = UseGetPermintaanPenarikan(getProfil);
   const [idProfilGuru,  setIdProfilGuru] = useState(null);
   const [showModal, setShowModal] = useState(false);
@@ -25,16 +27,21 @@ const Content = ({ dataBooking, absensiGuru, kegiatanBelajar, saldoMasuk, getPro
   const tgl = new Date(item?.tglsaldomasuk);
   return tgl === now
   })
+
  
   // const totalMasuk = saldoMasuk?.reduce((a, b) => a + (b.jumlahsaldo || 0), 0);
-const totalMasuk =  2500000; 
+const totalSaldoMasuk =  saldoMasuk?.filter((saldo) => saldo.idguru === user.idguru ).reduce((a, b) => a + b.jumlahsaldomasuk, 0).toLocaleString("id-ID"); 
+
 
   const [showMoreMenu, setShowMoreMenu] = useState(false);
-  const [status, setStatus] = useState('');
    
      const statusBooking = dataBooking?.filter(
-      status => status.statusbooking === 'Selesai'
+      status => status.statusbooking === 'Belum Mulai'
     );
+
+    const siswaAktif = dataBooking?.filter(
+      status => status.statusBooking === 'Sudah Mulai'
+    )
 
   const allBookingDates = useMemo(() => {
          return dataBooking && dataBooking.length > 0 
@@ -91,20 +98,6 @@ const totalMasuk =  2500000;
           };
 
 
-   useEffect(() => {
-    if(dataBooking){
-           const alreadyShown = localStorage.getItem("bookingKelasShow");
-
-          if (!alreadyShown) {
-            setStatus('Selamat, Anda Mempunyai Kelas Baru Silahkan Komfirmasi Sekarang');
-            localStorage.setItem("bookingKelasShow", "true");
-          }
-      }
-
-
-       }, [dataBooking]);
-
-
   if (!dataBooking) {
       return <DashboardSkeleton />;
     }
@@ -113,20 +106,6 @@ const totalMasuk =  2500000;
     <>
 
     <div className="p-2 pt-8">
- 
-  {status && 
-   <div className='py-4'>
-                 <div 
-                  role="alert"
-                 className={`text-start mb-4 ${status?.includes('Kelas Baru')  ? 'bg-green-100 rounded-lg py-5 px-6 mb-4 text-base text-green-700 mb-3' : 'bg-red-100 rounded-lg py-5 px-6 mb-4 text-base text-red-700 mb-3 w-50'}`}>
-                    {status}
-                 </div>              
-                    <a href='/kelas' className='text-gray-500 px-2 font-semibold text-xs mb-4'>
-        Lihat Kelas!
-        </a>
-        </div>
-                  }
-
 
            <ProgresProfil/>
 
@@ -143,18 +122,18 @@ const totalMasuk =  2500000;
               <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-4 text-center hover:shadow-lg hover:scale-105 transition-all duration-300 cursor-pointer">
                 <div className="text-3xl md:text-4xl mb-3">👥</div>
                 <h4 className="font-bold text-sm text-blue-700 mb-1">Siswa Aktif</h4>
-                <p className="md:text-3xl text-xl  font-bold  text-blue-900">{dataBooking.length}</p>
+                <p className="md:text-3xl text-xl  font-bold  text-blue-900">{siswaAktif?.length}</p>
               </div>
               <div className="bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl p-4 text-center hover:shadow-lg hover:scale-105 transition-all duration-300 cursor-pointer">
                 <div className="text-3xl md:text-4xl mb-3">📚</div>
                 <h4 className="font-bold text-sm text-purple-700 mb-1">Kelas Selesai</h4>
-                <p className="md:text-3xl text-xl  font-bold  text-purple-900">{statusBooking.length}</p>
+                <p className="md:text-3xl text-xl  font-bold  text-purple-900">{statusBooking?.length}</p>
               
               </div>
               <div className="bg-gradient-to-br from-green-50 to-green-100 rounded-xl p-4 text-center hover:shadow-lg hover:scale-105 transition-all duration-300 cursor-pointer">
                 <div className="text-3xl md:text-4xl mb-3">📈</div>
-                <h4 className="font-bold text-sm text-green-700 mb-1">Pendapatan</h4>
-                <p className="md:text-3xl text-xl font-bold text-green-900"> Rp {dataSaldoHariIni?.toLocaleString("id-ID") || 0} </p>
+                <h4 className="font-bold text-sm text-green-700 mb-1">Pendapatan Hari Ini</h4>
+                <p className="md:text-3xl text-xl font-bold text-green-900"> Rp. {dataSaldoHariIni?.toLocaleString("id-ID") || 0} </p>
               </div>
             </div>
           </div>
@@ -166,7 +145,7 @@ const totalMasuk =  2500000;
           <div className="flex-col justify-center">
             <h3 className="font-semibold text-sm">Saldo Sistem Tersedia</h3>
             <p className="text-3xl font-bold mt-1">
-             Rp {totalMasuk?.toLocaleString("id-ID")}
+             Rp. {totalSaldoMasuk?.toLocaleString("id-ID")}
             </p>
         
             <p className="text-xs opacity-90 mt-3">Siap untuk ditarik</p>
@@ -278,6 +257,7 @@ const totalMasuk =  2500000;
               isOpen={showModalPenarikan}
               emailGuru={getEmail}
               profil={getProfil}
+              saldoTersedia = {totalSaldoMasuk}
               onClose={() => setShowModalPenarikan(false)}
             />
 

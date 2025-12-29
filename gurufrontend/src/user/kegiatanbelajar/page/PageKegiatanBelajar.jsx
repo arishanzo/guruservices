@@ -50,7 +50,7 @@ const PageKegiatanBelajar = ( {kegiatanBelajar}) => {
 
   return (
     <div className="min-h-screen  p-6">
-      <div className="max-w-7xl mx-auto">
+      <div className=" mx-auto">
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-800 mb-2">Kegiatan Belajar</h1>
           <p className="text-gray-600">Kelola dan pantau kegiatan pembelajaran</p>

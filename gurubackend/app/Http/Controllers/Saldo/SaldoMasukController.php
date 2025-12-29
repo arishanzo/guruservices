@@ -32,14 +32,14 @@ class SaldoMasukController extends Controller
      */
     public function store(SaldoMasukRequest $request, $idguru)
     {
-           
         $data = $request->validated();
         $data['idguru'] = $idguru;
 
-         try {
-           
+        try {
+            // Log data yang akan disimpan untuk debugging
+            \Log::info('Data yang akan disimpan:', $data);
+            
             $result = SaldoMasuk::create($data);
-
 
             return response()->json([
                 'message' => 'Saldo Berhasil Disimpan',
@@ -47,12 +47,20 @@ class SaldoMasukController extends Controller
             ], 201);
             
         } catch (\Exception $e) {
+            // Log error detail untuk debugging
+            \Log::error('Error saat menyimpan saldo masuk:', [
+                'error' => $e->getMessage(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
+                'data' => $data
+            ]);
+            
             return response()->json([
-                'message' => 'Gagal menyimpan',
-                'error' => $e->getMessage()
+                'error' => 'Failed to update',
+                'message' => 'Gagal menyimpan: ' . $e->getMessage()
             ], 500);
         }
-        }
+    }
 
 
     /**

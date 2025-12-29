@@ -131,7 +131,7 @@ const tglbooking = bookingByID?.tgl__booking__kelas || [];
                 </dt>
                 <dd class="mt-1 text-sm text-gray-900 font-bold sm:mt-0 sm:col-span-2">
                   
-                  {start.toLocaleDateString("id-ID", options) } - {end.toLocaleDateString("id-ID", options)}
+                  {start?.toLocaleDateString("id-ID", options) } - {end?.toLocaleDateString("id-ID", options)}
                 </dd>
             </div>
         </dl>
