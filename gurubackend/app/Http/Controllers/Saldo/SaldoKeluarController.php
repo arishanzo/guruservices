@@ -20,6 +20,14 @@ class SaldoKeluarController extends Controller
         ]);
     }
 
+       public function getSaldoByIDGuru()
+    {
+        $idguru = auth()->user()->idguru;
+        $getByID = SaldoKeluar::where('idguru', $idguru)->get();
+          return response()->json([
+            'data' => $getByID,
+        ]);
+    }
     /**
      * Show the form for creating a new resource.
      */

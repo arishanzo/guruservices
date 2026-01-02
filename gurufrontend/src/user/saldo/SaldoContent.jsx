@@ -26,7 +26,7 @@ const saldoTersedia = totalMasuk - totalKeluar;
   return (
     <div className="p-6 bg-gray-50 min-h-screen space-y-8">
 
-         {loading ? (
+         {!booking && loading ? (
                 <>
                  <div className="mt-8 animate-pulse">
         <div className="h-8 w-56 bg-gray-200 rounded-md mb-3" />

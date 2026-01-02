@@ -23,7 +23,7 @@ export const UseBookingKelas = (idprofilguru) => {
         setLoadingBooking(true);
           const result = await getFetchCache(() => getBookingKelas(idprofilguru, { signal: controller.signal }), 5,  3000 );
 
-      setBooking(result.data || null);
+      setBooking(result.data);
 
       } catch (error) {
 

@@ -15,9 +15,7 @@ const options = { day: "numeric", month: "long", year: "numeric" };
     const statusBooking = booking?.filter(
       status => status.statusbooking === 'Belum Mulai'
     );
-
-    console.log(statusBooking)
-
+    
     return (
         <> 
             {statusBooking?.length > 0 && (

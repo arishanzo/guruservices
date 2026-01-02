@@ -63,157 +63,142 @@ const Login = () => {
 
     return (
         <>
- <div className="min-h-screen bg-gray-100 text-gray-900 flex justify-center">
-      <div className="max-w-screen-xl m-0 sm:m-10 bg-white shadow sm:rounded-lg flex justify-center flex-1">
-        <div className="lg:w-1/2 xl:w-5/12 p-6 ">
-         
+  <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-100 flex items-center justify-center px-4">
+    <div className="max-w-6xl w-full bg-white rounded-2xl shadow-xl overflow-hidden grid lg:grid-cols-2">
+
+      {/* LEFT - FORM */}
+      <div className="p-8 md:p-12 flex flex-col justify-center">
+
+        {/* LOGO */}
+        <img
+          src="./img/logo/logogopintar.png"
+          className="mx-auto h-40 mb-4"
+          alt="Logo Go-Pintar"
+        />
+
+        <h1 className="text-2xl font-bold text-center text-gray-800">
+          Login Go-Pintar
+        </h1>
+        <p className="text-center text-gray-500 mb-8">
+          Les Privat Terbaik & No.1 di Indonesia
+        </p>
+
+        {status && (
+          <div
+            role="alert"
+            className={`mb-6 text-sm text-center px-4 py-3 rounded-xl font-medium
+              ${
+                status.includes("berhasil")
+                  ? "bg-green-100 text-green-700"
+                  : "bg-red-100 text-red-700"
+              }`}
+          >
+            {status}
+          </div>
+        )}
+
+        <form onSubmit={handleSubmit} className="space-y-5 max-w-sm mx-auto w-full">
+
+          {/* EMAIL */}
           <div>
-            <img
-              src="./img/logo/logogopintar.png"
-              className="mx-auto h-80"
-              alt="Logo"
+            <label className="text-sm font-medium text-gray-700">
+              Email
+            </label>
+            <input
+              type="email"
+              name="email_user"
+              value={formData.email_user}
+              onChange={handleChange}
+              placeholder="email@example.com"
+              className="mt-1 w-full rounded-xl border border-gray-300 px-4 py-3 text-sm
+              focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none"
             />
-
-            
+            {errors?.email_user?.[0] && (
+              <p className="text-xs text-red-500 mt-1">
+                {errors.email_user[0]}
+              </p>
+            )}
           </div>
-        
 
-        
-
-
-          <div className=" flex flex-col items-center">
-            <div className="w-full flex-1 ">
-                <h1 className="text-2xl font-bold text-center mb-2">
-                    Login Aplikasi Sebagai Guru
-                    </h1>
-   <p className="text-center text-gray-600 mb-6"> 
-                    Les Privat Terbaik di Indonesia & No. 1
-                </p>
-                               {status && 
-                                <div 
-                                role="alert"
-                                className={`text-center mb-4 ${status?.includes('berhasil') ? 'bg-green-100 rounded-lg py-5 px-6 mb-4 text-base text-green-700 mb-3 ' : 'bg-red-100 rounded-lg py-5 px-6 mb-4 text-base text-red-700 mb-3 w-50'}`}>
-                                    {status}
-                                </div>              
-                           }
-
-
-              <div className="mx-auto max-w-xs">
-
-
-            <form  onSubmit={handleSubmit}>
-
-                 <div className="mb-4">
-                   <label className="block mb-2 text-sm font-bold text-gray-700" htmlFor="namalengkap">
-                     Email
-                  </label>
-
-                <input
-                  className="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
-                  type="email"
-                  value={formData.email_user}
-                   onChange={handleChange}
-                  placeholder="Masukan Email Anda"
-                  name="email_user"
-                />
-            {errors?.email_user?.[0] && <small style={{color: 'red'}}>{errors.email_user[0]}</small>}
-
-                </div>
-
-                
-                <div className="mb-4">
-                <label className="block text-sm font-bold text-gray-700" htmlFor="namalengkap">
+          {/* PASSWORD */}
+          <div>
+            <label className="text-sm font-medium text-gray-700">
               Password
-              </label>    
-             <input
-                                                     value={formData.password_user}
-                                         onChange={handleChange}
-
-                              className="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-2"
-                              type="password"
-                                name='password_user'
-                              placeholder="Masukan Password Anda"
-                            />
-
-              {errors?.password_user?.[0] && <small style={{color: 'red'}}>{errors.password_user[0]}</small>}
-            </div>
-                <button 
-                type="submit"
-                  disabled={disabled}
-                  className={`${
-                      disabled ? 'cursor-not-allowed opacity-50' : ''
-                     } mt-5 tracking-wide font-semibold bg-blue-400 text-white w-full py-4 rounded-lg hover:bg-blue-700 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none`}>
-                  <svg
-                    className="w-6 h-6 -ml-2"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" />
-                    <circle cx="8.5" cy="7" r="4" />
-                    <path d="M20 8v6M23 11h-6" />
-                  </svg>
-                  <span className="ml-4">{textButton}</span>
-                </button>
-
-</form>
-
-                <div className="flex mt-4 flex-col items-center">
-
-
-
-              </div>
-
-
-               <hr className="mb-6 border-t" />
-                   <div className="text-center">
-                                    <a className="inline-block font-semibold text-sm text-blue-600 align-baseline hover:text-blue-800"
-                                        href="/lupapassword">
-                                       Lupa Password, Klik Disini?
-                                    </a>
-                                </div>
-                                
-                                <div className="text-center">
-                                    <a className="inline-block text-sm text-blue-600 align-baseline hover:text-blue-800"
-                                        href="/daftar">
-                                        Belum Punya Akun? Daftar Sekarang
-                                    </a>
-                                </div>
-
-                <p className="mt-6 text-xs text-gray-600 text-center">
-                  I agree to abide by Cartesian Kinetics{" "}
-                  <a
-                    href="#"
-                    className="border-b border-gray-500 border-dotted"
-                  >
-                    Terms of Service
-                  </a>{" "}
-                  and its{" "}
-                  <a
-                    href="#"
-                    className="border-b border-gray-500 border-dotted"
-                  >
-                    Privacy Policy
-                  </a>
-                </p>
-              </div>
-            </div>
+            </label>
+            <input
+              type="password"
+              name="password_user"
+              value={formData.password_user}
+              onChange={handleChange}
+              placeholder="Masukkan password"
+              className="mt-1 w-full rounded-xl border border-gray-300 px-4 py-3 text-sm
+              focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none"
+            />
+            {errors?.password_user?.[0] && (
+              <p className="text-xs text-red-500 mt-1">
+                {errors.password_user[0]}
+              </p>
+            )}
           </div>
+
+          {/* BUTTON */}
+          <button
+            type="submit"
+            disabled={disabled}
+            className={`w-full py-3 rounded-xl font-semibold text-white transition
+              ${
+                disabled
+                  ? "bg-gray-400 cursor-not-allowed"
+                  : "bg-gradient-to-r from-green-500 to-emerald-600 hover:opacity-90"
+              }`}
+          >
+            {textButton}
+          </button>
+        </form>
+
+        {/* LINKS */}
+        <div className="mt-6 text-center space-y-2 text-sm">
+          <a
+            href="/lupapassword"
+            className="text-green-600 hover:underline font-medium"
+          >
+            Lupa Password?
+          </a>
+          <p className="text-gray-500">
+            Belum punya akun?
+            <a
+              href="/daftar"
+              className="ml-1 text-green-600 font-medium hover:underline"
+            >
+              Daftar sekarang
+            </a>
+          </p>
         </div>
 
-        <div className="flex-1 bg-blue-50 text-center hidden lg:flex">
-                
-            <DotLottieReact
+        {/* FOOTER */}
+        <p className="mt-8 text-xs text-gray-400 text-center">
+          Dengan login, Anda menyetujui
+          <a href="#" className="underline mx-1">
+            Terms of Service
+          </a>
+          &
+          <a href="#" className="underline ml-1">
+            Privacy Policy
+          </a>
+        </p>
+      </div>
+
+      {/* RIGHT - ANIMATION */}
+      <div className="hidden lg:flex items-center justify-center bg-gradient-to-br from-green-500 to-emerald-600 p-6">
+         <DotLottieReact
                             src="https://lottie.host/ea3e0d94-5700-42d3-bdc5-73c15c67ea4e/kRlHYG28kQ.lottie"
                             loop
                             autoplay
+                            style={{ width: '100%', height: '100%' }}
                             />
-       
-        </div>
-      </div>
     </div>
+    </div>
+  </div>
  </>
     );
 };

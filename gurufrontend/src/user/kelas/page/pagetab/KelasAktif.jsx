@@ -11,7 +11,7 @@ const KelasAktif = ({profil}) => {
   const [showModal, setShowModal] = useState(false);
   const [showModalKegiatan, setShowModalKegiatan] = useState(false);
   
-  const { booking} = UseBookingKelas(profil?.idprofilguru);
+  const { booking, loadingBooking} = UseBookingKelas(profil?.idprofilguru);
   const [bookingByID, setBookingByID] = useState(null);
 
   const handleKomfirmasi = async (idBookingPrivate) => {
@@ -50,7 +50,7 @@ const KelasAktif = ({profil}) => {
   return (
     <>
       {/* Loading state */}
-      {!booking ? (
+      {!booking && loadingBooking ? (
         <div className="space-y-6">
           <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-3xl p-8 animate-pulse">
             <div className="h-10 w-64 bg-gray-300 rounded-2xl mb-6"></div>
@@ -72,17 +72,8 @@ const KelasAktif = ({profil}) => {
             </div>
           </div>
         </div>
-      ) : booking.length === 0 ? (
-        <div className="text-center py-20">
-          <div className="bg-gradient-to-br from-slate-50 to-gray-100 rounded-3xl p-16 shadow-lg">
-            <div className="bg-gradient-to-br from-gray-100 to-gray-200 p-6 rounded-full w-24 h-24 mx-auto mb-6 flex items-center justify-center">
-              <BookOpen className="w-12 h-12 text-gray-400" />
-            </div>
-            <h3 className="text-2xl font-bold text-gray-700 mb-3">Belum Ada Kelas</h3>
-            <p className="text-gray-500 text-lg">Kelas Anda akan muncul di sini setelah ada booking</p>
-          </div>
-        </div>
-      ) : (
+      ) : booking?.length > 0 ? (
+
         <div className="space-y-8">
           {/* Header dengan Gradient */}
           <div className="bg-gradient-to-br from-emerald-500 via-green-500 to-teal-600 rounded-3xl p-8 text-white shadow-2xl">
@@ -149,7 +140,7 @@ const KelasAktif = ({profil}) => {
 
           {/* Kelas Cards */}
           <div className="grid gap-6">
-            {booking.map((b, i) => {
+            {booking?.map((b, i) => {
               const getStatusConfig = (status) => {
                 switch (status) {
                   case 'Belum Mulai':
@@ -276,6 +267,19 @@ const KelasAktif = ({profil}) => {
             })}
           </div>
         </div>
+        
+      ) : (
+
+             <div className="text-center py-20">
+          <div className="bg-gradient-to-br from-slate-50 to-gray-100 rounded-3xl p-16 shadow-lg">
+            <div className="bg-gradient-to-br from-gray-100 to-gray-200 p-6 rounded-full w-24 h-24 mx-auto mb-6 flex items-center justify-center">
+              <BookOpen className="w-12 h-12 text-gray-400" />
+            </div>
+            <h3 className="text-2xl font-bold text-gray-700 mb-3">Belum Ada Kelas</h3>
+            <p className="text-gray-500 text-lg">Kelas Anda akan muncul di sini setelah ada booking</p>
+          </div>
+        </div>
+
       )}
 
       <ModalDetailKelas

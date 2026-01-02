@@ -7,12 +7,13 @@ import { UseBookingKelas } from "../../hook/useGetBookingKelas";
 
 const AbsensiForm = ({ profil }) => {
   
-  const { absensiGuru, error } = UseGetAbsensiGuru(profil?.idprofilguru);
+  const { absensiGuru } = UseGetAbsensiGuru(profil?.idprofilguru);
 
-  const { booking } = UseBookingKelas(profil?.idprofilguru);
+  const { booking, loadingBooking } = UseBookingKelas(profil?.idprofilguru);
 
   const [disabled, setDisabled] = useState(false);
 
+  
   
     const [showModalIjin, setShowModalIjin] = useState(false);
     const [selectedIjin, setSelectedIjin] = useState(null);
@@ -255,7 +256,7 @@ const AbsensiForm = ({ profil }) => {
 
       {/* Konten Utama */}
       
-      {!booking? (
+      {!booking && loadingBooking ? (
         <div className="p-8 border border-gray-200 rounded-2xl shadow-sm flex flex-col animate-pulse">
           <div className="h-6 bg-gray-200 rounded w-1/3 mb-4"></div>
           <div className="h-10 bg-gray-200 rounded w-2/3 mb-6"></div>
@@ -268,12 +269,9 @@ const AbsensiForm = ({ profil }) => {
           </div>
           <div className="mt-8 h-10 bg-gray-200 rounded"></div>
         </div>
-      ) : error ? (
-        <div className="p-4 bg-red-50 border border-red-200 rounded-lg">
-          <p className="text-red-600">Error: {error}</p>
-        </div>
-      ) : (
-        <div className="w-full mx-auto mb-4">
+      ) : booking?.length > 0 ? (
+      
+          <div className="w-full mx-auto mb-4">
             {/* Jadwal Hari Ini */}
       <div className="bg-white shadow-lg rounded-2xl p-4 mb-6">
         <div className="flex items-center justify-between mb-4">
@@ -340,6 +338,11 @@ const AbsensiForm = ({ profil }) => {
       </div>
         </div>
         
+      ) : (
+        <div className="bg-white p-6 rounded-xl shadow-md text-center py-12">
+          <h2 className="text-lg font-semibold text-gray-800 mb-2">Tidak Ada Jadwal Mengajar</h2>
+          <p className="text-sm text-gray-600">Anda tidak memiliki jadwal mengajar saat ini.</p>
+        </div>
       )}
 
       {/* End Konten Utama */}

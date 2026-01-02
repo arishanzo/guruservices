@@ -141,8 +141,8 @@ Route::middleware('auth:sanctum')->group(function () {
    Route::get('/absensi/{idprofilguru}', [AbsensiController::class, 'getByID']);
 
 
-   Route::get('/saldomasuk', [SaldoMasukController::class, 'getAllSaldoMasuk']);
-   Route::get('/saldokeluar', [SaldoKeluarController::class, 'getAllSaldoKeluar']);
+   Route::get('/saldomasuk', [SaldoMasukController::class, 'getSaldoByIDGuru']);
+   Route::get('/saldokeluar', [SaldoKeluarController::class, 'getSaldoByIDGuru']);
 
    
     Route::get('permintaanpenarikan/{idprofilguru}', [PermintaanPenarikanController::class, 'getAllByID']);

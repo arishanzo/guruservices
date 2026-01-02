@@ -21,8 +21,6 @@ const SaldoMasuk = ({saldoMasuk, totalMasuk, booking}) => {
         { startDate: new Date, endDate: new Date, key: "selection" },
     ]);
 
-    console.log(booking)
-
   const handleDateChangeMasuk = (item) => {
     const { startDate, endDate } = item.selection;
 
@@ -139,8 +137,8 @@ useEffect(() => {
           <tbody>
             {paginatedMasuk.map((item) => (
               <tr key={item?.idsaldomasuk} className="border-b hover:bg-gray-50">
-                <td className="py-2">{ booking[0]?.mapeldipilih}</td>
-                 <td className="py-2">{ booking[0]?.namamurid}</td>
+                <td className="py-2">{ booking?.mapeldipilih}</td>
+                 <td className="py-2">{ booking?.namamurid}</td>
                 <td className="py-2 text-gray-600">{ new Date(item?.tglsaldomasuk).toLocaleDateString("id-ID", {
                     day: "2-digit",
                     month: "long",

@@ -19,6 +19,15 @@ class SaldoMasukController extends Controller
             'data' => $getAll,
         ]);
     }
+
+    public function getSaldoByIDGuru()
+    {
+        $idguru = auth()->user()->idguru;
+        $getByID = SaldoMasuk::where('idguru', $idguru)->get();
+          return response()->json([
+            'data' => $getByID,
+        ]);
+    }
     /**
      * Show the form for creating a new resource.
      */

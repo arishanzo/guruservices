@@ -87,161 +87,164 @@ const RekeningBank = () => {
 
   return (
 
-
-    <div className='md:p-4 p-2 py-4'>
-       <div className="mb-6">
-        <h2 className="text-xl mb-2 font-semibold text-gray-800">Rekening Bank</h2>
-        <p className="text-gray-600 text-md ">Kelola informasi rekening bank Anda untuk menerima pembayaran.</p>
-      </div>
-
- {loading ? (
-<div className="mx-auto bg-white p-6 max-w-7xl rounded-lg shadow-md animate-pulse">
-  <div className="grid grid-cols-1 lg:grid-cols-2">
-    {/* Card Loading - Left Side */}
-    <div className="flex items-start">
-      <div className="relative w-full mb-8" style={{height: '230px', maxWidth: '380px'}}>
-        <div className="absolute w-full h-full bg-gray-300 rounded-2xl"></div>
-      </div>
-    </div>
-    
-    {/* Form Loading - Right Side */}
-    <div className="space-y-6">
-      <div className="h-12 bg-gray-300 rounded-lg"></div>
-      <div className="h-12 bg-gray-300 rounded-lg"></div>
-      <div className="h-12 bg-gray-300 rounded-lg"></div>
-      <div className="h-12 bg-gray-300 rounded-lg"></div>
-    </div>
-  </div>
+<div className="p-4 md:p-6 shadow-xl bg-gray-50 rounded-2xl space-y-8">
+<div className="mb-10 p-6 rounded-2xl bg-gradient-to-r from-green-500 to-emerald-600 text-white">
+  <h2 className="text-2xl font-bold">
+    Rekening Bank
+  </h2>
+  <p className="text-sm opacity-90 mt-1">
+    Atur rekening bank untuk pencairan dana
+  </p>
 </div>
- ): (
 
 
-    <div className="mx-auto bg-white p-6 max-w-7xl  rounded-lg shadow-md">
-   
+  {loading ? (
+    /* SKELETON LOADING */
+    <div className="bg-white p-6 rounded-2xl shadow-sm animate-pulse">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div className="h-56 bg-gray-200 rounded-2xl" />
+        <div className="space-y-4">
+          <div className="h-12 bg-gray-200 rounded-xl" />
+          <div className="h-12 bg-gray-200 rounded-xl" />
+          <div className="h-12 bg-gray-200 rounded-xl" />
+          <div className="h-12 bg-gray-200 rounded-xl" />
+        </div>
+      </div>
+    </div>
+  ) : (
+    <div className="bg-white p-6 rounded-2xl ">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
 
-      <div className="grid grid-cols-1 lg:grid-cols-2">
-
-        {/* Card Preview - Left Side */}
-        <div className="flex items-start">
-          <div className="card-flip relative w-full mb-8" style={{height: '230px', maxWidth: '380px'}}>
-            <div className={`card-inner absolute w-full h-full shadow-lg rounded-2xl transition-transform duration-700 `}>
-          
-              <div className="card-front absolute w-full h-full bg-red-600 rounded-2xl p-6">
-                <div className="flex justify-between items-start">
-                  <div className="text-white font-light text-lg tracking-wider">Rekening Bank</div>
-                  <div className="text-white text-md font-bold italic">{filerekening?.nama_bank  || 'Nama Bank' }</div>
-                </div>
-                
-                <div className="mt-6">
-                  <div className="w-12 h-9 bg-yellow-400 rounded-md mb-3"></div>
-                </div>
-                
-                <div className="text-white text-xl tracking-widest mb-4 font-light">
-                  {filerekening?.norekening ? formatCardNumber(filerekening.norekening) : '•••• •••• •••• ••••'}
-                </div>
-                
-                <div className="flex justify-between text-sm">
-                  <div>
-                    <div className="text-white opacity-70 text-xs mb-1">Atas Nama</div>
-                    <div className="text-white tracking-wide">{filerekening?.pemilikrekening || 'Nama Kamu'}</div>
-                  </div>
-                  <div>
-                    
-                  </div>
-                </div>
-              </div>
-              
-             
+        {/* CARD PREVIEW */}
+        <div className="flex justify-center lg:justify-center items-center">
+          <div className="w-full max-w-sm h-56 bg-gradient-to-br from-green-500 to-emerald-600 rounded-2xl p-6 text-white shadow-xl relative">
+            <div className="flex justify-between">
+              <span className="text-sm opacity-80">Rekening Bank</span>
+              <span className="font-semibold">
+                {filerekening?.nama_bank || "Nama Bank"}
+              </span>
             </div>
-          </div>
 
+            <div className="mt-8 text-xl tracking-widest font-light">
+              {filerekening?.norekening
+                ? formatCardNumber(filerekening.norekening)
+                : "•••• •••• •••• ••••"}
+            </div>
+
+            <div className="absolute bottom-6 left-6">
+              <p className="text-xs opacity-70">Atas Nama</p>
+              <p className="font-medium tracking-wide">
+                {filerekening?.pemilikrekening || "Nama Anda"}
+              </p>
+            </div>
+
+            <div className="absolute bottom-6 right-6 w-10 h-7 bg-yellow-300 rounded-md" />
+          </div>
         </div>
 
+        {/* FORM */}
+        <form onSubmit={handleSubmit} className="space-y-5">
 
+          {status && (
+            <div
+              role="alert"
+              className={`text-sm text-center px-4 py-3 rounded-xl font-medium
+                ${
+                  status.includes("berhasil")
+                    ? "bg-green-100 text-green-700"
+                    : "bg-red-100 text-red-700"
+                }`}
+            >
+              {status}
+            </div>
+          )}
 
-        
- <form  onSubmit={handleSubmit}>
-        
-        {/* Form Input - Right Side */}
-        <div className="space-y-6">
-                   {status && 
-                                <div 
-                                role="alert"
-                                className={`text-center mb-4 ${status?.includes('berhasil') ? 'bg-green-100 rounded-lg py-5 px-6 mb-4 text-base text-green-700 mb-3 ' : 'bg-red-100 rounded-lg py-5 px-6 mb-4 text-base text-red-700 mb-3 w-50'}`}>
-                                    {status}
-                                </div>              
-                           }
-          <div className="relative">
+          {/* NO REKENING */}
+          <div>
+            <label className="text-sm font-medium text-gray-700">
+              Nomor Rekening
+            </label>
             <input
               type="text"
-              required
+              name="norekening"
               value={cardData.norekening}
-              name='norekening'
-             onChange={handleChange}
-              className="block w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 focus:outline-none"
-              placeholder="No Rekening"
-              maxLength="19"
+              onChange={handleChange}
+              maxLength={19}
+              required
+              placeholder="1234 5678 9012"
+              className="mt-1 w-full rounded-xl border border-gray-300 px-4 py-3 text-sm
+              focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none"
             />
-                  {errors?.norekening?.[0] && <small style={{color: 'red'}}>{errors.norekening[0]}</small>}
-            <div className="absolute right-3 top-3">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-red-500">
-                <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
-                <line x1="1" y1="10" x2="23" y2="10"></line>
-              </svg>
-            </div>
+            {errors?.norekening?.[0] && (
+              <p className="text-xs text-red-500 mt-1">
+                {errors.norekening[0]}
+              </p>
+            )}
           </div>
 
-           
-          <div className="relative">
+          {/* NAMA BANK */}
+          <div>
+            <label className="text-sm font-medium text-gray-700">
+              Nama Bank
+            </label>
             <input
               type="text"
-              required
-              name='nama_bank'
+              name="nama_bank"
               value={cardData.nama_bank}
               onChange={handleChange}
-              className="block w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 focus:outline-none"
-              placeholder="Nama Rekening"
+              required
+              placeholder="BCA, BRI, Mandiri"
+              className="mt-1 w-full rounded-xl border border-gray-300 px-4 py-3 text-sm
+              focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none"
             />
-
-                  {errors?.nama_bank?.[0] && <small style={{color: 'red'}}>{errors.nama_bank[0]}</small>}
+            {errors?.nama_bank?.[0] && (
+              <p className="text-xs text-red-500 mt-1">
+                {errors.nama_bank[0]}
+              </p>
+            )}
           </div>
-          
-          <div className="relative">
+
+          {/* ATAS NAMA */}
+          <div>
+            <label className="text-sm font-medium text-gray-700">
+              Atas Nama
+            </label>
             <input
               type="text"
-              required
-              name='pemilikrekening'
+              name="pemilikrekening"
               value={cardData.pemilikrekening}
-             onChange={handleChange}
-              className="block w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 focus:outline-none"
-              placeholder="Atas Nama"
+              onChange={handleChange}
+              required
+              placeholder="Nama pemilik rekening"
+              className="mt-1 w-full rounded-xl border border-gray-300 px-4 py-3 text-sm
+              focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none"
             />
-
-                  {errors?.pemilikrekening?.[0] && <small style={{color: 'red'}}>{errors.pemilikrekening[0]}</small>}
+            {errors?.pemilikrekening?.[0] && (
+              <p className="text-xs text-red-500 mt-1">
+                {errors.pemilikrekening[0]}
+              </p>
+            )}
           </div>
-          
-        
-          
-        
-          
+
+          {/* BUTTON */}
           <button
             type="submit"
-                disabled={disabled}
-                  className={`${
-                      disabled ? 'cursor-not-allowed opacity-50' : ''
-                     } w-full bg-red-600 hover:bg-red-700 text-white font-medium py-3 px-4 rounded-lg transition-all duration-300`}
-           
+            disabled={disabled}
+            className={`w-full py-3 rounded-xl font-semibold text-white transition
+              ${
+                disabled
+                  ? "bg-gray-400 cursor-not-allowed"
+                  : "bg-gradient-to-r from-green-500 to-emerald-600 hover:opacity-90"
+              }`}
           >
             {textButton}
           </button>
-          
-        </div>
         </form>
       </div>
     </div>
-      )} 
-      
-    </div>
+  )}
+</div>
+
  
   );
  

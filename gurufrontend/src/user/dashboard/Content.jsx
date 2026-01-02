@@ -97,8 +97,7 @@ const totalSaldoMasuk =  saldoMasuk?.filter((saldo) => saldo.idguru === user.idg
          
           };
 
-
-  if (!dataBooking) {
+  if (!dataBooking && loadingBooking) {
       return <DashboardSkeleton />;
     }
 

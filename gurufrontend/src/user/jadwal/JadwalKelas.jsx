@@ -206,9 +206,20 @@ const sesiOptions = ["Sesi Pagi", "Sesi Siang", "Sesi Malam"];
       {/* Konten Utama */}
       
       {!booking ? (
-        <div className="col-span-full text-center py-8">
-          <p className="text-gray-500">Belum Ada Jadwal</p>
-        </div>
+    <div className="col-span-full py-16">
+  <div className="max-w-md mx-auto bg-white rounded-2xl shadow-sm border border-gray-100 p-8 text-center">
+    <div className="mx-auto w-16 h-16 rounded-full bg-emerald-100 flex items-center justify-center mb-4 text-2xl">
+      📅
+    </div>
+    <h3 className="font-semibold text-gray-800">
+      Belum Ada Jadwal
+    </h3>
+    <p className="text-sm text-gray-500 mt-2">
+      Jadwal les Anda akan tampil di sini setelah pemesanan berhasil
+    </p>
+  </div>
+</div>
+
       ) : (
         <div className="w-full mx-auto mb-4">
           

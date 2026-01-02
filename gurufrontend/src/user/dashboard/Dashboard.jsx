@@ -13,7 +13,7 @@ const Dashboard = () => {
   const { user } = useAuth();
   const { profil } = UseGetProfil(user?.idguru ?? null);
 
-  const { booking, loadingBooking } = UseBookingKelas(profil?.idprofilguru ?? null);
+  const { booking, loadingBooking } = UseBookingKelas(profil?.idprofilguru ?? null) || [];
   const { absensiGuru } = UseGetAbsensiGuru(profil?.idprofilguru ?? null);
 
   const { kegiatanBelajar} = UseGetKegiatanBelajar(user?.idguru ?? null);
