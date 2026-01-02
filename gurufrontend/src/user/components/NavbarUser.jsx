@@ -126,7 +126,7 @@ useEffect(() => {
                           onClick={async () => {
                            try {
                             await logout();
-                            // redirect ke halaman login setelah logout
+                            window.location.reload();
                           } catch (error) {
                             console.error("Logout gagal", error);
                           }

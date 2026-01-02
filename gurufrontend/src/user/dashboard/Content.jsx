@@ -12,7 +12,7 @@ import ModalStatusPenarikan from './showModal/ModalStatusPenarikan';
 import ModalPenarikan from './showModal/ModalPenarikan';
 import { useAuth } from '../../context/AuthContext';
 
-const Content = ({ dataBooking, absensiGuru, kegiatanBelajar, saldoMasuk, getProfil, getEmail, loadingBooking }) => {
+const Content = ({ dataBooking, absensiGuru, kegiatanBelajar, saldoMasuk, getProfil, getEmail }) => {
       
         const { user } = useAuth();
   const { penarikan } = UseGetPermintaanPenarikan(getProfil);
@@ -97,7 +97,9 @@ const totalSaldoMasuk =  saldoMasuk?.filter((saldo) => saldo.idguru === user.idg
          
           };
 
-  if (!dataBooking && loadingBooking) {
+          
+
+  if (!dataBooking) {
       return <DashboardSkeleton />;
     }
 

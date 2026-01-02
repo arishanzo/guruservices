@@ -9,7 +9,7 @@ const AbsensiForm = ({ profil }) => {
   
   const { absensiGuru } = UseGetAbsensiGuru(profil?.idprofilguru);
 
-  const { booking, loadingBooking } = UseBookingKelas(profil?.idprofilguru);
+  const { booking } = UseBookingKelas(profil?.idprofilguru);
 
   const [disabled, setDisabled] = useState(false);
 
@@ -256,7 +256,7 @@ const AbsensiForm = ({ profil }) => {
 
       {/* Konten Utama */}
       
-      {!booking && loadingBooking ? (
+      {!booking ? (
         <div className="p-8 border border-gray-200 rounded-2xl shadow-sm flex flex-col animate-pulse">
           <div className="h-6 bg-gray-200 rounded w-1/3 mb-4"></div>
           <div className="h-10 bg-gray-200 rounded w-2/3 mb-6"></div>
