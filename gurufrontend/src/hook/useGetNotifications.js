@@ -26,7 +26,7 @@ import { getNotifications } from "../lib/services/notificationsService";
             try {
       
               setLoading(true);
-              const resultget = await getFetchCache( () => getNotifications({signal: controller.signal }), 5, 3000);
+              const resultget = await getFetchCache( () => getNotifications({signal: controller.signal }), 1, 0);
              
                 setResultNotifications(resultget || null)
                 setUnreadCount(resultget.filter(n => !n.read_at).length);

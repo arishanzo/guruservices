@@ -22,7 +22,7 @@ export const UseGetProfil = (iduser) => {
       try {
 
         setLoading(true);
-        const result = await getFetchCache( () => getProfil(iduser, {signal: controller.signal } ), 5, 3000);
+        const result = await getFetchCache( () => getProfil(iduser, {signal: controller.signal } ), 1, 0);
          setProfil(result.data || null);
 
     } catch (error) {

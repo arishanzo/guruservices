@@ -21,7 +21,7 @@ export const UseNilaiTugas = (idguru) => {
       try {
 
         setLoadingNilaiTugas(true);
-        const result = await getFetchCache( () => getNilaiTugas(idguru , { signal: controller.signal }), 5, 3000);
+        const result = await getFetchCache( () => getNilaiTugas(idguru , { signal: controller.signal }), 1, 0);
         setNilaiTugas(result.data || null);
 
      } catch (error) {

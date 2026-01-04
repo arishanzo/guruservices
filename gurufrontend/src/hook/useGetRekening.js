@@ -20,7 +20,7 @@ export const UseGetRekening = (idguru) => {
       try {
 
         setLoading(true);
-        const result = await getFetchCache( () => getDataRekening(idguru , {signal: controller.signal }), 5, 3000);
+        const result = await getFetchCache( () => getDataRekening(idguru , {signal: controller.signal }), 1, 0);
         setRekening(result.data || null);
 
      } catch (error) {

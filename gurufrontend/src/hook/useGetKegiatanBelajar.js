@@ -19,7 +19,7 @@ export const UseGetKegiatanBelajar = (idguru) => {
       try {
 
         setLoadingKegiatanBelajar(true);
-        const result = await getFetchCache( () => getDataKegiatanBelajar(idguru, { signal: controller.signal }), 5, 3000);
+        const result = await getFetchCache( () => getDataKegiatanBelajar(idguru, { signal: controller.signal }), 1, 0);
          setKegiatanBelajar(result.data || null);
 
      } catch (error) {

@@ -13,7 +13,7 @@ const Dashboard = () => {
   const { user } = useAuth();
   const { profil } = UseGetProfil(user?.idguru ?? null);
 
-  const { booking, loadingBooking } = UseBookingKelas(profil?.idprofilguru ?? null) || [];
+  const { booking} = UseBookingKelas(profil?.idprofilguru ?? null) || [];
   const { absensiGuru } = UseGetAbsensiGuru(profil?.idprofilguru ?? null);
 
   const { kegiatanBelajar} = UseGetKegiatanBelajar(user?.idguru ?? null);
@@ -34,7 +34,7 @@ const Dashboard = () => {
 
            <div className="w-full h-full py-16 p-4 sm:pt-20 ">
             <KelasBaru booking={booking} />
-          <Content dataBooking={booking} loadingBooking={loadingBooking} absensiGuru={absensiGuru} kegiatanBelajar={kegiatanBelajar} saldoMasuk={saldoMasuk} getProfil={profil?.idprofilguru} getEmail={user?.email}/>
+          <Content dataBooking={booking} absensiGuru={absensiGuru} kegiatanBelajar={kegiatanBelajar} saldoMasuk={saldoMasuk} getProfil={profil?.idprofilguru} getEmail={user?.email}/>
         </div>
 
       </div>

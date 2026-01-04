@@ -20,7 +20,7 @@ export const UseGetPermintaanPenarikan = (idprofilguru) => {
       try {
 
         setLoadingPenarikan(true);
-        const result = await getFetchCache( () => getPermintaanPenarikan(idprofilguru, { signal: controller.signal }), 5, 3000);
+        const result = await getFetchCache( () => getPermintaanPenarikan(idprofilguru, { signal: controller.signal }), 1, 0);
         setPenarikan(result.data || null);
 
        } catch (error) {

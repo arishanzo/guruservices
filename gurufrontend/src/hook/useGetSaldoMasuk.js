@@ -16,7 +16,7 @@ export const UseGetSaldoMasuk = () => {
       try {
 
         setLoading(true);
-        const result = await getFetchCache( () => getSaldoMasuk( {signal: controller.signal }), 5, 3000);
+        const result = await getFetchCache( () => getSaldoMasuk( {signal: controller.signal }), 1, 0);
         setSaldoMasuk(result.data || null);
 
        } catch (error) {

@@ -22,7 +22,7 @@ export const UseTugasBelajar = (idguru) => {
       try {
 
         setLoadingTugasBelajar(true);
-        const result = await getFetchCache( () => getTugasBelajar(idguru, {signal: controller.signal }), 5, 3000);
+        const result = await getFetchCache( () => getTugasBelajar(idguru, {signal: controller.signal }), 1, 0);
          setTugasBelajar(result.data || null);
 
       } catch (error) {

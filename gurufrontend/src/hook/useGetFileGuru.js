@@ -21,7 +21,7 @@ export const UseGetFileGuru = (idguru) => {
       try {
 
         setLoading(true);
-        const result = await getFetchCache( () => getDataFileGuru(idguru, { signal: controller.signal }), 5, 3000);
+        const result = await getFetchCache( () => getDataFileGuru(idguru, { signal: controller.signal }), 1, 0);
        setFileGuru(result.data || null);
 
     

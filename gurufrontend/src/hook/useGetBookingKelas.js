@@ -21,7 +21,7 @@ export const UseBookingKelas = (idprofilguru) => {
       try {
 
         setLoadingBooking(true);
-          const result = await getFetchCache(() => getBookingKelas(idprofilguru, { signal: controller.signal }), 5,  3000 );
+          const result = await getFetchCache(() => getBookingKelas(idprofilguru, { signal: controller.signal }), 1, 0 );
 
       setBooking(result.data);
 

@@ -21,7 +21,7 @@ export const UseGetPhotoProfil = (foto_profil) => {
     const fetchFotoProfil = async () => {
       try {
         setLoading(true);
-        const result = await getFetchCache(() => getPhotoProfilService(foto_profil, {signal: controller.signal }), 5, 3000);
+        const result = await getFetchCache(() => getPhotoProfilService(foto_profil, {signal: controller.signal }), 1, 0);
         if (result?.data) {
        
           objectUrl = URL.createObjectURL(result.data);
