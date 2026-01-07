@@ -3,7 +3,7 @@ import { useAuth } from "../../context/AuthContext";
 import { UseGetProfil } from "../../hook/useGetProfil";
 import UsePageLoadig from "../../hook/usePageLoading";
 import SideNav from "../components/SideNav";
-import AbsensiForm from "./AbsensiForm";
+import AbsensiContent from "./AbsensiContent";
 
 const AbsensiIndex = () => {
   
@@ -32,7 +32,7 @@ const AbsensiIndex = () => {
           
      
               <div className="w-full h-full py-24 p-4 sm:pt-24 ">
-          <AbsensiForm profil={profil} />
+          <AbsensiContent profil={profil} />
         </div>
 
     

@@ -4,8 +4,10 @@ import axiosClient, { serviceClient } from "../../lib/axios";
 import { toast } from "react-hot-toast";
 import { UseGetAbsensiGuru } from "../../hook/useGetAbsensiGuru";
 import { UseBookingKelas } from "../../hook/useGetBookingKelas";
+import { DotLottieReact } from "@lottiefiles/dotlottie-react";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 
-const AbsensiForm = ({ profil }) => {
+const AbsensiContent = ({ profil }) => {
   
   const { absensiGuru } = UseGetAbsensiGuru(profil?.idprofilguru);
 
@@ -202,13 +204,29 @@ const AbsensiForm = ({ profil }) => {
   
 
   return (
-    <div className="w-full mx-auto mb-4 md:px-4">
+    <div className="w-full mx-auto mb-4 p-4 md:px-4">
       
   
 
       <header className="mb-6 ">
-        <h1 className="md:text-2xl text-xl  text-green-800 font-bold">Absensi Kelas</h1>
-        <p className="text-sm text-gray-600">Isi form absensi sesuai jadwal mengajar.</p>
+
+<div className="flex items-center space-x-8">
+ <button
+  onClick={() => window.history.back()}
+  className="flex items-center space-x-2 px-4 py-2 bg-green-100 hover:bg-green-200 text-green-700 rounded-md"
+>
+  <ArrowLeft className="w-5 h-5" />
+</button>
+
+  <div>
+    <h1 className="md:text-2xl text-xl text-green-800 font-bold">
+      Absensi Kelas
+    </h1>
+    <p className="text-sm text-gray-600">
+      Isi form absensi sesuai jadwal mengajar.
+    </p>
+  </div>
+</div>
       </header>
 
 
@@ -418,4 +436,4 @@ const AbsensiForm = ({ profil }) => {
   );
 };
 
-export default AbsensiForm;
+export default AbsensiContent;

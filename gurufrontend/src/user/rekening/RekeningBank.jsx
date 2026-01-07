@@ -2,6 +2,7 @@ import { useState } from 'react';
 import axiosClient from '../../lib/axios';
 import { useAuth } from '../../context/AuthContext';
 import { UseGetRekening } from '../../hook/useGetRekening';
+import { ArrowLeft } from 'lucide-react';
 
 const RekeningBank = () => {
     
@@ -89,12 +90,24 @@ const RekeningBank = () => {
 
 <div className="p-4 md:p-6 shadow-xl bg-gray-50 rounded-2xl space-y-8">
 <div className="mb-10 p-6 rounded-2xl bg-gradient-to-r from-green-500 to-emerald-600 text-white">
+
+  <div className="flex items-center space-x-8">
+ <button
+  onClick={() => window.history.back()}
+  className="flex items-center space-x-2 px-4 py-2 bg-green-600 hover:bg-green-200 text-green-200 rounded-md"
+>
+  <ArrowLeft className="w-5 h-5" />
+</button>
+
+<div>
   <h2 className="text-2xl font-bold">
     Rekening Bank
   </h2>
   <p className="text-sm opacity-90 mt-1">
     Atur rekening bank untuk pencairan dana
   </p>
+</div>
+</div>
 </div>
 
 

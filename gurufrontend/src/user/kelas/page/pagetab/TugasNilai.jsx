@@ -146,7 +146,7 @@ const TugasNilai = ({ profil }) => {
       )}
 
       {/* Header dengan Gradient */}
-      <div className="bg-gradient-to-br from-purple-500 via-indigo-500 to-blue-600 rounded-3xl p-8 text-white shadow-2xl mb-8">
+      <div className="bg-gradient-to-br from-purple-500 via-indigo-500 to-blue-600 rounded-3xl p-8 text-white shadow-2xl mb-8 mt-8">
         <div className="flex items-center gap-4 mb-6">
           <div className="bg-white/20 backdrop-blur-sm p-3 rounded-2xl">
             <BookOpen className="w-8 h-8" />

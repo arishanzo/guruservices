@@ -1,13 +1,8 @@
 
+import { ArrowLeft } from "lucide-react";
 import React, { useState, useMemo, useEffect } from "react";
-import { useAuth } from "../../context/AuthContext";
-import { UseGetProfil } from "../../hook/useGetProfil";
-import { UseBookingKelas } from "../../hook/useGetBookingKelas";
 
-const JadwalKelas = () => {
-  const { user } = useAuth();
-  const { profil } = UseGetProfil(user?.idguru);
-  const { booking } = UseBookingKelas(profil?.idprofilguru);
+const JadwalKelas = ( { booking }) => {
 
   const today = new Date();
   const [currentMonth, setCurrentMonth] = useState(new Date(today.getFullYear(), today.getMonth(), 1));
@@ -165,8 +160,19 @@ const sesiOptions = ["Sesi Pagi", "Sesi Siang", "Sesi Malam"];
   
 
       <header className="mb-6 ">
+        <div className="flex items-center space-x-8">
+ <button
+  onClick={() => window.history.back()}
+  className="flex  items-center space-x-2 px-4 py-2 bg-green-100 hover:bg-green-200 text-green-700 rounded-md"
+>
+  <ArrowLeft className="w-5 h-5" />
+</button>
+
+   <div>
         <h1 className="text-2xl text-green-800 font-bold">Jadwal Kelas</h1>
         <p className="text-sm text-gray-600">Atur Jadwal Kelas Sesuai Ketersediaan Anda.</p>
+        </div>
+        </div>
       </header>
 
 

@@ -106,15 +106,15 @@ if (userId) {
   };
 
     return (
-        <div className="max-w-2xl mx-auto p-6 bg-white rounded-xl shadow-lg">
-            <div className="mb-6">
-                <h2 className="text-2xl font-bold text-gray-800 mb-2">Kegiatan Belajar Hari Ini</h2>
+        <div className="max-w-2xl mx-auto p-2 bg-white rounded-xl shadow-lg">
+            <div className="mb-6 p-2">
+                <h2 className="md:text-2xl text-xl  font-bold text-gray-800 mb-2">Kegiatan Belajar Hari Ini</h2>
                 <p className="text-gray-600">Catat aktivitas pembelajaran yang telah dilakukan</p>
             </div>
 
              {/* Body */}
          <form className="p-2 md:p-6" onSubmit={handleSubmit}>
-              <div className="px-4 py-5 sm:p-0  md:overflow-y-hidden">
+              <div className=" sm:p-0  md:overflow-y-hidden">
            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-2 md:gap-8">
             
                <div className="col-span-2 md:col-span-1  mb-4">
@@ -263,7 +263,7 @@ if (userId) {
                 </div>
 
             {/* Footer */}
-            <div className="px-6 py-4 border-t flex justify-between md:justify-end items-center gap-4">
+            <div className="px-6 py-4 border-t flex justify-start md:justify-end  gap-4">
  
                 <button
                

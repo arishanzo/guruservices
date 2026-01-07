@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import {Wallet, TrendingUp, TrendingDown} from "lucide-react";
+import {Wallet, TrendingUp, TrendingDown, ArrowLeft} from "lucide-react";
 
 import SaldoMasuk from "./SaldoMasuk";
 import SaldoKeluar from "./SaldoKeluar";
@@ -135,10 +135,21 @@ const saldoTersedia = totalMasuk - totalKeluar;
               
   <>
       <div className="mt-8">
+
+<div className="flex items-center space-x-8">
+ <button
+  onClick={() => window.history.back()}
+  className="flex items-center space-x-2 px-4 py-2 bg-green-100 hover:bg-green-200 text-green-700 rounded-md"
+>
+  <ArrowLeft className="w-5 h-5" />
+</button>
+
+  <div>
+        
         <h1 className="text-3xl font-bold text-gray-800 mb-2">Manajemen Saldo</h1>
         <p className="text-gray-600">Pantau dan kelola saldo masuk serta keluar dengan mudah.</p>
       </div>
-
+ </div> </div>
       
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className="bg-gradient-to-r from-emerald-500 to-teal-600 text-white p-6 rounded-2xl shadow-md flex items-center justify-between">

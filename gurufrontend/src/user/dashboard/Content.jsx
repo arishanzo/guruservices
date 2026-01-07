@@ -40,9 +40,10 @@ const totalSaldoMasuk =  saldoMasuk?.filter((saldo) => saldo.idguru === user.idg
     );
 
     const siswaAktif = dataBooking?.filter(
-      status => status.statusBooking === 'Sudah Mulai'
+      status => status.statusbooking === 'Sudah Mulai'
     )
 
+    
   const allBookingDates = useMemo(() => {
          return dataBooking && dataBooking.length > 0 
            ? dataBooking.flatMap(item => item.tgl__booking__kelas || []) 
@@ -69,7 +70,6 @@ const totalSaldoMasuk =  saldoMasuk?.filter((saldo) => saldo.idguru === user.idg
 
   const moreMenus = [
     { id: 7, judul: 'Rekening', icon: '📋' },
-    { id: 8,  judul: 'Riwayat', icon: '📋' },
     { id: 9, judul: 'Bantuan', icon: '❓' },
   ];
 
@@ -97,7 +97,6 @@ const totalSaldoMasuk =  saldoMasuk?.filter((saldo) => saldo.idguru === user.idg
          
           };
 
-          console.log('dataBooking:', dataBooking);
 
   if (!dataBooking) {
       return <DashboardSkeleton />;
@@ -112,26 +111,24 @@ const totalSaldoMasuk =  saldoMasuk?.filter((saldo) => saldo.idguru === user.idg
 
            
 
-      <div className="grid grid-cols-1 md:grid-cols-3 py-4 mb-4 gap-8">
-
-        
+      <div className="flex flex-col md:grid md:grid-cols-3 py-4 mb-4 gap-8">
 
         <div className='md:col-span-2'>
           <h2 className="text-xl md:text-xl font-bold text-green-800 mb-2">Informasi</h2>
           <div className="bg-gradient-to-br from-white to-gray-50 shadow-xl rounded-2xl p-4 border border-gray-100">
-            <div className="grid grid-cols-3 gap-3">
-              <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-4 text-center hover:shadow-lg hover:scale-105 transition-all duration-300 cursor-pointer">
+            <div className="flex md:grid md:grid-cols-3 gap-3 overflow-x-auto md:overflow-x-hidden pb-2">
+              <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-4 text-center hover:shadow-lg hover:scale-105 transition-all duration-300 cursor-pointer min-w-[120px] flex-shrink-0">
                 <div className="text-3xl md:text-4xl mb-3">👥</div>
                 <h4 className="font-bold text-sm text-blue-700 mb-1">Siswa Aktif</h4>
                 <p className="md:text-3xl text-xl  font-bold  text-blue-900">{siswaAktif?.length}</p>
               </div>
-              <div className="bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl p-4 text-center hover:shadow-lg hover:scale-105 transition-all duration-300 cursor-pointer">
+              <div className="bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl p-4 text-center hover:shadow-lg hover:scale-105 transition-all duration-300 cursor-pointer min-w-[120px] flex-shrink-0">
                 <div className="text-3xl md:text-4xl mb-3">📚</div>
                 <h4 className="font-bold text-sm text-purple-700 mb-1">Kelas Selesai</h4>
                 <p className="md:text-3xl text-xl  font-bold  text-purple-900">{statusBooking?.length}</p>
               
               </div>
-              <div className="bg-gradient-to-br from-green-50 to-green-100 rounded-xl p-4 text-center hover:shadow-lg hover:scale-105 transition-all duration-300 cursor-pointer">
+              <div className="bg-gradient-to-br from-green-50 to-green-100 rounded-xl p-4 text-center hover:shadow-lg hover:scale-105 transition-all duration-300 cursor-pointer min-w-[120px] flex-shrink-0">
                 <div className="text-3xl md:text-4xl mb-3">📈</div>
                 <h4 className="font-bold text-sm text-green-700 mb-1">Pendapatan Hari Ini</h4>
                 <p className="md:text-3xl text-xl font-bold text-green-900"> Rp. {dataSaldoHariIni?.toLocaleString("id-ID") || 0} </p>
@@ -166,9 +163,6 @@ const totalSaldoMasuk =  saldoMasuk?.filter((saldo) => saldo.idguru === user.idg
             Status Penarikan
           </button>
       </div>
-
-
-
 
       </div>
 

@@ -62,6 +62,8 @@ const Kelas = () => {
                 
                     <section className=" px-2 md:px-6 w-full">
 
+                      
+
                    {profil && (
                 <PageKelas profil={profil} loading={loading}/>
                   ) }

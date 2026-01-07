@@ -74,7 +74,7 @@ const KelasAktif = ({profil}) => {
         </div>
       ) : booking?.length > 0 ? (
 
-        <div className="space-y-8">
+        <div className="mt-8">
           {/* Header dengan Gradient */}
           <div className="bg-gradient-to-br from-emerald-500 via-green-500 to-teal-600 rounded-3xl p-8 text-white shadow-2xl">
             <div className="flex items-center gap-4 mb-6">
@@ -104,7 +104,7 @@ const KelasAktif = ({profil}) => {
           )}
 
           {booking?.some(b => b.statusbooking === 'Sudah Mulai') && (
-            <div className="bg-gradient-to-r from-amber-50 via-orange-50 to-amber-50 border-2 border-amber-200 rounded-3xl p-6 shadow-lg">
+            <div className="bg-gradient-to-r mt-8 from-amber-50 via-orange-50 to-amber-50 border-2 border-amber-200 rounded-3xl p-6 shadow-lg">
               <div className="flex items-start gap-4">
                 <div className="bg-gradient-to-br from-amber-500 to-orange-500 p-3 rounded-2xl shadow-lg">
                   <AlertTriangle className="w-6 h-6 text-white" />
@@ -170,8 +170,8 @@ const KelasAktif = ({profil}) => {
               const statusConfig = getStatusConfig(b?.statusbooking);
 
               return (
-                <div key={i} className={`bg-gradient-to-br ${statusConfig.bg} border-2 ${statusConfig.border} rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-[1.02]`}>
-                  <div className="text-center space-y-6">
+                <div key={i} className={`bg-gradient-to-br ${statusConfig.bg} border-2 ${statusConfig.border} mt-8 rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-[1.02]`}>
+                  <div className="text-center space-y-6 ">
                     {/* Status Badge */}
                     <div className="flex justify-center">
                       <span className={`${statusConfig.badge} px-6 py-3 rounded-full text-sm font-bold flex items-center gap-3 shadow-lg`}>
