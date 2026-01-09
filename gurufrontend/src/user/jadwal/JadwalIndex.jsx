@@ -14,7 +14,7 @@ const JadwalIndex = () => {
     const { booking } = UseBookingKelas(profil?.idprofilguru);
 
 
-  if (pageLoading) {
+  if (!booking || pageLoading) {
     return (
    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-greem-50 to-green-100">
             <div className="relative">
@@ -34,7 +34,7 @@ const JadwalIndex = () => {
   return (
 
     <>
-  <div className="flex bg-green-10">
+  <div className="flex bg-gradient-to-br from-gray-50 via-purple-50 to-pink-50">
 
     {/* Sidebar & Nabvar */}
      <SideNav />

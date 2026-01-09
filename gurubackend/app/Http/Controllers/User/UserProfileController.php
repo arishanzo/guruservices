@@ -238,6 +238,20 @@ class UserProfileController extends Controller
         return response($file, 200)->header('Content-Type', $type);
     }
 
+    public function getFiles($path) {
+        $disk = env('FILE_PRIVATE_DISK', 'private');
+        $decodedPath = urldecode($path);
+
+        if (!Storage::disk($disk)->exists($decodedPath)) {
+            abort(404);
+        }
+
+        $file = Storage::disk($disk)->get($decodedPath);
+        $type = Storage::disk($disk)->mimeType($decodedPath) ?? 'application/pdf';
+
+        return response($file, 200)->header('Content-Type', $type);
+    }
+
     public function getProfileCompletion(Request $request)
     {
         $user = $request->user();

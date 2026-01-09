@@ -52,11 +52,11 @@ const Dashboard = () => {
     {/* Sidebar & Nabvar */}
      <SideNav />
     {/* Main content area */}
-    <div className="flex-1   top-0 min-h-screen w-[80%]">
+    <div className="flex-1 bg-gradient-to-br from-gray-50 via-purple-50 to-pink-50  top-0 min-h-screen w-[80%]">
           
   
 
-           <div className="w-full h-full py-16 p-4 sm:pt-20 ">
+           <div className="w-full h-full bg-gr py-16 p-8 sm:pt-20 ">
             <KelasBaru booking={booking} />
           <Content dataBooking={booking} absensiGuru={absensiGuru} kegiatanBelajar={kegiatanBelajar} saldoMasuk={saldoMasuk} getProfil={profil?.idprofilguru} getEmail={user?.email} penarikan={penarikan} user={user}/>
         </div>

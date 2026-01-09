@@ -22,7 +22,7 @@ const Saldo = () => {
     {/* Sidebar & Nabvar */}
      <SideNav />
     {/* Main content area */}
-    <div className="flex-1   top-0 min-h-screen w-[80%]">
+    <div className="flex-1 bg-gradient-to-br from-gray-50 via-purple-50 to-pink-50  top-0 min-h-screen w-[80%]">
            <div className="w-full h-full py-16 p-4 sm:pt-20 ">
           <SaldoContent booking={booking} />
         </div>

@@ -114,13 +114,17 @@ const UploadFile = () => {
                 
                 {fileguru?.file_cv && (
                     <div className="mt-2">
-                      <iframe
-                    src={`/api/filesguru/${encodeURIComponent(fileguru.file_cv)}`}
-                    width="100%"
-                    height="600px"
-                    title="CV PDF"
-                    className="border rounded"
-                    />
+                      <a href="#"
+                      onClick={async (e) => {
+                        e.preventDefault();
+                        const res = await axiosClient.get(`/api/cvguru/${encodeURIComponent(fileguru.file_cv)}`, {
+                          responseType: 'blob'
+                        });
+                        const url = URL.createObjectURL(res.data);
+                        window.open(url);
+                      }}
+                            rel="noopener noreferrer"
+                           className="text-blue-500 underline text-sm">📄 Lihat CV</a>
 
                     </div>
                 )}
@@ -142,9 +146,16 @@ const UploadFile = () => {
                 
                 {fileguru?.file_ijazah && (
                     <div className="mt-2">
-                        <a href={`/api/filesguru/${encodeURIComponent(fileguru.file_ijazah)}`} 
-                           target="_blank" 
-                           rel="noopener noreferrer" 
+                        <a href="#"
+                      onClick={async (e) => {
+                        e.preventDefault();
+                        const res = await axiosClient.get(`/api/filesguru/${encodeURIComponent(fileguru.file_ijazah)}`, {
+                          responseType: 'blob'
+                        });
+                        const url = URL.createObjectURL(res.data);
+                        window.open(url);
+                      }}
+                            rel="noopener noreferrer"
                            className="text-blue-500 underline text-sm">📄 Lihat Ijazah</a>
                     </div>
                 )}
@@ -165,9 +176,16 @@ const UploadFile = () => {
                 
                 {fileguru?.file_sertifikat && (
                     <div className="mt-2">
-                        <a href={`/api/filesguru/${encodeURIComponent(fileguru.file_sertifikat)}`} 
-                           target="_blank" 
-                           rel="noopener noreferrer" 
+                           <a href="#"
+                      onClick={async (e) => {
+                        e.preventDefault();
+                        const res = await axiosClient.get(`/api/setifikatguru/${encodeURIComponent(fileguru.file_sertifikat)}`, {
+                          responseType: 'blob'
+                        });
+                        const url = URL.createObjectURL(res.data);
+                        window.open(url);
+                      }}
+                            rel="noopener noreferrer"
                            className="text-blue-500  underline text-sm">📄 Lihat Sertifikat</a>
                     </div>
                 )}
@@ -190,9 +208,16 @@ const UploadFile = () => {
                 
                 {fileguru?.file_portofolio && (
                     <div className="mt-2">
-                        <a href={`/api/filesguru/${encodeURIComponent(fileguru.file_portofolio)}`} 
-                           target="_blank" 
-                           rel="noopener noreferrer" 
+                           <a href="#"
+                      onClick={async (e) => {
+                        e.preventDefault();
+                        const res = await axiosClient.get(`/api/portofoliongajar/${encodeURIComponent(fileguru.file_portofolio)}`, {
+                          responseType: 'blob'
+                        });
+                        const url = URL.createObjectURL(res.data);
+                        window.open(url);
+                      }}
+                            rel="noopener noreferrer"
                            className="text-blue-500 underline text-sm">📄 Lihat Portofolio</a>
                     </div>
                 )}
@@ -207,7 +232,7 @@ const UploadFile = () => {
              disabled={disabled}
                   className={`${
                       disabled ? 'cursor-not-allowed opacity-50' : ''
-                     } mt-5 tracking-wide text-sm font-semibold bg-red-700 text-white w-full py-4 rounded-lg hover:bg-red-700 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none`}>                 
+                     } mt-5 tracking-wide text-sm font-semibold bg-green-700 text-white w-full py-4 rounded-lg hover:bg-green-700 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none`}>                 
                      
                 {textButton}</button>   
         </form>

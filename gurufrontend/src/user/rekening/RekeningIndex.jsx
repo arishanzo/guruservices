@@ -8,7 +8,7 @@ const RekeningIndex = () => {
   return (
 
     <>
-  <div className="flex bg-green-10">
+  <div className="flex bg-gradient-to-br from-gray-50 via-purple-50 to-pink-50">
 
     {/* Sidebar & Nabvar */}
      <SideNav />

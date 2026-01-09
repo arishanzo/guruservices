@@ -116,6 +116,12 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('/profiles', [UserProfileController::class, 'getAll']);
     Route::post('/fileguru', [UserProfileController::class, 'uploadFile']);
+
+      Route::get('/filesguru/{path}', [UserProfileController::class, 'getFiles'])->where('path', '.*');
+      Route::get('/cvguru/{path}', [UserProfileController::class, 'getFiles'])->where('path', '.*');
+      Route::get('/setifikatguru/{path}', [UserProfileController::class, 'getFiles'])->where('path', '.*');
+      Route::get('/portofoliongajar/{path}', [UserProfileController::class, 'getFiles'])->where('path', '.*');
+
     Route::get('/getfileguru/{idguru}', [UserProfileController::class, 'getFileGuru']);
     Route::get('/profiles/completion', [UserProfileController::class, 'getProfileCompletion']);
     Route::get('/profiles/storestatus', [UserProfileController::class, 'storeStatusakun']);
