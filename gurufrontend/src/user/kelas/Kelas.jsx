@@ -21,7 +21,7 @@ const Kelas = () => {
     {/* Sidebar & Nabvar */}
      <SideNav />
    
-    <div className="flex-1  py-24 top-0 min-h-screen w-[80%]">
+    <div className="flex-1 p-6 py-24 top-0 min-h-screen w-[80%]">
             {loading ? (
                 <>
                  <div className="p-8">

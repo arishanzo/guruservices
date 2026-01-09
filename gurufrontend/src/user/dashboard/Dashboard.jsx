@@ -8,6 +8,7 @@ import { UseGetAbsensiGuru } from "../../hook/useGetAbsensiGuru";
 import { UseGetKegiatanBelajar } from "../../hook/useGetKegiatanBelajar";
 import { UseGetSaldoMasuk } from "../../hook/useGetSaldoMasuk";
 import KelasBaru from "./KelasBaru";
+import { UseGetPermintaanPenarikan } from "../../hook/useGetPermintaanPenarikan";
 
 const Dashboard = () => {
   const { user } = useAuth();
@@ -16,6 +17,9 @@ const Dashboard = () => {
   // Only fetch dependent data when profil is available
   const { booking} = UseBookingKelas(profil?.idprofilguru ?? null) || [];
   const { absensiGuru } = UseGetAbsensiGuru(profil?.idprofilguru ?? null);
+
+
+    const { penarikan } = UseGetPermintaanPenarikan(profil?.idprofilguru);
 
   // These can load independently
   const { kegiatanBelajar} = UseGetKegiatanBelajar(user?.idguru ?? null);
@@ -54,7 +58,7 @@ const Dashboard = () => {
 
            <div className="w-full h-full py-16 p-4 sm:pt-20 ">
             <KelasBaru booking={booking} />
-          <Content dataBooking={booking} absensiGuru={absensiGuru} kegiatanBelajar={kegiatanBelajar} saldoMasuk={saldoMasuk} getProfil={profil?.idprofilguru} getEmail={user?.email}/>
+          <Content dataBooking={booking} absensiGuru={absensiGuru} kegiatanBelajar={kegiatanBelajar} saldoMasuk={saldoMasuk} getProfil={profil?.idprofilguru} getEmail={user?.email} penarikan={penarikan} user={user}/>
         </div>
 
       </div>

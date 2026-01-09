@@ -7,15 +7,11 @@ import AbsenHariIni from './absen/AbsenHarIni';
 import BelumAdaAbsen from './absen/BelumAdaAbsen';
 import KegiatanBelajarHarini from './kegiatanbelajar/KegiatanBelajarHariIni';
 import FormKegiatanBelajarHariIni from './kegiatanbelajar/FormKegiatanBelajarHariIni';
-import { UseGetPermintaanPenarikan } from '../../hook/useGetPermintaanPenarikan';
 import ModalStatusPenarikan from './showModal/ModalStatusPenarikan';
 import ModalPenarikan from './showModal/ModalPenarikan';
-import { useAuth } from '../../context/AuthContext';
 
-const Content = ({ dataBooking, absensiGuru, kegiatanBelajar, saldoMasuk, getProfil, getEmail }) => {
+const Content = ({ dataBooking, absensiGuru, kegiatanBelajar, saldoMasuk, getProfil, getEmail, penarikan, user }) => {
       
-        const { user } = useAuth();
-  const { penarikan } = UseGetPermintaanPenarikan(getProfil);
   const [idProfilGuru,  setIdProfilGuru] = useState(null);
   const [showModal, setShowModal] = useState(false);
   
