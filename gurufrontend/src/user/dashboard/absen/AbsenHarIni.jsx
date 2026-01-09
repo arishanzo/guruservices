@@ -205,7 +205,7 @@ const AbsenHariIni  = ( {tglBooking, booking, dataAbsen, tglBookingBesok}) => {
                 disabled={disabled}
                 className={`${
                   disabled ? 'cursor-not-allowed opacity-50' : ''
-                } bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-bold py-3 rounded-2xl transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-1 active:scale-95`}>
+                } bg-gradient-to-r text-sm from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-bold py-3 rounded-2xl transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-1 active:scale-95`}>
                 Absen Sekarang
               </button>
               <button 

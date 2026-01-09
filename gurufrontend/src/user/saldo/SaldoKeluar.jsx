@@ -45,7 +45,7 @@ const SaldoKeluar = ({saldoKeluar, totalKeluar}) => {
 
   
   const filteredKeluar = useMemo(() => {
-    return saldoKeluar.filter((item) => {
+    return saldoKeluar?.filter((item) => {
       const date = new Date(item.tanggalsaldokeluar);
       return date >= rangeKeluar[0].startDate && date <= rangeKeluar[0].endDate;
     });

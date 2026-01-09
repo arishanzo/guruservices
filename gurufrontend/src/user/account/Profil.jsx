@@ -21,26 +21,27 @@ const Profil = () => {
 
         {/* Main content area */}
         <div className="flex-1  md:p-[50px] md:p-28 md:pt-20 pt-16 pb-16 p-4 mt-8   min-h-screen w-[80%]">
-          
+                                  <button
+  onClick={() => window.history.back()}
+  className="flex  items-center space-x-2 px-4  py-4 mb-3  bg-green-100 hover:bg-green-200 text-green-700 rounded-md"
+>
+  <ArrowLeft className="w-4 h-4" />
+</button>
+
       
           {/* Tab Navigation */}
           <div className="bg-white rounded-lg shadow-sm border border-gray-200 mb-6">
             
+            
             <div className="border-b border-gray-200">
-              
-              <nav className="flex space-x-8 py-6 pl-4">
-                     <button
-  onClick={() => window.history.back()}
-  className="flex  items-center space-x-2 px-4 py-2 mb-2 bg-green-100 hover:bg-green-200 text-green-700 rounded-md"
->
-  <ArrowLeft className="w-5 h-5" />
-</button>
+              <nav className="flex space-x-8 py-6 pl-2">
+           
 
                 <button 
                 onClick={() => setActiveTab('profil')}
                
-               className={`py-4 px-1 border-b-2 font-medium text-sm  ${activeTab === "profil" ? "border-green-500 text-green-600" : "border-transparent text-gray-500 hover:text-gray-700"}`}>
-                  Ubah Profil
+               className={` px-1 border-b-2 font-medium text-sm  ${activeTab === "profil" ? "border-green-500 text-green-600" : "border-transparent text-gray-500 hover:text-gray-700"}`}>
+                  Profil
                 </button>
 
                   <button 

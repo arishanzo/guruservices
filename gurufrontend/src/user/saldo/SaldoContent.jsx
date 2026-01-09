@@ -146,8 +146,8 @@ const saldoTersedia = totalMasuk - totalKeluar;
 
   <div>
         
-        <h1 className="text-3xl font-bold text-gray-800 mb-2">Manajemen Saldo</h1>
-        <p className="text-gray-600">Pantau dan kelola saldo masuk serta keluar dengan mudah.</p>
+        <h1 className="md:text-3xl text-2xl font-bold text-gray-800 mb-2">Manajemen Saldo</h1>
+        <p className="text-gray-600 md:text-sm text-sm">Pantau dan kelola saldo masuk serta keluar dengan mudah.</p>
       </div>
  </div> </div>
       

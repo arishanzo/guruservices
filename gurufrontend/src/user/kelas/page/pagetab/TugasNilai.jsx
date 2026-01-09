@@ -152,7 +152,7 @@ const TugasNilai = ({ profil }) => {
             <BookOpen className="w-8 h-8" />
           </div>
           <div>
-            <h1 className="text-3xl font-bold mb-2">Tugas & Nilai</h1>
+            <h1 className="md:text-3xl text-2xl font-bold mb-2">Tugas & Nilai</h1>
             <p className="text-white/90 text-lg">Kelola tugas siswa dan berikan penilaian</p>
           </div>
         </div>
