@@ -56,7 +56,7 @@ const Dashboard = () => {
           
   
 
-           <div className="w-full h-full bg-gr py-16 p-8 sm:pt-20 ">
+           <div className="w-full h-full bg-gr py-16 p-4 sm:pt-20 ">
             <KelasBaru booking={booking} />
           <Content dataBooking={booking} absensiGuru={absensiGuru} kegiatanBelajar={kegiatanBelajar} saldoMasuk={saldoMasuk} getProfil={profil?.idprofilguru} getEmail={user?.email} penarikan={penarikan} user={user}/>
         </div>

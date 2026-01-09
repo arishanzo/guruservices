@@ -73,6 +73,8 @@ const totalSaldoMasuk =  saldoMasuk?.filter((saldo) => saldo.idguru === user.idg
     if (item.judul === 'Lainnya') {
       setShowMoreMenu(true);
     }
+
+    window.location.href = item.link;
   };
 
      const statusPenarikan = (idprofilguru) => {
@@ -112,15 +114,12 @@ const totalSaldoMasuk =  saldoMasuk?.filter((saldo) => saldo.idguru === user.idg
         <div className='md:col-span-2'>
           <h2 className="text-xl md:text-xl font-bold text-green-800 mb-2">Informasi</h2>
           <div className="bg-gradient-to-br from-white to-gray-50 shadow-xl rounded-2xl p-4 border border-gray-100">
-
-            <div className="flex md:grid md:grid-cols-3 grid-cols-3 gap-4 overflow-x-auto md:overflow-x-hidden pb-2">
-              
+            <div className="flex md:grid md:grid-cols-3 gap-3 overflow-x-auto md:overflow-x-hidden pb-2">
               <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-4 text-center hover:shadow-lg hover:scale-105 transition-all duration-300 cursor-pointer min-w-[120px] flex-shrink-0">
                 <div className="text-3xl md:text-4xl mb-3">👥</div>
                 <h4 className="font-bold text-sm text-blue-700 mb-1">Siswa Aktif</h4>
                 <p className="md:text-3xl text-xl  font-bold  text-blue-900">{siswaAktif?.length}</p>
               </div>
-
               <div className="bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl p-4 text-center hover:shadow-lg hover:scale-105 transition-all duration-300 cursor-pointer min-w-[120px] flex-shrink-0">
                 <div className="text-3xl md:text-4xl mb-3">📚</div>
                 <h4 className="font-bold text-sm text-purple-700 mb-1">Kelas Selesai</h4>
