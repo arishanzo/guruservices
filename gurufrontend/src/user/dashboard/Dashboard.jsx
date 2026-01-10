@@ -15,7 +15,7 @@ const Dashboard = () => {
   const { profil, loading: profilLoading } = UseGetProfil(user?.idguru ?? null);
 
   // Only fetch dependent data when profil is available
-  const { booking} = UseBookingKelas(profil?.idprofilguru ?? null) || [];
+const { booking } = UseBookingKelas(profil?.idprofilguru) || {};
   const { absensiGuru } = UseGetAbsensiGuru(profil?.idprofilguru ?? null);
 
 

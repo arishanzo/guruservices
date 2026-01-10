@@ -215,6 +215,8 @@ useEffect(() => {
           </div>
         </div>
       </nav>
+
+      
 <div className="md:hidden fixed bottom-3 left-0 right-0 z-50 px-4">
       <div className="mx-auto max-w-lg rounded-2xl bg-white/90 backdrop-blur shadow-xl border border-gray-100">
         <div className="grid grid-cols-5 h-16">
