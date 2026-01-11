@@ -55,7 +55,7 @@ const SaldoKeluar = ({saldoKeluar, totalKeluar}) => {
 
  const  cariFilterKeluar = useMemo(
     () =>
-      saldoKeluar.filter((item) =>
+      saldoKeluar?.filter((item) =>
         (item.keterangansaldokeluar ?? '').toLowerCase().includes(searchKeluar.toLowerCase())
       ),
     [searchKeluar, saldoKeluar]
@@ -162,14 +162,14 @@ const SaldoKeluar = ({saldoKeluar, totalKeluar}) => {
           <p className="text-sm font-semibold text-gray-700">
             Total Saldo Keluar:{" "}
             <span className="text-red-600">
-              Rp { filteredKeluar.length > 0 ? filteredKeluar.reduce((a, b) => a + b.jumlah, 0).toLocaleString("id-ID") : totalKeluar.toLocaleString("id-ID")}
+              Rp { filteredKeluar?.length > 0 ? filteredKeluar?.reduce((a, b) => a + b.jumlah, 0).toLocaleString("id-ID") : totalKeluar.toLocaleString("id-ID")}
             </span>
           </p>
         </div>
 
         <Pagination
           currentPage={pageKeluar}
-          totalData={filteredKeluar.length}
+          totalData={filteredKeluar?.length}
           onPageChange={setPageKeluar}
         />
       </div>

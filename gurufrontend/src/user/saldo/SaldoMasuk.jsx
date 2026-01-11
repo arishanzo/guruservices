@@ -46,7 +46,7 @@ const SaldoMasuk = ({saldoMasuk, totalMasuk, booking}) => {
 
  
   const filteredMasuk = useMemo(() => {
-    return saldoMasuk.filter((item) => {
+    return saldoMasuk?.filter((item) => {
       const date = new Date(item.tanggalsaldomasuk);
       return date >= rangeMasuk[0].startDate && date <= rangeMasuk[0].endDate;
     });
@@ -58,7 +58,7 @@ const SaldoMasuk = ({saldoMasuk, totalMasuk, booking}) => {
 
   const  cariFilterMasuk = useMemo(
     () =>
-      saldoMasuk.filter((item) =>
+      saldoMasuk?.filter((item) =>
         (item.keterangansaldomasuk ?? '').toLowerCase().includes(searchMasuk.toLowerCase())
       ),
     [searchMasuk, saldoMasuk]
@@ -164,7 +164,7 @@ useEffect(() => {
           <p className="text-sm font-semibold text-gray-700">
             Total Saldo Masuk:{" "}
             <span className="text-green-600">
-            Rp { filteredMasuk.length > 0 ? filteredMasuk.reduce((a, b) => a + b.jumlah, 0).toLocaleString("id-ID") : totalMasuk.toLocaleString("id-ID")}
+            Rp { filteredMasuk?.length > 0 ? filteredMasuk?.reduce((a, b) => a + b.jumlah, 0).toLocaleString("id-ID") : totalMasuk.toLocaleString("id-ID")}
        
             </span>
           </p>
@@ -172,7 +172,7 @@ useEffect(() => {
 
         <Pagination
           currentPage={pageMasuk}
-          totalData={filteredMasuk.length}
+          totalData={filteredMasuk?.length}
           onPageChange={setPageMasuk}
         />
       </div>
