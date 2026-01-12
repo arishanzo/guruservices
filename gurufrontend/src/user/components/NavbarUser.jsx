@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, Navigate, NavLink } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import axiosClient from "../../lib/axios";
+import { ArrowLeft } from "lucide-react";
 
 const NavbarUser = () => {
   const { user, logout } = useAuth();
@@ -63,33 +64,33 @@ useEffect(() => {
 
   return (
     <>
-     <nav className="fixed flex-1 top-0 right-0 z-40 py-4 md:pt-2  bg-white/80 backdrop-blur-md md:left-68 sm:left-64 left-0">
+     <nav className="fixed flex-1 top-0 right-0 z-40 py-4 md:pt-2  bg-gradient-to-r from-green-50 via-indigo-10 to-purple-50 backdrop-blur-md md:left-68 sm:left-64 left-0">
         <div className="mx-auto w-full px-4 sm:px-6 lg:px-8 ">
           <div className="flex justify-between items-center h-16">
+            
             
             {/* Left side - Profile */}
             <div className="flex items-center">
               <div className="relative">
+<div className="flex items-center">
+
+
                 <button
                   onClick={() => setShowProfile(!showProfile)}
                   className="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
-                >
-            {/* <img
-              className="h-12 w-12 rounded-full object-cover"
-              src={`${import.meta.env.VITE_API_URL}/api/photos/${encodeURIComponent(local)}`
-                  
-              }
-              alt="Profile"
-            /> */}
+                > <svg className="w-5 h-5 mb-1 text-gray-500 group-hover:text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+            </svg>
 
-                  <div className=" md:block text-left">
-                    <p className="text-sm font-medium text-gray-900">Hello, {user?.name || "Guest"}</p>
-                    <p className="text-xs text-gray-500">Gruru Private</p>
+                  <div className="hidden md:block text-left">
+                    <p className="md:text-sm text-xs font-medium text-gray-900">{user?.nama_user || "Guest"}</p>
+                    <p className="text-xs text-gray-500">Student Go-Pintar</p>
                   </div>
                   <svg className="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
                   </svg>
                 </button>
+                </div>
 
                 {/* Profile Dropdown Menu */}
                 {showProfile && (
@@ -104,7 +105,7 @@ useEffect(() => {
                         </svg>
                         Profil Saya
                       </Link>
-                       
+                    
                       <a
                       href="https://wa.me/6281234567890"
                       target="_blank"
@@ -118,16 +119,17 @@ useEffect(() => {
                       </svg>
                       Bantuan
                     </a>
-                      <div className="border-t border-gray-100">
+                                          <div className="border-t border-gray-100">
                         <button
                           onClick={async () => {
                            try {
                             await logout();
+                            // redirect ke halaman login setelah logout
                           } catch (error) {
                             console.error("Logout gagal", error);
                           }
                           }}
-                          className="flex items-center w-full px-4 py-2 text-sm text-green-700 hover:bg-green-50"
+                          className="flex items-center w-full px-4 py-2 text-sm text-red-700 hover:bg-red-50"
                         >
                           <svg className="w-4 h-4 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
@@ -141,13 +143,11 @@ useEffect(() => {
               </div>
             </div>
 
-         
+           
             {/* Right side - Notifications */}
             <div className="flex items-center space-x-4">
               
-              {/* Quick Actions */}
              
-
               {/* Notifications */}
               <div className="relative">
                 <button
@@ -159,7 +159,7 @@ useEffect(() => {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
                   </svg>
                   {unreadCount > 0 && (
-                    <span className="absolute top-0 right-0 block h-4 w-4 text-white rounded-full bg-green-400 text-xs ring-2 ring-white">
+                    <span className="absolute top-0 right-0 block h-4 w-4 text-white rounded-full bg-red-400 text-xs ring-2 ring-white">
                       {unreadCount || ''}
                     </span>
                   )}
@@ -173,7 +173,7 @@ useEffect(() => {
                   <div className="absolute right-0 mt-2 w-80 bg-white rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 z-50">
                     <div className="p-4">
                       <h3 className="text-lg font-medium text-gray-900 mb-3">Notifikasi</h3>
-                      <div className="space-y-3">
+                      <div className="max-h-80 overflow-y-auto space-y-3">
 
                {notifications.length === 0 ? (
                           <p className="p-3 text-center text-sm text-gray-500">
@@ -215,6 +215,8 @@ useEffect(() => {
           </div>
         </div>
       </nav>
+
+    
 
       
 <div className="md:hidden fixed bottom-3 left-0 right-0 z-50 px-4">
