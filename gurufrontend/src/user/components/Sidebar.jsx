@@ -1,4 +1,4 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, NavLink, useLocation } from "react-router-dom";
 import { useState } from "react";
 import { getMenuItems } from "../../lib/MenuItems/getMenuItem";
 
@@ -43,15 +43,15 @@ const Sidebar = () => {
       {/* Main Menu */}
       <nav className="flex-1 p-4 space-y-2">
         {menuItems.map((item) => (
-          <a
+          <NavLink
             key={item.path}
-            href={item.path}
+            to={item.path}
             className={`flex items-center space-x-3 px-3 py-2.5 rounded-lg transition-all duration-200 group relative ${
               isActive(item.path, item.activePaths)
                 ? 'bg-green-100 text-green-700 shadow-sm'
                 : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
             }`}
-          >
+         preload="true">
             <div className={`${isActive(item.path, item.activePaths) ? 'text-green-600' : 'text-gray-400 group-hover:text-gray-600'}`}>
               {item.icon}
             </div>
@@ -70,27 +70,27 @@ const Sidebar = () => {
                 {item.notification}
               </span>
             )}
-          </a>
+          </NavLink>
         ))}
 
         
       <div className="p-4 border-t border-gray-200 space-y-2">
          {/* Profile Link */}
-        <a
-          href="/profil"
+        <NavLink
+        to="/profil"
           className={`flex items-start space-x-3  py-2.5 rounded-lg transition-all duration-200 group ${
             isActive('/profil')
               ? 'bg-green-100 text-green-700 shadow-sm'
               : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
           }`}
-        >
+        preload="true">
           <div className={`${isActive('/profil') ? 'text-green-600' : 'text-gray-400 group-hover:text-gray-600'}`}>
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
           </div>
           {!isCollapsed && <span className="font-medium">Profil</span>}
-        </a>
+        </NavLink>
       </div>
       </nav>
 

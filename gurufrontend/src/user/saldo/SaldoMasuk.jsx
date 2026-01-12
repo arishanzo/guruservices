@@ -71,9 +71,9 @@ useEffect(() => {
   const startIndex = (pageMasuk - 1) * rowsPerPage;
   const endIndex = pageMasuk * rowsPerPage;
    const newPageData =
-        filteredMasuk.length > 0
-        ? filteredMasuk.slice(startIndex, endIndex)
-        : cariFilterMasuk.slice(startIndex, endIndex);
+        filteredMasuk?.length > 0
+        ? filteredMasuk?.slice(startIndex, endIndex)
+        : cariFilterMasuk?.slice(startIndex, endIndex);
 
   setPaginatedMasuk(newPageData);
 }, [filteredMasuk, cariFilterMasuk, pageMasuk, rowsPerPage, showCalendarMasuk]);
@@ -135,7 +135,7 @@ useEffect(() => {
             </tr>
           </thead>
           <tbody>
-            {paginatedMasuk.map((item) => (
+            {paginatedMasuk?.map((item) => (
               <tr key={item?.idsaldomasuk} className="border-b hover:bg-gray-50">
                 <td className="py-2">{booking?.[0]?.mapeldipilih || '-'}</td>
                  <td className="py-2">{booking?.[0]?.namamurid || '-'}</td>
@@ -149,7 +149,7 @@ useEffect(() => {
                 </td>
               </tr>
             ))}
-            {paginatedMasuk.length === 0 && (
+            {paginatedMasuk?.length === 0 && (
               <tr>
                 <td colSpan={3} className="text-center py-4 text-gray-500">
                   Tidak ada data
@@ -164,7 +164,7 @@ useEffect(() => {
           <p className="text-sm font-semibold text-gray-700">
             Total Saldo Masuk:{" "}
             <span className="text-green-600">
-            Rp { filteredMasuk?.length > 0 ? filteredMasuk?.reduce((a, b) => a + b.jumlah, 0).toLocaleString("id-ID") : totalMasuk.toLocaleString("id-ID")}
+            Rp { filteredMasuk?.length > 0 ? filteredMasuk?.reduce((a, b) => a + b.jumlah, 0).toLocaleString("id-ID") : totalMasuk?.toLocaleString("id-ID")}
        
             </span>
           </p>

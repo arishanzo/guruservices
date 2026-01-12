@@ -67,9 +67,9 @@ const SaldoKeluar = ({saldoKeluar, totalKeluar}) => {
   const startIndex = (pageKeluar - 1) * rowsPerPage;
   const endIndex = pageKeluar * rowsPerPage;
    
-  const newPageData = filteredKeluar.length > 0
-        ? filteredKeluar.slice(startIndex, endIndex)
-        : cariFilterKeluar.slice(startIndex, endIndex);
+  const newPageData = filteredKeluar?.length > 0
+        ? filteredKeluar?.slice(startIndex, endIndex)
+        : cariFilterKeluar?.slice(startIndex, endIndex);
 
 
     setPaginatedKeluar(newPageData);
@@ -132,7 +132,7 @@ const SaldoKeluar = ({saldoKeluar, totalKeluar}) => {
             </tr>
           </thead>
           <tbody>
-            {paginatedKeluar.map((item) => (
+            {paginatedKeluar?.map((item) => (
               <tr key={item?.idsaldokeluar} className="border-b hover:bg-gray-50">
                 
                 <td className="py-2">{item?.name}</td>
@@ -147,7 +147,7 @@ const SaldoKeluar = ({saldoKeluar, totalKeluar}) => {
                 </td>
               </tr>
             ))}
-            {paginatedKeluar.length === 0 && (
+            {paginatedKeluar?.length === 0 && (
               <tr>
                 <td colSpan={3} className="text-center py-4 text-gray-500">
                   Tidak ada data
@@ -162,7 +162,7 @@ const SaldoKeluar = ({saldoKeluar, totalKeluar}) => {
           <p className="text-sm font-semibold text-gray-700">
             Total Saldo Keluar:{" "}
             <span className="text-red-600">
-              Rp { filteredKeluar?.length > 0 ? filteredKeluar?.reduce((a, b) => a + b.jumlah, 0).toLocaleString("id-ID") : totalKeluar.toLocaleString("id-ID")}
+              Rp { filteredKeluar?.length > 0 ? filteredKeluar?.reduce((a, b) => a + b.jumlah, 0).toLocaleString("id-ID") : totalKeluar?.toLocaleString("id-ID")}
             </span>
           </p>
         </div>

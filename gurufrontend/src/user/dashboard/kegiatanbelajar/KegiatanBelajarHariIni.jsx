@@ -27,6 +27,7 @@ const KegiatanBelajarHarini = ( { kegiatan }) => {
                                         src={`${import.meta.env.VITE_API_URL}/api/fotokegiatan/${encodeURIComponent(kegiatan.fotokegiatan)}`}
                                         alt={kegiatan.namakegiatan}
                                         className="w-full h-full object-cover"
+                                        loading="lazy"
                                     />
                                 ) : (
                                     <div className="flex items-center justify-center h-full">

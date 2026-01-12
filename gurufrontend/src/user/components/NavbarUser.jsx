@@ -222,7 +222,7 @@ useEffect(() => {
         <div className="grid grid-cols-5 h-16">
                       
                       {/* Kelas */}
-            <NavLink to="/kelas" className={navItemClass}>
+            <NavLink to="/kelas" className={navItemClass}   preload="true" >
                <svg className="w-5 h-5 mb-1  group-hover:text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
             </svg>
@@ -230,7 +230,7 @@ useEffect(() => {
             </NavLink>
 
             {/* Jadwal */}
-            <NavLink to="/jadwal" className={navItemClass}>
+            <NavLink to="/jadwal" className={navItemClass}   preload="true" >
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
                   d="M8 7V3m8 4V3M4 11h16M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
@@ -242,6 +242,7 @@ useEffect(() => {
             <NavLink
               to="/dashboard"
               className="relative -top-5 flex items-center justify-center"
+                preload="true"
             >
               <div className="w-14 h-14 rounded-full bg-gradient-to-tr from-green-500 to-green-600 shadow-xl flex items-center justify-center text-white">
                <svg className="w-7 h-7 mb-1 text-white group-hover:text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -251,7 +252,7 @@ useEffect(() => {
             </NavLink>
 
             {/* Saldo */}
-            <NavLink to="/saldo" className={navItemClass}>
+            <NavLink to="/saldo" className={navItemClass}   preload="true" >
               <div className="relative">
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
@@ -262,7 +263,8 @@ useEffect(() => {
             </NavLink>
 
             {/* Profil */}
-            <NavLink to="/profil" className={navItemClass}>
+            <NavLink to="/profil" className={navItemClass}
+              preload="true">
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
                   d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />

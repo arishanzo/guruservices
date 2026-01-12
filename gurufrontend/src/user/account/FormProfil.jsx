@@ -182,6 +182,7 @@ useEffect(() => {
                     className="h-24 w-24 rounded-full object-cover"
                      src={preview}
                     alt="Profile"
+                     loading="lazy"
                   />
                   <label className="absolute bottom-0 right-0 bg-green-600 text-white rounded-full p-2 hover:bg-green-700 cursor-pointer">
                     <input 
